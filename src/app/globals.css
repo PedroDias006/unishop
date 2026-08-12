@@ -96,9 +96,9 @@ input {
 
 .hero-atmosphere {
   background:
-    radial-gradient(circle at 84% 16%, rgba(44, 139, 220, 0.3), transparent 27%),
-    radial-gradient(circle at 7% 74%, rgba(10, 90, 168, 0.3), transparent 30%),
-    linear-gradient(118deg, #042650 0%, #073d7a 58%, #052d60 100%);
+    radial-gradient(circle at 55% 8%, rgba(25, 103, 196, 0.36), transparent 32%),
+    radial-gradient(circle at 17% 66%, rgba(5, 45, 105, 0.34), transparent 35%),
+    linear-gradient(114deg, #03183f 0%, #05265a 46%, #063776 100%);
 }
 
 .hero-reveal {
