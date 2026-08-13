@@ -68,9 +68,9 @@ const slides = [
       "bg-[radial-gradient(circle_at_12%_84%,rgba(21,104,198,0.32),transparent_30%),linear-gradient(132deg,#03183e_0%,#0a3f88_100%)]",
     darkText: false,
     reverse: false,
-    fullImage: null,
-    fullHref: null,
-    fullAlt: null,
+    fullImage: "/images/hero/banner-industria-base-v1.png",
+    fullHref: "/sobre",
+    fullAlt: "Estrutura da indústria e distribuição da Rede Unishop",
   },
   {
     id: "parceria",
@@ -349,6 +349,65 @@ export function Hero() {
                           className="group mt-7 inline-flex min-h-13 items-center gap-4 rounded-full bg-[#ffc928] px-6 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)] transition hover:-translate-y-1 hover:bg-[#ffda55]"
                         >
                           Saiba mais
+                          <ArrowRight
+                            size={18}
+                            className="transition-transform group-hover:translate-x-1"
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ) : slide.visual === "industry" ? (
+                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]">
+                    <Image
+                      src={fullArtwork.image}
+                      alt="Moldura institucional da Rede Unishop"
+                      fill
+                      priority
+                      sizes="100vw"
+                      className="select-none object-cover object-center"
+                    />
+
+                    <div className="absolute inset-0 bg-[#ffc928] [clip-path:ellipse(62%_100%_at_100%_50%)]">
+                      <div className="absolute inset-0 overflow-hidden [clip-path:ellipse(61.3%_98.5%_at_100%_50%)]">
+                        <Image
+                          src="/images/hero/industria-unishop-real-v1.webp"
+                          alt="Vista aérea da estrutura industrial da Rede Unishop"
+                          fill
+                          priority
+                          sizes="(min-width: 640px) 62vw, 100vw"
+                          className="select-none object-cover object-[58%_center]"
+                        />
+                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,rgba(1,31,84,0.25)_0%,transparent_28%,rgba(2,26,67,0.05)_100%)]" />
+                      </div>
+                    </div>
+
+                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(1,18,60,0.92)_0%,rgba(1,25,76,0.72)_46%,rgba(1,20,61,0.08)_78%)] sm:hidden" />
+
+                    <div className="absolute inset-0 mx-auto flex w-full max-w-[2048px] items-center px-5 sm:px-[5.5%] lg:px-[6.2%]">
+                      <div className="hero-slide-copy relative z-20 w-full text-center sm:w-[34%] sm:max-w-[610px] sm:text-left">
+                        <p className="mb-4 flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.24em] text-[#ffdc69] sm:justify-start sm:text-xs lg:text-sm">
+                          <span className="h-px w-8 bg-[#ffc928]" />
+                          Da origem à entrega
+                        </p>
+
+                        <h1 className="text-[clamp(2.7rem,4.7vw,5.9rem)] font-black uppercase leading-[0.88] tracking-[-0.055em] text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.24)]">
+                          Estrutura que
+                          <span className="mt-2 block text-[#ffc928]">
+                            inspira confiança.
+                          </span>
+                        </h1>
+
+                        <p className="mx-auto mt-5 max-w-[520px] text-sm font-semibold leading-6 text-white/82 sm:mx-0 sm:text-base sm:leading-7 lg:mt-6 lg:text-lg lg:leading-8">
+                          Uma operação integrada para levar qualidade, variedade e eficiência a todo o Brasil.
+                        </p>
+
+                        <Link
+                          href={fullArtwork.href}
+                          tabIndex={active ? 0 : -1}
+                          className="group mt-6 inline-flex min-h-12 items-center gap-4 rounded-full bg-[#ffc928] px-6 text-xs font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)] transition hover:-translate-y-1 hover:bg-[#ffda55] lg:text-sm"
+                        >
+                          Conhecer a Unishop
                           <ArrowRight
                             size={18}
                             className="transition-transform group-hover:translate-x-1"
