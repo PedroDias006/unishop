@@ -722,73 +722,72 @@ export function SolutionFinder({
     <>
       <section
         id="solucoes"
-        className="relative scroll-mt-28 overflow-hidden bg-[linear-gradient(135deg,#f8fbff_0%,#eef5fc_48%,#ffffff_100%)] py-16 sm:py-20 lg:py-24"
+        className="relative scroll-mt-28 overflow-hidden bg-[linear-gradient(115deg,#ffffff_0%,#f5f9fd_48%,#edf4fb_100%)]"
       >
-        <div className="pointer-events-none absolute -left-32 top-1/2 size-[440px] -translate-y-1/2 rounded-full bg-[#0a4a84]/7 blur-3xl" />
-        <div className="pointer-events-none absolute right-[10%] top-8 size-56 rounded-full bg-[#ffd200]/14 blur-3xl" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,#0a4a84_28%,#ffd200_52%,transparent_82%)] opacity-18" />
+        <div className="pointer-events-none absolute -left-40 top-1/2 size-[520px] -translate-y-1/2 rounded-full bg-[#0a4a84]/6 blur-3xl" />
+        <div className="pointer-events-none absolute right-[16%] top-[12%] size-64 rounded-full bg-[#ffd200]/10 blur-3xl" />
+
+        <div className="absolute inset-x-0 bottom-0 top-[48%] sm:left-[36%] sm:top-[24%] lg:left-[46%] lg:top-0">
+          <Image
+            src="/images/home/consultora-crie-sua-solucao-v1.png"
+            alt="Consultora Unishop apresentando o criador de soluções"
+            fill
+            priority
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 64vw, 54vw"
+            className="select-none object-contain object-right-bottom"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#f7fafe_0%,rgba(247,250,254,0.7)_9%,transparent_29%)]" />
+        </div>
 
         <Container>
-          <div className="relative isolate min-h-[650px] overflow-hidden rounded-[40px] border border-white/80 bg-white/72 shadow-[0_30px_90px_rgba(8,47,93,0.13)] backdrop-blur-sm sm:min-h-[700px] lg:min-h-[620px]">
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_46%,rgba(235,243,252,0.35)_72%,rgba(235,243,252,0.05)_100%)]" />
-            <div className="pointer-events-none absolute -left-20 bottom-[-45%] size-[450px] rounded-full border-[62px] border-[#ffd200]/18" />
-
-            <div className="absolute inset-x-0 bottom-0 top-[38%] sm:left-[38%] sm:top-[20%] lg:left-[44%] lg:top-0">
-              <Image
-                src="/images/home/consultora-crie-sua-solucao-v1.png"
-                alt="Consultora Unishop apresentando o criador de soluções"
-                fill
-                priority
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 65vw, 56vw"
-                className="select-none object-cover object-[68%_24%] sm:object-[68%_28%] lg:object-[70%_22%]"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#fff_0%,rgba(255,255,255,0.2)_18%,transparent_45%)]" />
-            </div>
-
-            <div className="relative z-10 flex min-h-[650px] items-start px-6 py-9 sm:min-h-[700px] sm:px-10 sm:py-12 lg:min-h-[620px] lg:items-center lg:px-[6.5%] lg:py-16">
-              <div className="max-w-[610px]">
-                <div className="mb-5 flex items-center gap-3">
-                  <span className="h-1 w-10 rounded-full bg-[#ffd200]" />
-                  <span className="text-[11px] font-extrabold uppercase tracking-[0.19em] text-[#0a4a84] sm:text-xs">
-                    Feito para você
-                  </span>
-                </div>
-
-                <h2 className="max-w-[590px] text-[clamp(2.55rem,4.7vw,5.25rem)] font-black leading-[0.94] tracking-[-0.06em] text-[#07396e]">
-                  Vamos encontrar a solução
-                  <span className="mt-2 block text-[#e6ae00]">perfeita para você?</span>
-                </h2>
-
-                <p className="mt-6 max-w-[530px] text-base font-medium leading-7 text-[#45627e] sm:text-lg sm:leading-8">
-                  Conte onde você precisa limpar e qual é o desafio. A gente combina as informações e indica o que realmente faz sentido para a sua rotina.
-                </p>
-
-                <div className="mt-7 flex flex-wrap gap-2.5">
-                  {["Rápido e simples", "Indicação personalizada", "Sem complicação"].map((item) => (
-                    <span
-                      key={item}
-                      className="inline-flex min-h-9 items-center gap-2 rounded-full border border-[#0a4a84]/10 bg-[#edf5fc]/82 px-3.5 text-xs font-bold text-[#285579]"
-                    >
-                      <Check size={14} strokeWidth={3} className="text-[#0a4a84]" />
-                      {item}
-                    </span>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(true)}
-                  className="group mt-8 inline-flex min-h-15 items-center justify-center gap-4 rounded-full bg-[#07396e] px-7 text-sm font-extrabold text-white shadow-[0_16px_38px_rgba(7,57,110,0.24)] transition duration-300 hover:-translate-y-1 hover:bg-[#0b4f91] hover:shadow-[0_20px_48px_rgba(7,57,110,0.3)] sm:px-8 sm:text-base"
-                >
-                  Criar minha solução
-                  <span className="grid size-8 place-items-center rounded-full bg-[#ffd200] text-[#07396e] transition-transform duration-300 group-hover:translate-x-1">
-                    <ArrowRight size={17} strokeWidth={2.7} />
-                  </span>
-                </button>
-
-                <p className="mt-4 text-xs font-semibold text-[#53708a]">
-                  Leva menos de um minuto para começar.
-                </p>
+          <div className="relative z-10 flex min-h-[940px] items-start py-16 sm:min-h-[800px] sm:py-20 lg:min-h-[700px] lg:items-center lg:py-24">
+            <div className="max-w-[650px] font-[Manrope] lg:w-[48%]">
+              <div className="mb-7 flex items-center gap-4">
+                <span className="h-px w-12 bg-[#d9a700]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#315b80] sm:text-xs">
+                  Sua necessidade, nossa orientação
+                </span>
               </div>
+
+              <h2 className="max-w-[650px] text-[clamp(2.75rem,4.25vw,4.9rem)] font-[650] leading-[0.98] tracking-[-0.047em] text-[#092f5b]">
+                A solução certa começa pela
+                <span className="relative ml-2 inline-block text-[#c99500] sm:ml-3">
+                  sua rotina.
+                  <span className="absolute inset-x-0 -bottom-2 h-px bg-[linear-gradient(90deg,#d6a300,transparent)]" />
+                </span>
+              </h2>
+
+              <p className="mt-8 max-w-[570px] text-base font-[450] leading-7 text-[#4b6680] sm:text-lg sm:leading-8">
+                Conte onde você precisa limpar e qual é o desafio. Em poucos passos, nossa curadoria encontra a alternativa mais adequada para você.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs font-semibold text-[#315b80] sm:text-sm">
+                {["Orientação rápida", "Escolha personalizada", "Sem complicação"].map((item, index) => (
+                  <span key={item} className="inline-flex items-center gap-2.5">
+                    <span className="grid size-5 place-items-center rounded-full bg-[#0a4a84] text-white">
+                      <Check size={11} strokeWidth={3} />
+                    </span>
+                    {item}
+                    {index < 2 ? <span className="ml-3 hidden h-4 w-px bg-[#0a4a84]/18 sm:block" /> : null}
+                  </span>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
+                className="group mt-10 inline-flex min-h-15 items-center justify-center gap-5 rounded-full bg-[#07396e] px-8 text-sm font-bold tracking-[-0.01em] text-white shadow-[0_16px_34px_rgba(7,57,110,0.2)] transition duration-300 hover:-translate-y-1 hover:bg-[#0b4f91] hover:shadow-[0_20px_44px_rgba(7,57,110,0.27)] sm:text-base"
+              >
+                Criar minha solução
+                <span className="grid size-8 place-items-center rounded-full bg-[#ffd200] text-[#07396e] transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowRight size={17} strokeWidth={2.7} />
+                </span>
+              </button>
+
+              <p className="mt-4 text-xs font-medium tracking-[0.01em] text-[#607991]">
+                Uma recomendação inicial em menos de um minuto.
+              </p>
             </div>
           </div>
         </Container>
