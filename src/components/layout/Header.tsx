@@ -78,7 +78,7 @@ export function Header() {
       const mobile = viewportWidth < 640;
       const desktop = viewportWidth >= 1024;
       const endGutter = mobile ? 12 : 20;
-      const endTop = mobile ? 12 : 16;
+      const endTop = 0;
       const startHeight = mobile ? 88 : 96;
       const endHeight = mobile ? 64 : desktop ? 80 : 72;
       const startPadding = mobile ? 20 : desktop ? 56 : 32;
