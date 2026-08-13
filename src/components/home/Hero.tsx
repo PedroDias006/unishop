@@ -68,7 +68,7 @@ const slides = [
       "bg-[radial-gradient(circle_at_12%_84%,rgba(21,104,198,0.32),transparent_30%),linear-gradient(132deg,#03183e_0%,#0a3f88_100%)]",
     darkText: false,
     reverse: false,
-    fullImage: "/images/hero/banner-industria-base-v1.png",
+    fullImage: "/images/hero/banner-industria-base-v2.png",
     fullHref: "/sobre",
     fullAlt: "Estrutura da indústria e distribuição da Rede Unishop",
   },
@@ -367,20 +367,6 @@ export function Hero() {
                       sizes="100vw"
                       className="select-none object-cover object-center"
                     />
-
-                    <div className="absolute inset-0 bg-[#ffc928] [clip-path:ellipse(62%_100%_at_100%_50%)]">
-                      <div className="absolute inset-0 overflow-hidden [clip-path:ellipse(61.3%_98.5%_at_100%_50%)]">
-                        <Image
-                          src="/images/hero/industria-unishop-real-v1.webp"
-                          alt="Vista aérea da estrutura industrial da Rede Unishop"
-                          fill
-                          priority
-                          sizes="(min-width: 640px) 62vw, 100vw"
-                          className="select-none object-cover object-[58%_center]"
-                        />
-                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,rgba(1,31,84,0.25)_0%,transparent_28%,rgba(2,26,67,0.05)_100%)]" />
-                      </div>
-                    </div>
 
                     <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(1,18,60,0.92)_0%,rgba(1,25,76,0.72)_46%,rgba(1,20,61,0.08)_78%)] sm:hidden" />
 
