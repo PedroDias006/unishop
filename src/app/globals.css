@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/manrope-latin-variable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
 :root {
   --brand-blue-950: #061f49;
   --brand-blue-900: #0a3474;

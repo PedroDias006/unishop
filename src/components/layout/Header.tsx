@@ -44,7 +44,7 @@ function BrandLogo() {
         width={330}
         height={110}
         priority
-        className="relative h-auto w-[150px] select-none object-contain transition-transform duration-300 group-hover:-translate-y-0.5 sm:w-[168px] lg:w-[178px]"
+        className="relative h-auto w-[166px] select-none object-contain transition-transform duration-300 group-hover:-translate-y-0.5 sm:w-[188px] lg:w-[202px]"
       />
     </Link>
   );
@@ -98,7 +98,7 @@ export function Header() {
       shell!.style.height = `${height}px`;
       shell!.style.paddingInline = `${padding}px`;
       shell!.style.borderRadius = `${radius}px`;
-      shell!.style.boxShadow = `0 ${10 + progress * 8}px ${40 + progress * 20}px rgba(0, 18, 52, ${0.18 + progress * 0.08}), inset 0 1px 0 rgba(181,221,255,0.18)`;
+      shell!.style.boxShadow = `0 ${10 + progress * 8}px ${40 + progress * 20}px rgba(0, 18, 52, ${0.18 + progress * 0.08})`;
       searchPanel!.style.top = `${top + height + 12}px`;
     }
 
@@ -182,9 +182,8 @@ export function Header() {
       <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
         <div
           ref={shellRef}
-          className="relative mx-auto flex h-[88px] w-full items-center justify-between overflow-visible rounded-none border border-x-0 border-t-0 border-[#8ec8ff]/20 bg-[linear-gradient(110deg,rgba(4,34,76,0.9),rgba(8,72,128,0.84))] px-5 text-white shadow-[0_10px_40px_rgba(0,18,52,0.18),inset_0_1px_0_rgba(181,221,255,0.18)] backdrop-blur-2xl backdrop-saturate-150 [will-change:width,height,border-radius,box-shadow] sm:h-[96px] sm:px-8 lg:px-10"
+          className="relative mx-auto flex h-[88px] w-full items-center justify-between overflow-visible rounded-none border border-x-0 border-t-0 border-[#8ec8ff]/20 bg-[linear-gradient(110deg,rgba(4,34,76,0.9),rgba(8,72,128,0.84))] px-5 font-[Manrope] text-white shadow-[0_10px_40px_rgba(0,18,52,0.18)] backdrop-blur-2xl backdrop-saturate-150 [will-change:width,height,border-radius,box-shadow] sm:h-[96px] sm:px-8 lg:px-10"
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b7dcff]/45 to-transparent" />
           <BrandLogo />
 
           <nav
@@ -199,7 +198,7 @@ export function Header() {
                   <div key={item.label} className="group/products relative">
                     <Link
                       href={item.href}
-                      className={`relative flex h-11 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-bold transition-colors duration-200 ${
+                      className={`relative flex h-11 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold tracking-[-0.01em] transition-colors duration-200 2xl:px-3.5 2xl:text-[15px] ${
                         active
                           ? "text-[#ffd34c]"
                           : "text-white/78 hover:text-white"
@@ -267,7 +266,7 @@ export function Header() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`group/link relative flex h-11 items-center rounded-full px-3.5 text-[13px] font-bold transition-colors duration-200 ${
+                  className={`group/link relative flex h-11 items-center rounded-full px-3 text-[14px] font-semibold tracking-[-0.01em] transition-colors duration-200 2xl:px-3.5 2xl:text-[15px] ${
                     active
                       ? "text-[#ffd34c]"
                       : "text-white/78 hover:text-white"
@@ -314,7 +313,7 @@ export function Header() {
 
             <Link
               href="/seja-parceiro"
-              className="group/partner relative ml-1 inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full bg-[#ffc928] px-5 text-[13px] font-black text-[#07396e] shadow-[0_10px_25px_rgba(211,156,0,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#ffd84d] hover:shadow-[0_14px_32px_rgba(211,156,0,0.28)]"
+              className="group/partner relative ml-1 inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full bg-[#ffc928] px-5 text-[14px] font-extrabold tracking-[-0.01em] text-[#07396e] shadow-[0_10px_25px_rgba(211,156,0,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#ffd84d] hover:shadow-[0_14px_32px_rgba(211,156,0,0.28)]"
             >
               <span className="absolute -left-10 top-0 h-full w-7 -skew-x-12 bg-white/55 blur-sm transition-transform duration-700 group-hover/partner:translate-x-[230px]" />
               <span className="relative flex items-center gap-2">
