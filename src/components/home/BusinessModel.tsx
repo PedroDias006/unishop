@@ -5,7 +5,10 @@ const institutionalVideoUrl =
 
 export function BusinessModel() {
   return (
-    <section id="modelo" className="scroll-mt-28 bg-white py-16 sm:py-24">
+    <section
+      id="modelo"
+      className="scroll-mt-28 bg-[linear-gradient(115deg,#ffffff_0%,#f5f9fd_48%,#edf4fb_100%)] py-16 sm:py-24"
+    >
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <div className="flex items-center justify-center gap-3">
@@ -26,7 +29,7 @@ export function BusinessModel() {
           </p>
         </div>
 
-        <div className="mx-auto mt-10 max-w-6xl overflow-hidden border border-slate-200 bg-[var(--brand-blue-950)] shadow-[0_24px_60px_-34px_rgba(4,31,72,0.5)] sm:mt-12">
+        <div className="mx-auto mt-9 max-w-4xl overflow-hidden rounded-xl border border-[#d9e6f1] bg-[var(--brand-blue-950)] shadow-[0_20px_48px_-30px_rgba(4,31,72,0.42)] sm:mt-10">
           <div className="aspect-video">
             <iframe
               className="h-full w-full"

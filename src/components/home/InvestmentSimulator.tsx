@@ -10,7 +10,7 @@ const models = [
     area: "40–60 m²",
     team: "2–3 pessoas",
     description: "Uma operação enxuta para começar com eficiência e todo o suporte da rede.",
-    image: "/images/hero/loja-unishop-conceito.png",
+    image: "/images/home/modelo-loja-compacta-v1.png",
     imagePosition: "center",
   },
   {
@@ -20,8 +20,8 @@ const models = [
     area: "70–100 m²",
     team: "3–5 pessoas",
     description: "Mais espaço para produtos, estoque e um atendimento ainda mais consultivo.",
-    image: "/images/hero/banner-loja-informacoes-v2.png",
-    imagePosition: "72% center",
+    image: "/images/home/modelo-loja-intermediaria-v1.png",
+    imagePosition: "center",
   },
   {
     name: "Unishop Completa",
@@ -30,14 +30,17 @@ const models = [
     area: "120 m² ou mais",
     team: "5+ pessoas",
     description: "Estrutura ampla para atender consumidores, empresas e profissionais.",
-    image: "/images/hero/loja-unishop-premium.png",
+    image: "/images/home/modelo-loja-completa-v1.png",
     imagePosition: "center",
   },
 ] as const;
 
 export function InvestmentSimulator() {
   return (
-    <section id="simulador" className="scroll-mt-28 bg-white py-20 sm:py-28">
+    <section
+      id="simulador"
+      className="scroll-mt-28 bg-[linear-gradient(115deg,#ffffff_0%,#f5f9fd_48%,#edf4fb_100%)] py-20 sm:py-28"
+    >
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <div className="flex items-center justify-center gap-3">
@@ -61,7 +64,7 @@ export function InvestmentSimulator() {
               key={model.name}
               className="group min-w-[84vw] snap-center overflow-hidden rounded-2xl border border-slate-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_20px_45px_-28px_rgba(4,47,105,0.35)] sm:min-w-[360px] lg:min-w-0"
             >
-              <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
+              <div className="relative aspect-[3/2] overflow-hidden bg-slate-100">
                 <Image
                   src={model.image}
                   alt={`Referência visual do modelo ${model.name}`}
