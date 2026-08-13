@@ -365,13 +365,13 @@ export function Hero() {
                       fill
                       priority
                       sizes="100vw"
-                      className="select-none object-cover object-[25%_center] sm:object-center lg:object-contain"
+                      className="select-none object-cover object-[25%_center] sm:object-center"
                     />
 
                     <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(1,12,44,0.12)_0%,rgba(1,16,54,0.88)_36%,rgba(1,20,63,0.1)_82%)] sm:hidden" />
 
                     <div className="absolute inset-0 mx-auto flex w-full max-w-[2048px] items-center px-5 sm:px-8 lg:px-0">
-                      <div className="hero-slide-copy relative z-20 w-full text-center sm:ml-[39.5%] sm:w-[39%] sm:text-left lg:ml-[40.5%] lg:w-[36.5%]">
+                      <div className="hero-slide-copy relative z-20 w-full text-center sm:ml-[41%] sm:w-[48%] sm:text-left lg:ml-[47%] lg:w-[30%]">
                         <p className="mb-3 flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.24em] text-[#ffdc69] sm:justify-start sm:text-xs lg:mb-4 lg:text-sm">
                           <span className="h-px w-8 bg-[#ffc928]" />
                           Oportunidade de negócio
