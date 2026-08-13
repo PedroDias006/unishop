@@ -48,7 +48,6 @@ function BrandLogo() {
       }}
       className="logo-spotlight group/logo relative flex shrink-0 items-center"
     >
-      <span className="logo-spotlight-halo pointer-events-none absolute -inset-5" />
       <Image
         src="/images/logotipo.webp"
         alt="Rede Unishop"
