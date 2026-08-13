@@ -1,4 +1,5 @@
 import { BusinessModel } from "@/components/home/BusinessModel";
+import { BrazilPresence } from "@/components/home/BrazilPresence";
 import { FinalCta } from "@/components/home/FinalCta";
 import { Hero } from "@/components/home/Hero";
 import { InvestmentSimulator } from "@/components/home/InvestmentSimulator";
@@ -16,6 +17,7 @@ export default function HomePage() {
       <BusinessModel />
       <InvestmentSimulator />
       <Segments />
+      <BrazilPresence />
       <Testimonials />
       <FinalCta />
     </>
