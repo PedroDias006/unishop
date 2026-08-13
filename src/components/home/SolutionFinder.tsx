@@ -8,7 +8,6 @@ import {
   Search,
   X,
 } from "lucide-react";
-import type { ReactNode } from "react";
 import {
   useEffect,
   useMemo,
@@ -30,7 +29,6 @@ type SolutionSelection = {
 };
 
 type SolutionFinderProps = {
-  imageSrc?: string;
   onSubmit?: (selection: SolutionSelection) => void;
 };
 
@@ -607,26 +605,7 @@ function ModalSelect({
   );
 }
 
-function ModalFeature({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex items-center gap-2 text-xs font-bold text-[#466177]">
-      <Check
-        size={15}
-        strokeWidth={3}
-        className="text-[#0A4A84]"
-      />
-
-      {children}
-    </div>
-  );
-}
-
 export function SolutionFinder({
-  imageSrc = "/images/backgrounds/bg-tuff.webp",
   onSubmit,
 }: SolutionFinderProps) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -741,75 +720,74 @@ export function SolutionFinder({
 
   return (
     <>
-      <section id="solucoes" className="scroll-mt-28 overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+      <section
+        id="solucoes"
+        className="relative scroll-mt-28 overflow-hidden bg-[linear-gradient(135deg,#f8fbff_0%,#eef5fc_48%,#ffffff_100%)] py-16 sm:py-20 lg:py-24"
+      >
+        <div className="pointer-events-none absolute -left-32 top-1/2 size-[440px] -translate-y-1/2 rounded-full bg-[#0a4a84]/7 blur-3xl" />
+        <div className="pointer-events-none absolute right-[10%] top-8 size-56 rounded-full bg-[#ffd200]/14 blur-3xl" />
+
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-            <div>
-              <div className="mb-5 flex items-center gap-3">
-                <span className="h-1 w-10 rounded-full bg-[#FFD200]" />
+          <div className="relative isolate min-h-[650px] overflow-hidden rounded-[40px] border border-white/80 bg-white/72 shadow-[0_30px_90px_rgba(8,47,93,0.13)] backdrop-blur-sm sm:min-h-[700px] lg:min-h-[620px]">
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_46%,rgba(235,243,252,0.35)_72%,rgba(235,243,252,0.05)_100%)]" />
+            <div className="pointer-events-none absolute -left-20 bottom-[-45%] size-[450px] rounded-full border-[62px] border-[#ffd200]/18" />
 
-                <span className="text-xs font-black uppercase tracking-[0.17em] text-[#0A4A84]">
-                  Encontre a solução ideal
-                </span>
-              </div>
-
-              <h2 className="max-w-xl text-4xl font-black leading-[1.02] tracking-[-0.045em] text-[#0A4A84] sm:text-5xl lg:text-[58px]">
-                Qualquer tipo de sujeira, a gente resolve.
-              </h2>
-
-              <p className="mt-6 max-w-lg text-base leading-7 text-slate-600 sm:text-lg">
-                Selecione o ambiente, a superfície e o
-                problema encontrado. Em poucos passos,
-                indicamos a solução mais adequada para
-                cada necessidade.
-              </p>
-
-              <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
-                <ModalFeature>
-                  Busca simples e rápida
-                </ModalFeature>
-
-                <ModalFeature>
-                  Indicação por aplicação
-                </ModalFeature>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setModalOpen(true)}
-                className="group mt-9 inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#FFD200] px-7 text-sm font-black text-[#0A4A84] shadow-[0_12px_30px_rgba(15,23,42,0.12)] transition hover:-translate-y-0.5 hover:bg-[#F2C700]"
-              >
-                Encontrar a solução certa
-
-                <ArrowRight
-                  size={18}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </button>
+            <div className="absolute inset-x-0 bottom-0 top-[38%] sm:left-[38%] sm:top-[20%] lg:left-[44%] lg:top-0">
+              <Image
+                src="/images/home/consultora-crie-sua-solucao-v1.png"
+                alt="Consultora Unishop apresentando o criador de soluções"
+                fill
+                priority
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 65vw, 56vw"
+                className="select-none object-cover object-[68%_24%] sm:object-[68%_28%] lg:object-[70%_22%]"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#fff_0%,rgba(255,255,255,0.2)_18%,transparent_45%)]" />
             </div>
 
-            <div className="relative pb-5 pl-5">
-              <div className="absolute bottom-0 left-0 h-36 w-36 rounded-[28px] bg-[#FFD200]" />
-
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[30px] border-[8px] border-white bg-[#0A4A84] shadow-[0_28px_70px_rgba(15,23,42,0.16)]">
-                <Image
-                  src={imageSrc}
-                  alt="Soluções profissionais de limpeza"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 55vw"
-                  className="object-cover"
-                />
-
-                <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-[#0A4A84] px-5 py-4 text-white shadow-lg">
-                  <p className="text-xs font-black uppercase tracking-[0.15em] text-[#FFD200]">
-                    Soluções Start
-                  </p>
-
-                  <p className="mt-1 text-sm font-bold sm:text-base">
-                    Produtos profissionais para cada
-                    tipo de limpeza.
-                  </p>
+            <div className="relative z-10 flex min-h-[650px] items-start px-6 py-9 sm:min-h-[700px] sm:px-10 sm:py-12 lg:min-h-[620px] lg:items-center lg:px-[6.5%] lg:py-16">
+              <div className="max-w-[610px]">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="h-1 w-10 rounded-full bg-[#ffd200]" />
+                  <span className="text-[11px] font-extrabold uppercase tracking-[0.19em] text-[#0a4a84] sm:text-xs">
+                    Feito para você
+                  </span>
                 </div>
+
+                <h2 className="max-w-[590px] text-[clamp(2.55rem,4.7vw,5.25rem)] font-black leading-[0.94] tracking-[-0.06em] text-[#07396e]">
+                  Vamos encontrar a solução
+                  <span className="mt-2 block text-[#e6ae00]">perfeita para você?</span>
+                </h2>
+
+                <p className="mt-6 max-w-[530px] text-base font-medium leading-7 text-[#45627e] sm:text-lg sm:leading-8">
+                  Conte onde você precisa limpar e qual é o desafio. A gente combina as informações e indica o que realmente faz sentido para a sua rotina.
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-2.5">
+                  {["Rápido e simples", "Indicação personalizada", "Sem complicação"].map((item) => (
+                    <span
+                      key={item}
+                      className="inline-flex min-h-9 items-center gap-2 rounded-full border border-[#0a4a84]/10 bg-[#edf5fc]/82 px-3.5 text-xs font-bold text-[#285579]"
+                    >
+                      <Check size={14} strokeWidth={3} className="text-[#0a4a84]" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(true)}
+                  className="group mt-8 inline-flex min-h-15 items-center justify-center gap-4 rounded-full bg-[#07396e] px-7 text-sm font-extrabold text-white shadow-[0_16px_38px_rgba(7,57,110,0.24)] transition duration-300 hover:-translate-y-1 hover:bg-[#0b4f91] hover:shadow-[0_20px_48px_rgba(7,57,110,0.3)] sm:px-8 sm:text-base"
+                >
+                  Criar minha solução
+                  <span className="grid size-8 place-items-center rounded-full bg-[#ffd200] text-[#07396e] transition-transform duration-300 group-hover:translate-x-1">
+                    <ArrowRight size={17} strokeWidth={2.7} />
+                  </span>
+                </button>
+
+                <p className="mt-4 text-xs font-semibold text-[#53708a]">
+                  Leva menos de um minuto para começar.
+                </p>
               </div>
             </div>
           </div>
