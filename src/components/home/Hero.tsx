@@ -85,7 +85,7 @@ const slides = [
       "bg-[radial-gradient(circle_at_88%_8%,rgba(20,101,205,0.38),transparent_28%),linear-gradient(118deg,#020d2c_0%,#03285f_54%,#061b44_100%)]",
     darkText: false,
     reverse: false,
-    fullImage: "/images/hero/banner-parceria-original.png",
+    fullImage: "/images/hero/banner-parceria-informacoes-v2.png",
     fullHref: "/seja-parceiro",
     fullAlt: "Oportunidade de faturamento com limpeza e higienização",
   },
@@ -354,6 +354,59 @@ export function Hero() {
                             className="transition-transform group-hover:translate-x-1"
                           />
                         </Link>
+                      </div>
+                    </div>
+                  </div>
+                ) : slide.visual === "partner" ? (
+                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]">
+                    <Image
+                      src={fullArtwork.image}
+                      alt="Empreendedora da Rede Unishop em uma operação de limpeza e higienização"
+                      fill
+                      priority
+                      sizes="100vw"
+                      className="select-none object-cover object-[25%_center] sm:object-center lg:object-contain"
+                    />
+
+                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(1,12,44,0.12)_0%,rgba(1,16,54,0.88)_36%,rgba(1,20,63,0.1)_82%)] sm:hidden" />
+
+                    <div className="absolute inset-0 mx-auto flex w-full max-w-[2048px] items-center px-5 sm:px-8 lg:px-0">
+                      <div className="hero-slide-copy relative z-20 w-full text-center sm:ml-[39.5%] sm:w-[39%] sm:text-left lg:ml-[40.5%] lg:w-[36.5%]">
+                        <p className="mb-3 flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.24em] text-[#ffdc69] sm:justify-start sm:text-xs lg:mb-4 lg:text-sm">
+                          <span className="h-px w-8 bg-[#ffc928]" />
+                          Oportunidade de negócio
+                        </p>
+
+                        <h1 className="font-black uppercase leading-[0.88] tracking-[-0.045em] text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.28)]">
+                          <span className="block text-[clamp(1.55rem,2.25vw,3rem)] tracking-[-0.025em]">
+                            Fature até
+                          </span>
+                          <span className="my-1 block text-[clamp(3.35rem,5.4vw,6.8rem)] text-[#ffc928] sm:my-2">
+                            R$120 mil
+                          </span>
+                          <span className="block text-[clamp(1.2rem,1.85vw,2.35rem)] leading-[1.02] tracking-[-0.02em]">
+                            por mês com
+                            <span className="mt-1 block">limpeza e higienização</span>
+                          </span>
+                        </h1>
+
+                        <div className="mx-auto mt-5 max-w-[650px] border-t border-[#ffc928]/70 pt-4 sm:mx-0 lg:mt-7 lg:pt-5">
+                          <p className="text-xs font-medium leading-5 text-white/88 sm:text-sm sm:leading-6 lg:text-base lg:leading-7">
+                            Invista a partir de <strong className="font-black text-[#ffc928]">R$60 mil</strong> e tenha suporte completo para começar.
+                          </p>
+
+                          <Link
+                            href={fullArtwork.href}
+                            tabIndex={active ? 0 : -1}
+                            className="group mt-4 inline-flex min-h-11 items-center gap-3 rounded-full bg-[#ffc928] px-5 text-xs font-black uppercase text-[#07396e] shadow-[0_12px_30px_rgba(227,164,0,0.28)] transition hover:-translate-y-1 hover:bg-[#ffda55] lg:mt-5 lg:min-h-12 lg:px-6 lg:text-sm"
+                          >
+                            Quero conhecer
+                            <ArrowRight
+                              size={18}
+                              className="transition-transform group-hover:translate-x-1"
+                            />
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
