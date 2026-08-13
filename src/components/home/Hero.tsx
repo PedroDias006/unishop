@@ -34,6 +34,9 @@ const slides = [
       "bg-[radial-gradient(circle_at_55%_8%,rgba(25,103,196,0.36),transparent_32%),linear-gradient(114deg,#03183f_0%,#05265a_46%,#063776_100%)]",
     darkText: false,
     reverse: false,
+    fullImage: null,
+    fullHref: null,
+    fullAlt: null,
   },
   {
     id: "lojas",
@@ -48,6 +51,9 @@ const slides = [
       "bg-[radial-gradient(circle_at_80%_16%,rgba(60,156,238,0.42),transparent_29%),linear-gradient(118deg,#031d4c_0%,#0752a9_100%)]",
     darkText: false,
     reverse: false,
+    fullImage: "/images/hero/banner-loja-original.png",
+    fullHref: "/modelo-de-negocio",
+    fullAlt: "Transforme sua loja em uma Unishop",
   },
   {
     id: "industria",
@@ -62,6 +68,9 @@ const slides = [
       "bg-[radial-gradient(circle_at_12%_84%,rgba(21,104,198,0.32),transparent_30%),linear-gradient(132deg,#03183e_0%,#0a3f88_100%)]",
     darkText: false,
     reverse: false,
+    fullImage: null,
+    fullHref: null,
+    fullAlt: null,
   },
   {
     id: "parceria",
@@ -76,6 +85,9 @@ const slides = [
       "bg-[radial-gradient(circle_at_88%_8%,rgba(20,101,205,0.38),transparent_28%),linear-gradient(118deg,#020d2c_0%,#03285f_54%,#061b44_100%)]",
     darkText: false,
     reverse: false,
+    fullImage: "/images/hero/banner-parceria-original.png",
+    fullHref: "/seja-parceiro",
+    fullAlt: "Oportunidade de faturamento com limpeza e higienização",
   },
   {
     id: "profissional",
@@ -90,6 +102,9 @@ const slides = [
       "bg-[radial-gradient(circle_at_88%_76%,rgba(0,118,199,0.34),transparent_28%),linear-gradient(112deg,#020f2d_0%,#063566_58%,#07508e_100%)]",
     darkText: false,
     reverse: false,
+    fullImage: null,
+    fullHref: null,
+    fullAlt: null,
   },
 ] as const;
 
@@ -279,6 +294,14 @@ export function Hero() {
       <div aria-live={paused ? "polite" : "off"} className="absolute inset-0">
         {slides.map((slide, index) => {
           const active = activeSlide === index;
+          const fullArtwork =
+            slide.fullImage && slide.fullHref && slide.fullAlt
+              ? {
+                  image: slide.fullImage,
+                  href: slide.fullHref,
+                  alt: slide.fullAlt,
+                }
+              : null;
 
           return (
             <article
@@ -290,6 +313,23 @@ export function Hero() {
                 active ? "hero-slide-active" : ""
               }`}
             >
+              {fullArtwork ? (
+                <Link
+                  href={fullArtwork.href}
+                  tabIndex={active ? 0 : -1}
+                  aria-label={fullArtwork.alt}
+                  className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]"
+                >
+                  <Image
+                    src={fullArtwork.image}
+                    alt={fullArtwork.alt}
+                    fill
+                    sizes="100vw"
+                    className="select-none object-contain object-center"
+                  />
+                </Link>
+              ) : (
+                <>
               {slide.visual === "store" ? (
                 <div className="pointer-events-none absolute -left-28 top-[32%] size-80 rotate-12 rounded-[72px] border border-white/10" />
               ) : null}
@@ -406,6 +446,8 @@ export function Hero() {
                   <SlideVisual visual={slide.visual} active={active} />
                 </div>
               </div>
+                </>
+              )}
             </article>
           );
         })}
