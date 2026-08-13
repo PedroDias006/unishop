@@ -170,6 +170,14 @@ input {
   background: linear-gradient(100deg, #a9c9dd 0%, #d5ebf7 48%, #b4d3e5 100%);
 }
 
+.hero-industrial-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: linear-gradient(90deg, black, transparent 68%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-slide,
   .hero-slide-copy > *,

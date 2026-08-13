@@ -4,8 +4,6 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  Pause,
-  Play,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,6 +29,10 @@ const slides = [
     description: null,
     cta: null,
     visual: "products",
+    background:
+      "bg-[radial-gradient(circle_at_55%_8%,rgba(25,103,196,0.36),transparent_32%),linear-gradient(114deg,#03183f_0%,#05265a_46%,#063776_100%)]",
+    darkText: false,
+    reverse: false,
   },
   {
     id: "lojas",
@@ -41,6 +43,10 @@ const slides = [
       "Um espaço completo, atendimento próximo e orientação para escolher melhor.",
     cta: { label: "Encontrar uma loja", href: "/lojas" },
     visual: "store",
+    background:
+      "bg-[radial-gradient(circle_at_80%_16%,rgba(60,156,238,0.42),transparent_29%),linear-gradient(118deg,#031d4c_0%,#0752a9_100%)]",
+    darkText: false,
+    reverse: false,
   },
   {
     id: "industria",
@@ -51,6 +57,10 @@ const slides = [
       "A força de uma operação integrada para levar qualidade e variedade a todo o Brasil.",
     cta: { label: "Conhecer a Unishop", href: "/sobre" },
     visual: "industry",
+    background:
+      "bg-[radial-gradient(circle_at_12%_84%,rgba(21,104,198,0.32),transparent_30%),linear-gradient(132deg,#03183e_0%,#0a3f88_100%)]",
+    darkText: false,
+    reverse: false,
   },
   {
     id: "parceria",
@@ -61,6 +71,10 @@ const slides = [
       "Modelo estruturado, portfólio amplo e acompanhamento para você crescer com segurança.",
     cta: { label: "Quero ser parceiro", href: "/seja-parceiro" },
     visual: "partner",
+    background:
+      "bg-[radial-gradient(circle_at_10%_88%,rgba(255,255,255,0.3),transparent_25%),linear-gradient(118deg,#efb000_0%,#ffd84d_100%)]",
+    darkText: true,
+    reverse: true,
   },
   {
     id: "profissional",
@@ -71,6 +85,10 @@ const slides = [
       "Produtos e orientação para operações que exigem eficiência todos os dias.",
     cta: { label: "Explorar soluções", href: "/produtos" },
     visual: "professional",
+    background:
+      "bg-[radial-gradient(circle_at_88%_76%,rgba(0,118,199,0.34),transparent_28%),linear-gradient(112deg,#020f2d_0%,#063566_58%,#07508e_100%)]",
+    darkText: false,
+    reverse: false,
   },
 ] as const;
 
@@ -148,8 +166,8 @@ function SlideVisual({
   if (visual === "partner") {
     return (
       <div className="relative h-full w-full">
-        <div className="absolute -right-[18%] -top-[12%] aspect-square w-[92%] rounded-full bg-[#ffc928] sm:-right-[10%] lg:-right-[7%] lg:w-[88%]" />
-        <div className="absolute inset-x-[7%] bottom-[2%] top-[5%] overflow-hidden rounded-[180px_44px_44px_44px] border border-white/35 bg-[#dcecf5] shadow-[0_32px_74px_rgba(0,14,42,0.34)] sm:inset-x-[12%] sm:rounded-[230px_52px_52px_52px] lg:inset-x-[10%] lg:bottom-[4%]">
+        <div className="absolute -left-[16%] -top-[12%] aspect-square w-[92%] rounded-full bg-[#07396e] sm:-left-[10%] lg:-left-[7%] lg:w-[88%]" />
+        <div className="absolute inset-x-[7%] bottom-[2%] top-[5%] overflow-hidden rounded-[44px_180px_44px_44px] border-[6px] border-white/65 bg-[#dcecf5] shadow-[0_32px_74px_rgba(0,14,42,0.28)] sm:inset-x-[12%] sm:rounded-[52px_230px_52px_52px] lg:inset-x-[10%] lg:bottom-[4%]">
           <Image
             src="/images/hero/empreendedora-unishop.png"
             alt="Empreendedora em uma loja de soluções de limpeza e utilidades"
@@ -159,7 +177,7 @@ function SlideVisual({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#031b48]/20 via-transparent to-white/5" />
         </div>
-        <div className="absolute bottom-[1%] right-[3%] h-16 w-[46%] rounded-t-full bg-[#bdd8e8] sm:h-20 lg:bottom-[3%]" />
+        <div className="absolute bottom-[1%] left-[3%] h-16 w-[46%] rounded-t-full bg-[#e9f5fb] sm:h-20 lg:bottom-[3%]" />
       </div>
     );
   }
@@ -211,7 +229,7 @@ export function Hero() {
 
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % slides.length);
-    }, 7000);
+    }, 10000);
 
     return () => window.clearInterval(timer);
   }, [activeSlide, interacting, paused]);
@@ -246,9 +264,6 @@ export function Hero() {
       onPointerUp={handlePointerUp}
       className="relative isolate min-h-[820px] touch-pan-y overflow-hidden bg-[#041b49] text-white sm:min-h-[920px] lg:min-h-[760px]"
     >
-      <div className="hero-atmosphere pointer-events-none absolute inset-0 -z-20" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-[#031637]/35 to-transparent" />
-
       <div aria-live={paused ? "polite" : "off"} className="absolute inset-0">
         {slides.map((slide, index) => {
           const active = activeSlide === index;
@@ -259,27 +274,72 @@ export function Hero() {
               aria-hidden={!active}
               aria-label={`${index + 1} de ${slides.length}`}
               aria-roledescription="slide"
-              className={`hero-slide absolute inset-0 ${active ? "hero-slide-active" : ""}`}
+              className={`hero-slide absolute inset-0 overflow-hidden ${slide.background} ${
+                active ? "hero-slide-active" : ""
+              }`}
             >
-              <div className="mx-auto grid h-full w-full max-w-[1440px] grid-rows-[auto_1fr] px-5 pb-[82px] pt-[114px] sm:px-8 sm:pb-[92px] sm:pt-[128px] lg:grid-cols-[0.78fr_1.22fr] lg:grid-rows-1 lg:px-10 lg:pb-[76px] lg:pt-[116px] xl:px-12">
-                <div className="hero-slide-copy relative z-30 flex items-center pb-6 pt-6 sm:pb-8 lg:pb-8 lg:pt-4">
+              {slide.visual === "store" ? (
+                <div className="pointer-events-none absolute -left-28 top-[32%] size-80 rotate-12 rounded-[72px] border border-white/10" />
+              ) : null}
+              {slide.visual === "industry" ? (
+                <div className="hero-industrial-grid pointer-events-none absolute inset-0 opacity-25" />
+              ) : null}
+              {slide.visual === "partner" ? (
+                <div className="pointer-events-none absolute -right-24 top-[20%] size-72 rounded-full border-[46px] border-white/15" />
+              ) : null}
+              {slide.visual === "professional" ? (
+                <div className="pointer-events-none absolute inset-y-0 left-[38%] hidden w-px bg-white/10 lg:block" />
+              ) : null}
+
+              <div
+                className={`mx-auto grid h-full w-full max-w-[1440px] grid-rows-[auto_1fr] px-5 pb-6 pt-[114px] sm:px-8 sm:pb-8 sm:pt-[128px] lg:grid-rows-1 lg:px-10 lg:pb-0 lg:pt-[116px] xl:px-12 ${
+                  slide.reverse
+                    ? "lg:grid-cols-[1.12fr_0.88fr]"
+                    : "lg:grid-cols-[0.78fr_1.22fr]"
+                }`}
+              >
+                <div
+                  className={`hero-slide-copy relative z-30 flex items-center pb-6 pt-6 sm:pb-8 lg:pb-8 lg:pt-4 ${
+                    slide.reverse ? "lg:order-2 lg:pl-10" : ""
+                  }`}
+                >
                   <div className="max-w-[610px]">
                     {slide.eyebrow ? (
-                      <p className="mb-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69] sm:text-xs">
-                        <span className="h-px w-8 bg-[#ffc928]" />
+                      <p
+                        className={`mb-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] sm:text-xs ${
+                          slide.darkText ? "text-[#07396e]/70" : "text-[#ffdc69]"
+                        }`}
+                      >
+                        <span
+                          className={`h-px w-8 ${
+                            slide.darkText ? "bg-[#07396e]/55" : "bg-[#ffc928]"
+                          }`}
+                        />
                         {slide.eyebrow}
                       </p>
                     ) : null}
 
-                    <h1 className="text-[clamp(3.35rem,6vw,6.35rem)] font-black leading-[0.86] tracking-[-0.065em] text-white">
+                    <h1
+                      className={`text-[clamp(3.35rem,6vw,6.35rem)] font-black leading-[0.86] tracking-[-0.065em] ${
+                        slide.darkText ? "text-[#07396e]" : "text-white"
+                      }`}
+                    >
                       {slide.title}
-                      <span className="mt-2 block text-[#ffc928] sm:mt-3">
+                      <span
+                        className={`mt-2 block sm:mt-3 ${
+                          slide.darkText ? "text-white" : "text-[#ffc928]"
+                        }`}
+                      >
                         {slide.accent}
                       </span>
                     </h1>
 
                     {slide.description ? (
-                      <p className="mt-6 max-w-[510px] text-sm font-semibold leading-6 text-[#dceafa]/72 sm:text-lg sm:leading-8">
+                      <p
+                        className={`mt-6 max-w-[510px] text-sm font-semibold leading-6 sm:text-lg sm:leading-8 ${
+                          slide.darkText ? "text-[#07396e]/72" : "text-[#dceafa]/72"
+                        }`}
+                      >
                         {slide.description}
                       </p>
                     ) : (
@@ -292,7 +352,11 @@ export function Hero() {
                       <Link
                         href={slide.cta.href}
                         tabIndex={active ? 0 : -1}
-                        className="group mt-7 inline-flex min-h-13 items-center gap-3 rounded-full bg-[#ffc928] px-5 text-sm font-black text-[#07396e] shadow-[0_16px_38px_rgba(226,169,0,0.22)] transition duration-300 hover:-translate-y-1 hover:bg-[#ffda55]"
+                        className={`group mt-7 inline-flex min-h-13 items-center gap-3 rounded-full px-5 text-sm font-black shadow-[0_16px_38px_rgba(0,35,76,0.18)] transition duration-300 hover:-translate-y-1 ${
+                          slide.darkText
+                            ? "bg-[#07396e] text-white hover:bg-[#0a4b91]"
+                            : "bg-[#ffc928] text-[#07396e] hover:bg-[#ffda55]"
+                        }`}
                       >
                         {slide.cta.label}
                         <ArrowRight
@@ -304,7 +368,11 @@ export function Hero() {
                   </div>
                 </div>
 
-                <div className="hero-slide-visual relative min-h-0 self-stretch">
+                <div
+                  className={`hero-slide-visual relative min-h-0 self-stretch ${
+                    slide.reverse ? "lg:order-1" : ""
+                  }`}
+                >
                   <SlideVisual visual={slide.visual} active={active} />
                 </div>
               </div>
@@ -313,51 +381,31 @@ export function Hero() {
         })}
       </div>
 
-      <div className="absolute inset-x-4 bottom-4 z-50 mx-auto flex max-w-max items-center rounded-full border border-white/15 bg-[#061d48]/72 p-1.5 shadow-[0_16px_40px_rgba(0,12,34,0.28)] backdrop-blur-xl sm:bottom-5">
-        <button
-          type="button"
-          onClick={previousSlide}
-          aria-label="Banner anterior"
-          className="grid size-10 place-items-center rounded-full text-white/72 transition hover:bg-white/10 hover:text-white"
-        >
-          <ChevronLeft size={19} />
-        </button>
+      <button
+        type="button"
+        onClick={previousSlide}
+        aria-label="Banner anterior"
+        className={`group absolute left-0 top-1/2 z-50 grid h-20 w-11 -translate-y-1/2 place-items-center rounded-r-full border border-l-0 backdrop-blur-sm transition duration-300 hover:w-13 ${
+          slides[activeSlide].darkText
+            ? "border-[#07396e]/15 bg-white/12 text-[#07396e]/55 hover:bg-white/22 hover:text-[#07396e]"
+            : "border-white/10 bg-[#031a43]/12 text-white/50 hover:bg-[#031a43]/28 hover:text-white"
+        }`}
+      >
+        <ChevronLeft size={22} className="transition-transform group-hover:-translate-x-0.5" />
+      </button>
 
-        <div className="mx-1 flex items-center gap-1" role="group" aria-label="Escolher banner">
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => goToSlide(index)}
-              aria-label={`Ir para o banner ${index + 1}`}
-              aria-current={activeSlide === index ? "true" : undefined}
-              className={`h-2 rounded-full transition-all duration-500 ${
-                activeSlide === index
-                  ? "w-8 bg-[#ffc928]"
-                  : "w-2 bg-white/30 hover:bg-white/55"
-              }`}
-            />
-          ))}
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setPaused((current) => !current)}
-          aria-label={paused ? "Retomar rotação automática" : "Pausar rotação automática"}
-          className="ml-1 grid size-10 place-items-center rounded-full text-white/72 transition hover:bg-white/10 hover:text-white"
-        >
-          {paused ? <Play size={16} fill="currentColor" /> : <Pause size={16} fill="currentColor" />}
-        </button>
-
-        <button
-          type="button"
-          onClick={nextSlide}
-          aria-label="Próximo banner"
-          className="grid size-10 place-items-center rounded-full text-white/72 transition hover:bg-white/10 hover:text-white"
-        >
-          <ChevronRight size={19} />
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={nextSlide}
+        aria-label="Próximo banner"
+        className={`group absolute right-0 top-1/2 z-50 grid h-20 w-11 -translate-y-1/2 place-items-center rounded-l-full border border-r-0 backdrop-blur-sm transition duration-300 hover:w-13 ${
+          slides[activeSlide].darkText
+            ? "border-[#07396e]/15 bg-white/12 text-[#07396e]/55 hover:bg-white/22 hover:text-[#07396e]"
+            : "border-white/10 bg-[#031a43]/12 text-white/50 hover:bg-[#031a43]/28 hover:text-white"
+        }`}
+      >
+        <ChevronRight size={22} className="transition-transform group-hover:translate-x-0.5" />
+      </button>
     </section>
   );
 }
