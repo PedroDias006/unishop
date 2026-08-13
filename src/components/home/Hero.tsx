@@ -4,6 +4,7 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
+  ShoppingCart,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,12 +37,12 @@ const slides = [
   },
   {
     id: "lojas",
-    eyebrow: "Presença que aproxima",
-    title: "Uma loja.",
-    accent: "Mil soluções.",
+    eyebrow: "Transforme sua loja",
+    title: "Em uma",
+    accent: "Unishop!",
     description:
-      "Um espaço completo, atendimento próximo e orientação para escolher melhor.",
-    cta: { label: "Encontrar uma loja", href: "/lojas" },
+      "Limpeza, descartáveis, EPIs, utilidades e embalagens para ampliar suas vendas com suporte completo.",
+    cta: { label: "Conhecer o modelo", href: "/modelo-de-negocio" },
     visual: "store",
     background:
       "bg-[radial-gradient(circle_at_80%_16%,rgba(60,156,238,0.42),transparent_29%),linear-gradient(118deg,#031d4c_0%,#0752a9_100%)]",
@@ -64,17 +65,17 @@ const slides = [
   },
   {
     id: "parceria",
-    eyebrow: "Empreenda com suporte",
-    title: "Seu negócio.",
-    accent: "Nossa força.",
+    eyebrow: "Oportunidade de negócio",
+    title: "Fature até",
+    accent: "R$120 mil/mês",
     description:
-      "Modelo estruturado, portfólio amplo e acompanhamento para você crescer com segurança.",
-    cta: { label: "Quero ser parceiro", href: "/seja-parceiro" },
+      "Invista a partir de R$60 mil e tenha suporte completo para começar.",
+    cta: { label: "Quero conhecer", href: "/seja-parceiro" },
     visual: "partner",
     background:
-      "bg-[radial-gradient(circle_at_10%_88%,rgba(255,255,255,0.3),transparent_25%),linear-gradient(118deg,#efb000_0%,#ffd84d_100%)]",
-    darkText: true,
-    reverse: true,
+      "bg-[radial-gradient(circle_at_88%_8%,rgba(20,101,205,0.38),transparent_28%),linear-gradient(118deg,#020d2c_0%,#03285f_54%,#061b44_100%)]",
+    darkText: false,
+    reverse: false,
   },
   {
     id: "profissional",
@@ -126,18 +127,29 @@ function SlideVisual({
   if (visual === "store") {
     return (
       <div className="relative h-full w-full">
-        <div className="absolute -right-[18%] top-[4%] aspect-square w-[85%] rounded-full bg-[#ffc928] sm:-right-[10%] sm:top-[-4%] lg:-right-[12%] lg:w-[82%]" />
-        <div className="absolute inset-x-[1%] bottom-[2%] top-[8%] overflow-hidden rounded-[42px_150px_42px_42px] border-[8px] border-[#f8d03e] shadow-[0_32px_70px_rgba(0,15,44,0.35)] sm:inset-x-[4%] sm:rounded-[54px_190px_54px_54px] lg:inset-x-[2%] lg:bottom-[5%] lg:top-[6%]">
+        <div className="absolute -right-[17%] -top-[12%] h-[126%] w-[91%] rotate-[8deg] rounded-[42%_0_0_42%] border border-[#ffc928]/45" />
+        <div className="absolute -right-[11%] -top-[6%] h-[116%] w-[86%] rotate-[8deg] rounded-[42%_0_0_42%] bg-[#ffc928] shadow-[0_0_36px_rgba(255,201,40,0.2)]" />
+        <div className="absolute inset-x-[1%] bottom-[3%] top-[7%] rotate-[1deg] overflow-hidden rounded-[38px_150px_38px_38px] border-[3px] border-[#ffc928] bg-[#061d4b] shadow-[0_36px_84px_rgba(0,10,34,0.45)] sm:inset-x-[4%] sm:rounded-[50px_190px_50px_50px] lg:inset-x-[1%] lg:bottom-[6%] lg:top-[5%]">
           <Image
-            src="/images/hero/loja-unishop-conceito.png"
-            alt="Conceito de uma loja contemporânea da Rede Unishop"
+            src="/images/hero/loja-unishop-premium.png"
+            alt="Conceito premium de uma loja da Rede Unishop"
             fill
             sizes="(max-width: 1024px) 100vw, 820px"
-            className="object-cover object-[56%_center]"
+            className="object-cover object-[58%_center]"
           />
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#031b48]/25 via-transparent to-white/5" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#031b48]/16 via-transparent to-[#ffc928]/8" />
+          <Image
+            src="/images/logotipo.webp"
+            alt="Rede Unishop"
+            width={220}
+            height={74}
+            className="absolute left-[40%] top-[28%] hidden h-auto w-[16%] object-contain drop-shadow-lg lg:block"
+          />
         </div>
-        <div className="absolute bottom-[4%] left-[-2%] size-24 rounded-full border-[18px] border-[#e8f5fc]/85 sm:size-32 sm:border-[24px] lg:bottom-[7%]" />
+        <div className="absolute bottom-[1%] left-[2%] z-20 grid size-20 place-items-center rounded-full border-[6px] border-[#ffc928] bg-[#07396e] text-[#ffc928] shadow-[0_18px_40px_rgba(0,13,38,0.38)] sm:size-24 lg:bottom-[4%]">
+          <ShoppingCart size={34} strokeWidth={2.2} />
+        </div>
+        <div className="hero-dot-matrix absolute right-[3%] top-[2%] size-20 opacity-70" />
       </div>
     );
   }
@@ -166,18 +178,18 @@ function SlideVisual({
   if (visual === "partner") {
     return (
       <div className="relative h-full w-full">
-        <div className="absolute -left-[16%] -top-[12%] aspect-square w-[92%] rounded-full bg-[#07396e] sm:-left-[10%] lg:-left-[7%] lg:w-[88%]" />
-        <div className="absolute inset-x-[7%] bottom-[2%] top-[5%] overflow-hidden rounded-[44px_180px_44px_44px] border-[6px] border-white/65 bg-[#dcecf5] shadow-[0_32px_74px_rgba(0,14,42,0.28)] sm:inset-x-[12%] sm:rounded-[52px_230px_52px_52px] lg:inset-x-[10%] lg:bottom-[4%]">
+        <div className="absolute inset-x-[1%] bottom-[3%] top-[5%] overflow-hidden rounded-[42px] border border-[#ffc928]/55 bg-[#051a43] shadow-[0_32px_78px_rgba(0,9,30,0.42)] sm:inset-x-[3%] sm:rounded-[54px] lg:inset-x-[1%] lg:bottom-[5%]">
           <Image
-            src="/images/hero/empreendedora-unishop.png"
-            alt="Empreendedora em uma loja de soluções de limpeza e utilidades"
+            src="/images/hero/parceria-unishop-premium.png"
+            alt="Empreendedora em uma operação de limpeza e higienização"
             fill
-            sizes="(max-width: 1024px) 100vw, 760px"
-            className="object-cover object-[55%_center]"
+            sizes="(max-width: 1024px) 100vw, 820px"
+            className="object-cover object-[47%_center]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#031b48]/20 via-transparent to-white/5" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_30%,rgba(2,18,49,0.2)_46%,transparent_74%)]" />
         </div>
-        <div className="absolute bottom-[1%] left-[3%] h-16 w-[46%] rounded-t-full bg-[#e9f5fb] sm:h-20 lg:bottom-[3%]" />
+        <div className="absolute -right-[5%] -top-[10%] size-[42%] rounded-full border-[34px] border-[#ffc928]/90" />
+        <div className="hero-dot-matrix absolute right-[2%] top-[1%] size-24 opacity-70" />
       </div>
     );
   }
@@ -285,7 +297,7 @@ export function Hero() {
                 <div className="hero-industrial-grid pointer-events-none absolute inset-0 opacity-25" />
               ) : null}
               {slide.visual === "partner" ? (
-                <div className="pointer-events-none absolute -right-24 top-[20%] size-72 rounded-full border-[46px] border-white/15" />
+                <div className="hero-opportunity-ribbons pointer-events-none absolute inset-0" />
               ) : null}
               {slide.visual === "professional" ? (
                 <div className="pointer-events-none absolute inset-y-0 left-[38%] hidden w-px bg-white/10 lg:block" />
@@ -293,6 +305,9 @@ export function Hero() {
 
               <div
                 className={`mx-auto grid h-full w-full max-w-[1440px] grid-rows-[auto_1fr] px-5 pb-6 pt-[114px] sm:px-8 sm:pb-8 sm:pt-[128px] lg:grid-rows-1 lg:px-10 lg:pb-0 lg:pt-[116px] xl:px-12 ${
+                  slide.visual === "partner"
+                    ? "lg:grid-cols-[0.78fr_1.22fr]"
+                    :
                   slide.reverse
                     ? "lg:grid-cols-[1.12fr_0.88fr]"
                     : "lg:grid-cols-[0.78fr_1.22fr]"
@@ -300,6 +315,9 @@ export function Hero() {
               >
                 <div
                   className={`hero-slide-copy relative z-30 flex items-center pb-6 pt-6 sm:pb-8 lg:pb-8 lg:pt-4 ${
+                    slide.visual === "partner"
+                      ? "lg:order-2 lg:pl-10"
+                      :
                     slide.reverse ? "lg:order-2 lg:pl-10" : ""
                   }`}
                 >
@@ -320,14 +338,22 @@ export function Hero() {
                     ) : null}
 
                     <h1
-                      className={`text-[clamp(3.35rem,6vw,6.35rem)] font-black leading-[0.86] tracking-[-0.065em] ${
+                      className={`font-black leading-[0.86] tracking-[-0.065em] ${
+                        slide.visual === "partner"
+                          ? "text-[clamp(2.9rem,5.2vw,5.4rem)]"
+                          : "text-[clamp(3.35rem,6vw,6.35rem)]"
+                      } ${
                         slide.darkText ? "text-[#07396e]" : "text-white"
                       }`}
                     >
                       {slide.title}
                       <span
                         className={`mt-2 block sm:mt-3 ${
-                          slide.darkText ? "text-white" : "text-[#ffc928]"
+                          slide.visual === "partner"
+                            ? "hero-gold-text"
+                            : slide.darkText
+                              ? "text-white"
+                              : "text-[#ffc928]"
                         }`}
                       >
                         {slide.accent}
@@ -370,7 +396,11 @@ export function Hero() {
 
                 <div
                   className={`hero-slide-visual relative min-h-0 self-stretch ${
-                    slide.reverse ? "lg:order-1" : ""
+                    slide.visual === "partner"
+                      ? "lg:order-1"
+                      : slide.reverse
+                        ? "lg:order-1"
+                        : ""
                   }`}
                 >
                   <SlideVisual visual={slide.visual} active={active} />

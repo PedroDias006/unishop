@@ -178,6 +178,26 @@ input {
   mask-image: linear-gradient(90deg, black, transparent 68%);
 }
 
+.hero-dot-matrix {
+  background-image: radial-gradient(circle, #ffc928 0 2px, transparent 2.5px);
+  background-size: 15px 15px;
+}
+
+.hero-opportunity-ribbons {
+  background:
+    linear-gradient(132deg, transparent 0 68%, rgba(255, 201, 40, 0.18) 68.2% 69%, transparent 69.2%),
+    linear-gradient(145deg, transparent 0 76%, rgba(24, 91, 184, 0.28) 76.2% 82%, transparent 82.2%);
+}
+
+.hero-gold-text {
+  color: #ffc928;
+  background: linear-gradient(180deg, #fff1a8 0%, #ffc928 45%, #e9a900 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 6px 14px rgba(220, 155, 0, 0.22));
+  -webkit-text-fill-color: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-slide,
   .hero-slide-copy > *,
