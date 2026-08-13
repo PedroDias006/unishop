@@ -1,8 +1,7 @@
 "use client";
 
 import brazil from "@svg-maps/brazil";
-import { ArrowRight, MapPin } from "lucide-react";
-import Link from "next/link";
+import { Check, LoaderCircle, MapPin, Search } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 
@@ -11,6 +10,18 @@ type StateFocus = {
   name: string;
   x: number;
   y: number;
+};
+
+type CityLocation = {
+  name: string;
+  state: string;
+  stores: number;
+};
+
+type LocationPayload = {
+  cities: CityLocation[];
+  states: string[];
+  totals: { stores: number; cities: number; states: number };
 };
 
 const regions: Record<string, string> = {
@@ -48,41 +59,81 @@ const brazilMap = brazil as {
   locations: Array<{ id: string; name: string; path: string }>;
 };
 
+function normalize(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("pt-BR")
+    .trim();
+}
+
 export function BrazilPresence() {
   const mapRef = useRef<SVGSVGElement>(null);
+  const [data, setData] = useState<LocationPayload | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [query, setQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<CityLocation | null>(null);
   const [selectedState, setSelectedState] = useState<StateFocus | null>(null);
   const [hoveredState, setHoveredState] = useState<StateFocus | null>(null);
 
-  useEffect(() => {
-    const initialPath = mapRef.current?.querySelector<SVGPathElement>(
-      '[data-state-id="sp"]',
-    );
+  const activeStateIds = useMemo(
+    () => new Set((data?.states ?? []).map((state) => state.toLowerCase())),
+    [data],
+  );
 
-    if (!initialPath) return;
+  const cityResults = useMemo(() => {
+    const term = normalize(query);
+    if (!data || term.length < 2 || selectedCity) return [];
 
-    const bounds = initialPath.getBBox();
-    setSelectedState({
-      id: "sp",
-      name: "São Paulo",
-      x: bounds.x + bounds.width / 2,
-      y: bounds.y + bounds.height / 2,
-    });
-  }, []);
+    return data.cities
+      .map((city) => {
+        const normalizedName = normalize(city.name);
+        const score = normalizedName === term ? 0 : normalizedName.startsWith(term) ? 1 : 2;
+        return { city, normalizedName, score };
+      })
+      .filter(({ normalizedName }) => normalizedName.includes(term))
+      .sort((a, b) => a.score - b.score || a.city.name.localeCompare(b.city.name, "pt-BR"))
+      .slice(0, 7)
+      .map(({ city }) => city);
+  }, [data, query, selectedCity]);
 
   const activeState = hoveredState ?? selectedState;
   const activeRegion = activeState ? regions[activeState.id] : "Brasil";
-  const stateCount = brazilMap.locations.length;
+  const selectedStateCities = activeState
+    ? data?.cities.filter((city) => city.state.toLowerCase() === activeState.id).length ?? 0
+    : 0;
 
-  const instruction = useMemo(
-    () => (hoveredState ? "Estado em destaque" : "Estado selecionado"),
-    [hoveredState],
-  );
+  useEffect(() => {
+    const controller = new AbortController();
 
-  function getStateFocus(
-    id: string,
-    name: string,
-    target: SVGPathElement,
-  ): StateFocus {
+    fetch("/api/unishop-locations", { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("Location request failed");
+        return response.json() as Promise<LocationPayload>;
+      })
+      .then((payload) => setData(payload))
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === "AbortError")) setData(null);
+      })
+      .finally(() => setIsLoading(false));
+
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    if (!activeStateIds.has("sp") || selectedState) return;
+
+    const target = mapRef.current?.querySelector<SVGPathElement>(
+      '[data-state-id="sp"]',
+    );
+    const location = brazilMap.locations.find((item) => item.id === "sp");
+
+    if (!target || !location) return;
+    setSelectedState(getStateFocus(location.id, location.name, target));
+  }, [activeStateIds, selectedState]);
+
+  function getStateFocus(id: string, name: string, target: SVGPathElement): StateFocus {
     const bounds = target.getBBox();
 
     return {
@@ -93,121 +144,245 @@ export function BrazilPresence() {
     };
   }
 
+  function focusState(stateId: string) {
+    const target = mapRef.current?.querySelector<SVGPathElement>(
+      `[data-state-id="${stateId}"]`,
+    );
+    const location = brazilMap.locations.find((item) => item.id === stateId);
+
+    if (!target || !location || !activeStateIds.has(stateId)) return;
+    setSelectedState(getStateFocus(location.id, location.name, target));
+  }
+
+  function chooseCity(city: CityLocation) {
+    setSelectedCity(city);
+    setQuery(`${city.name} - ${city.state}`);
+    setSearchOpen(false);
+    focusState(city.state.toLowerCase());
+  }
+
+  function handleQueryChange(value: string) {
+    setQuery(value);
+    setSelectedCity(null);
+    setSearchOpen(true);
+  }
+
   return (
     <section
       id="presenca"
       className="scroll-mt-28 overflow-hidden bg-[linear-gradient(115deg,#04316c_0%,#095794_100%)] py-20 font-[Manrope] text-white sm:py-28"
     >
-      <Container className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+      <Container className="grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
         <div className="max-w-xl">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-[#ffc928]" aria-hidden="true" />
             <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ffd34c]">
-              Presença nacional
+              Presença confirmada
             </p>
           </div>
 
           <h2 className="mt-5 text-balance text-4xl font-extrabold tracking-[-0.045em] sm:text-5xl lg:text-6xl">
-            A Unishop está em todo o Brasil.
+            Tem Unishop na sua cidade?
           </h2>
           <p className="mt-6 max-w-lg text-base leading-7 text-white/70 sm:text-lg">
-            Passe o mouse sobre o mapa ou toque em um estado para explorar a presença da rede de norte a sul.
+            Pesquise sua cidade ou explore apenas os estados que possuem unidades cadastradas na rede.
           </p>
 
-          <div className="mt-9 grid max-w-lg grid-cols-2 border-y border-white/15 py-5">
-            <div className="border-r border-white/15 pr-5">
-              <strong className="block text-3xl font-extrabold tracking-[-0.04em] text-[#ffc928]">
-                +500
+          <div className="relative z-20 mt-8 max-w-lg">
+            <label htmlFor="unishop-city-search" className="mb-2 block text-sm font-bold text-white/90">
+              Consulte sua cidade
+            </label>
+            <div className="relative">
+              <Search
+                size={18}
+                aria-hidden="true"
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#07508b]"
+              />
+              <input
+                id="unishop-city-search"
+                type="search"
+                value={query}
+                onChange={(event) => handleQueryChange(event.target.value)}
+                onFocus={() => setSearchOpen(true)}
+                placeholder="Digite o nome da cidade"
+                autoComplete="off"
+                className="h-13 w-full rounded-xl border border-white/20 bg-white pl-11 pr-12 text-sm font-semibold text-[#082e5d] outline-none transition placeholder:text-[#71849b] focus:border-[#ffc928] focus:ring-4 focus:ring-[#ffc928]/15"
+              />
+              {isLoading ? (
+                <LoaderCircle
+                  size={18}
+                  aria-label="Atualizando cidades"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 animate-spin text-[#0a5795]"
+                />
+              ) : null}
+            </div>
+
+            {searchOpen && query.trim().length >= 2 && !selectedCity ? (
+              <div className="absolute left-0 right-0 top-[calc(100%+8px)] overflow-hidden rounded-xl border border-[#dbe7f1] bg-white py-1 text-[#082e5d] shadow-[0_18px_45px_rgba(0,23,55,0.28)]">
+                {isLoading ? (
+                  <p className="flex items-center gap-2 px-4 py-4 text-sm text-[#5e7289]">
+                    <LoaderCircle size={16} className="animate-spin" />
+                    Atualizando a relação de cidades...
+                  </p>
+                ) : cityResults.length ? (
+                  cityResults.map((city) => (
+                    <button
+                      key={`${city.state}-${normalize(city.name)}`}
+                      type="button"
+                      onClick={() => chooseCity(city)}
+                      className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left transition hover:bg-[#edf6fc] focus:bg-[#edf6fc] focus:outline-none"
+                    >
+                      <span>
+                        <strong className="block text-sm font-extrabold">{city.name}</strong>
+                        <span className="mt-0.5 block text-xs text-[#687b91]">{city.state}</span>
+                      </span>
+                      <span className="shrink-0 text-xs font-bold text-[#07508b]">
+                        {city.stores} {city.stores === 1 ? "unidade" : "unidades"}
+                      </span>
+                    </button>
+                  ))
+                ) : data ? (
+                  <p className="px-4 py-4 text-sm leading-6 text-[#5e7289]">
+                    Essa cidade não aparece na lista oficial de unidades no momento.
+                  </p>
+                ) : (
+                  <p className="px-4 py-4 text-sm leading-6 text-[#5e7289]">
+                    Não foi possível consultar as cidades agora. Tente novamente em instantes.
+                  </p>
+                )}
+              </div>
+            ) : null}
+
+            <div aria-live="polite" className="min-h-11 pt-3">
+              {selectedCity ? (
+                <p className="flex items-center gap-2 text-sm font-bold text-white">
+                  <span className="grid size-6 place-items-center rounded-full bg-[#ffc928] text-[#07396e]">
+                    <Check size={14} strokeWidth={3} />
+                  </span>
+                  {selectedCity.stores === 1
+                    ? `Há uma unidade em ${selectedCity.name}.`
+                    : `Há ${selectedCity.stores} unidades em ${selectedCity.name}.`}
+                </p>
+              ) : (
+                <p className="text-xs text-white/50">Busca atualizada com a relação oficial da Rede Unishop.</p>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-6 grid max-w-lg grid-cols-3 border-y border-white/15 py-5">
+            <div className="border-r border-white/15 pr-4">
+              <strong className="block text-2xl font-extrabold tracking-[-0.04em] text-[#ffc928] sm:text-3xl">
+                {data?.totals.stores ?? "—"}
               </strong>
-              <span className="mt-1 block text-xs font-bold uppercase tracking-[0.13em] text-white/55">
-                lojas no país
+              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-white/55 sm:text-xs">
+                unidades
               </span>
             </div>
-            <div className="pl-5">
-              <strong className="block text-3xl font-extrabold tracking-[-0.04em] text-[#ffc928]">
-                {stateCount}
+            <div className="border-r border-white/15 px-4">
+              <strong className="block text-2xl font-extrabold tracking-[-0.04em] text-[#ffc928] sm:text-3xl">
+                {data?.totals.cities ?? "—"}
               </strong>
-              <span className="mt-1 block text-xs font-bold uppercase tracking-[0.13em] text-white/55">
-                estados atendidos
+              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-white/55 sm:text-xs">
+                cidades
+              </span>
+            </div>
+            <div className="pl-4">
+              <strong className="block text-2xl font-extrabold tracking-[-0.04em] text-[#ffc928] sm:text-3xl">
+                {data?.totals.states ?? "—"}
+              </strong>
+              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-white/55 sm:text-xs">
+                UFs
               </span>
             </div>
           </div>
 
-          <div className="mt-8 flex min-h-24 items-center gap-4 border-l-2 border-[#ffc928] bg-white/8 px-5 py-4">
+          <div className="mt-7 flex min-h-20 items-center gap-4 border-l-2 border-[#ffc928] bg-white/8 px-5 py-4">
             <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#ffc928] text-sm font-extrabold text-[#07396e]">
               {activeState?.id.toUpperCase() ?? "BR"}
             </span>
             <div>
               <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-white/50">
-                {instruction}
+                {hoveredState ? "Estado em destaque" : "Estado selecionado"}
               </span>
               <p className="mt-1 text-lg font-extrabold">
                 {activeState?.name ?? "Escolha um estado"}
                 {activeState ? <span className="font-medium text-white/55"> · {activeRegion}</span> : null}
               </p>
-              <p className="mt-1 text-xs text-white/60">Rede Unishop presente</p>
+              {activeState ? (
+                <p className="mt-1 text-xs text-white/60">
+                  {selectedStateCities} {selectedStateCities === 1 ? "cidade cadastrada" : "cidades cadastradas"}
+                </p>
+              ) : null}
             </div>
           </div>
-
-          <Link
-            href="/lojas"
-            className="group mt-8 inline-flex min-h-12 items-center gap-3 rounded-full bg-[#ffc928] px-6 text-sm font-extrabold text-[#07396e] transition hover:-translate-y-0.5 hover:bg-[#ffd84d]"
-          >
-            Encontrar uma loja
-            <ArrowRight size={17} className="transition group-hover:translate-x-1" />
-          </Link>
         </div>
 
         <div className="relative mx-auto w-full max-w-[680px]">
-          <div className="pointer-events-none absolute inset-10 rounded-full bg-[#37a0dc]/18 blur-3xl" />
+          <div className="pointer-events-none absolute inset-10 rounded-full bg-[#37a0dc]/12 blur-3xl" />
           <svg
             ref={mapRef}
             viewBox={brazilMap.viewBox}
             role="img"
-            aria-label="Mapa interativo do Brasil com todos os estados atendidos pela Rede Unishop"
+            aria-label="Mapa do Brasil; somente estados com unidades Unishop confirmadas podem ser selecionados"
             className="relative h-auto w-full overflow-visible drop-shadow-[0_22px_34px_rgba(0,18,52,0.24)]"
           >
             {brazilMap.locations.map((location) => {
-              const active = activeState?.id === location.id;
+              const hasStores = activeStateIds.has(location.id);
+              const active = hasStores && activeState?.id === location.id;
 
               return (
                 <path
                   key={location.id}
                   data-state-id={location.id}
                   d={location.path}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${location.name}, Rede Unishop presente`}
-                  aria-pressed={selectedState?.id === location.id}
-                  onPointerEnter={(event) =>
-                    setHoveredState(
-                      getStateFocus(location.id, location.name, event.currentTarget),
-                    )
+                  role={hasStores ? "button" : undefined}
+                  tabIndex={hasStores ? 0 : undefined}
+                  aria-label={
+                    hasStores
+                      ? `${location.name}, possui unidades Unishop cadastradas`
+                      : `${location.name}, sem unidade na lista atual`
                   }
+                  aria-disabled={!hasStores}
+                  aria-pressed={hasStores ? selectedState?.id === location.id : undefined}
+                  onPointerEnter={(event) => {
+                    if (hasStores) {
+                      setHoveredState(
+                        getStateFocus(location.id, location.name, event.currentTarget),
+                      );
+                    }
+                  }}
                   onPointerLeave={() => setHoveredState(null)}
-                  onFocus={(event) =>
-                    setHoveredState(
-                      getStateFocus(location.id, location.name, event.currentTarget),
-                    )
-                  }
+                  onFocus={(event) => {
+                    if (hasStores) {
+                      setHoveredState(
+                        getStateFocus(location.id, location.name, event.currentTarget),
+                      );
+                    }
+                  }}
                   onBlur={() => setHoveredState(null)}
-                  onClick={(event) =>
-                    setSelectedState(
-                      getStateFocus(location.id, location.name, event.currentTarget),
-                    )
-                  }
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
+                  onClick={(event) => {
+                    if (hasStores) {
+                      setSelectedCity(null);
                       setSelectedState(
                         getStateFocus(location.id, location.name, event.currentTarget),
                       );
                     }
                   }}
-                  className={`cursor-pointer stroke-white transition-[fill,filter,opacity] duration-200 focus:outline-none ${
-                    active
-                      ? "fill-[#ffc928] drop-shadow-[0_0_9px_rgba(255,201,40,0.6)]"
-                      : "fill-[#0a4a84] hover:fill-[#ffc928] focus:fill-[#ffc928]"
+                  onKeyDown={(event) => {
+                    if (hasStores && (event.key === "Enter" || event.key === " ")) {
+                      event.preventDefault();
+                      setSelectedCity(null);
+                      setSelectedState(
+                        getStateFocus(location.id, location.name, event.currentTarget),
+                      );
+                    }
+                  }}
+                  className={`stroke-white transition-[fill,filter,opacity] duration-200 focus:outline-none ${
+                    !hasStores
+                      ? "cursor-default fill-[#082f5c] opacity-40"
+                      : active
+                        ? "cursor-pointer fill-[#ffc928] drop-shadow-[0_0_8px_rgba(255,201,40,0.5)]"
+                        : "cursor-pointer fill-[#1170aa] hover:fill-[#ffc928] focus:fill-[#ffc928]"
                   }`}
                   strokeWidth={1.7}
                   vectorEffect="non-scaling-stroke"
@@ -215,7 +390,7 @@ export function BrazilPresence() {
               );
             })}
 
-            {activeState ? (
+            {activeState && activeStateIds.has(activeState.id) ? (
               <foreignObject
                 x={activeState.x - 24}
                 y={activeState.y - 38}
@@ -234,8 +409,16 @@ export function BrazilPresence() {
             ) : null}
           </svg>
 
-          <p className="relative mt-4 text-center text-[10px] leading-4 text-white/35">
-            Mapa adaptado de SVG Maps Brazil, licenciado sob CC BY 4.0.
+          <div className="relative mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-semibold text-white/60">
+            <span className="inline-flex items-center gap-2">
+              <i className="size-2.5 rounded-full bg-[#1170aa]" /> Com unidade cadastrada
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <i className="size-2.5 rounded-full bg-[#082f5c] opacity-60" /> Sem unidade na lista atual
+            </span>
+          </div>
+          <p className="relative mt-3 text-center text-[10px] leading-4 text-white/35">
+            Dados de unidades: Rede Unishop. Mapa adaptado de SVG Maps Brazil, CC BY 4.0.
           </p>
         </div>
       </Container>
