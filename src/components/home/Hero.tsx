@@ -51,7 +51,7 @@ const slides = [
       "bg-[radial-gradient(circle_at_80%_16%,rgba(60,156,238,0.42),transparent_29%),linear-gradient(118deg,#031d4c_0%,#0752a9_100%)]",
     darkText: false,
     reverse: false,
-    fullImage: "/images/hero/banner-loja-original.png",
+    fullImage: "/images/hero/banner-loja-informacoes.png",
     fullHref: "/modelo-de-negocio",
     fullAlt: "Transforme sua loja em uma Unishop",
   },
@@ -314,20 +314,65 @@ export function Hero() {
               }`}
             >
               {fullArtwork ? (
-                <Link
-                  href={fullArtwork.href}
-                  tabIndex={active ? 0 : -1}
-                  aria-label={fullArtwork.alt}
-                  className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]"
-                >
-                  <Image
-                    src={fullArtwork.image}
-                    alt={fullArtwork.alt}
-                    fill
-                    sizes="100vw"
-                    className="select-none object-contain object-center"
-                  />
-                </Link>
+                slide.visual === "store" ? (
+                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]">
+                    <Image
+                      src={fullArtwork.image}
+                      alt="Conceito de loja da Rede Unishop"
+                      fill
+                      priority
+                      sizes="100vw"
+                      className="select-none object-cover object-center"
+                    />
+
+                    <div className="absolute inset-0 mx-auto flex w-full max-w-[1728px] items-center px-[6.2%]">
+                      <div className="hero-slide-copy relative z-20 w-[45%] max-w-[640px]">
+                        <p className="mb-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69] sm:text-xs lg:text-sm">
+                          <span className="h-px w-8 bg-[#ffc928]" />
+                          Transforme sua loja
+                        </p>
+
+                        <h1 className="text-[clamp(2.5rem,5vw,5.75rem)] font-black uppercase leading-[0.86] tracking-[-0.055em] text-white">
+                          Em uma
+                          <span className="mt-2 block text-[#ffc928] sm:mt-3">
+                            Unishop!
+                          </span>
+                        </h1>
+
+                        <p className="mt-6 max-w-[520px] text-sm font-semibold leading-6 text-white/78 sm:text-base sm:leading-7 lg:text-lg lg:leading-8">
+                          Limpeza, descartáveis, EPIs, utilidades e embalagens — aumente suas vendas com um modelo rentável e suporte completo.
+                        </p>
+
+                        <Link
+                          href={fullArtwork.href}
+                          tabIndex={active ? 0 : -1}
+                          className="group mt-7 inline-flex min-h-13 items-center gap-4 rounded-full bg-[#ffc928] px-6 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)] transition hover:-translate-y-1 hover:bg-[#ffda55]"
+                        >
+                          Saiba mais
+                          <ArrowRight
+                            size={18}
+                            className="transition-transform group-hover:translate-x-1"
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    href={fullArtwork.href}
+                    tabIndex={active ? 0 : -1}
+                    aria-label={fullArtwork.alt}
+                    className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]"
+                  >
+                    <Image
+                      src={fullArtwork.image}
+                      alt={fullArtwork.alt}
+                      fill
+                      sizes="100vw"
+                      className="select-none object-contain object-center"
+                    />
+                  </Link>
+                )
               ) : (
                 <>
               {slide.visual === "store" ? (
