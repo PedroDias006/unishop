@@ -58,6 +58,54 @@ input {
   outline-offset: 3px;
 }
 
+.logo-spotlight {
+  --logo-x: 50%;
+  --logo-y: 50%;
+  isolation: isolate;
+}
+
+.logo-spotlight-halo {
+  border-radius: 999px;
+  background: radial-gradient(
+    circle 56px at var(--logo-x) var(--logo-y),
+    rgba(255, 221, 74, 0.34) 0%,
+    rgba(73, 174, 255, 0.18) 38%,
+    transparent 76%
+  );
+  opacity: 0;
+  filter: blur(9px);
+  transition: opacity 220ms ease;
+}
+
+.logo-spotlight-image {
+  z-index: 1;
+  opacity: 0;
+  filter: brightness(1.58) saturate(0.9) contrast(1.04)
+    drop-shadow(0 0 7px rgba(111, 202, 255, 0.42));
+  -webkit-mask-image: radial-gradient(
+    circle 42px at var(--logo-x) var(--logo-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.94) 42%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    circle 42px at var(--logo-x) var(--logo-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.94) 42%,
+    transparent 78%
+  );
+  transition:
+    opacity 180ms ease,
+    transform 300ms ease;
+}
+
+.logo-spotlight:hover .logo-spotlight-halo,
+.logo-spotlight:focus-visible .logo-spotlight-halo,
+.logo-spotlight:hover .logo-spotlight-image,
+.logo-spotlight:focus-visible .logo-spotlight-image {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

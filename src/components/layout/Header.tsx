@@ -35,16 +35,35 @@ function BrandLogo() {
     <Link
       href="/"
       aria-label="Página inicial da Rede Unishop"
-      className="group relative flex shrink-0 items-center"
+      onPointerMove={(event) => {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        event.currentTarget.style.setProperty(
+          "--logo-x",
+          `${event.clientX - bounds.left}px`,
+        );
+        event.currentTarget.style.setProperty(
+          "--logo-y",
+          `${event.clientY - bounds.top}px`,
+        );
+      }}
+      className="logo-spotlight group/logo relative flex shrink-0 items-center"
     >
-      <span className="absolute inset-x-3 bottom-0 h-3 rounded-full bg-[#ffc928]/35 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100" />
+      <span className="logo-spotlight-halo pointer-events-none absolute -inset-5" />
       <Image
         src="/images/logotipo.webp"
         alt="Rede Unishop"
         width={330}
         height={110}
         priority
-        className="relative h-auto w-[166px] select-none object-contain transition-transform duration-300 group-hover:-translate-y-0.5 sm:w-[188px] lg:w-[202px]"
+        className="relative h-auto w-[166px] select-none object-contain transition-transform duration-300 group-hover/logo:-translate-y-0.5 sm:w-[188px] lg:w-[202px]"
+      />
+      <Image
+        src="/images/logotipo.webp"
+        alt=""
+        aria-hidden="true"
+        width={330}
+        height={110}
+        className="logo-spotlight-image pointer-events-none absolute inset-0 h-full w-full select-none object-contain transition-transform duration-300 group-hover/logo:-translate-y-0.5"
       />
     </Link>
   );
