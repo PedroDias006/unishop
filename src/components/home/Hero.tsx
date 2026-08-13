@@ -102,9 +102,9 @@ const slides = [
       "bg-[radial-gradient(circle_at_88%_76%,rgba(0,118,199,0.34),transparent_28%),linear-gradient(112deg,#020f2d_0%,#063566_58%,#07508e_100%)]",
     darkText: false,
     reverse: false,
-    fullImage: null,
-    fullHref: null,
-    fullAlt: null,
+    fullImage: "/images/hero/banner-solucoes-profissionais-v1.png",
+    fullHref: "/produtos",
+    fullAlt: "Soluções profissionais para limpeza de alta performance",
   },
 ] as const;
 
@@ -397,6 +397,51 @@ export function Hero() {
                           <ArrowRight
                             size={18}
                             className="transition-transform group-hover:translate-x-1"
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ) : slide.visual === "professional" ? (
+                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#fdbd08] sm:top-[96px]">
+                    <Image
+                      src={fullArtwork.image}
+                      alt="Profissional realizando limpeza técnica com equipamento especializado"
+                      fill
+                      priority
+                      sizes="100vw"
+                      className="select-none object-cover object-center"
+                    />
+
+                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,194,24,0.95)_0%,rgba(255,194,24,0.88)_48%,rgba(4,28,73,0.4)_100%)] sm:hidden" />
+
+                    <div className="absolute inset-0 mx-auto flex w-full max-w-[2048px] items-center px-5 sm:px-[5.5%] lg:px-[6.2%]">
+                      <div className="hero-slide-copy relative z-20 w-full text-center sm:w-[35%] sm:max-w-[620px] sm:text-left">
+                        <p className="mb-4 flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.24em] text-[#07396e]/75 sm:justify-start sm:text-xs lg:text-sm">
+                          <span className="h-px w-8 bg-[#07396e]/55" />
+                          Soluções profissionais
+                        </p>
+
+                        <h1 className="text-[clamp(2.9rem,5.1vw,6.3rem)] font-black uppercase leading-[0.86] tracking-[-0.06em] text-[#052d64] drop-shadow-[0_2px_0_rgba(255,255,255,0.16)]">
+                          Performance
+                          <span className="mt-2 block text-white drop-shadow-[0_3px_10px_rgba(103,67,0,0.22)]">
+                            para quem faz.
+                          </span>
+                        </h1>
+
+                        <p className="mx-auto mt-5 max-w-[540px] text-sm font-bold leading-6 text-[#07396e]/82 sm:mx-0 sm:text-base sm:leading-7 lg:mt-6 lg:text-lg lg:leading-8">
+                          Produtos, equipamentos e orientação para operações que exigem eficiência todos os dias.
+                        </p>
+
+                        <Link
+                          href={fullArtwork.href}
+                          tabIndex={active ? 0 : -1}
+                          className="group mt-6 inline-flex min-h-12 items-center gap-4 rounded-full bg-[#07396e] px-6 text-xs font-black uppercase text-white shadow-[0_14px_34px_rgba(4,35,76,0.24)] transition hover:-translate-y-1 hover:bg-[#0b4d8f] lg:text-sm"
+                        >
+                          Explorar soluções
+                          <ArrowRight
+                            size={18}
+                            className="text-[#ffc928] transition-transform group-hover:translate-x-1"
                           />
                         </Link>
                       </div>
