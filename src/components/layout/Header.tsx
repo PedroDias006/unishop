@@ -98,7 +98,7 @@ export function Header() {
       shell!.style.height = `${height}px`;
       shell!.style.paddingInline = `${padding}px`;
       shell!.style.borderRadius = `${radius}px`;
-      shell!.style.boxShadow = `0 ${10 + progress * 8}px ${40 + progress * 20}px rgba(0, 30, 70, ${0.1 + progress * 0.08}), inset 0 1px 0 rgba(255,255,255,0.9)`;
+      shell!.style.boxShadow = `0 ${10 + progress * 8}px ${40 + progress * 20}px rgba(0, 18, 52, ${0.18 + progress * 0.08}), inset 0 1px 0 rgba(181,221,255,0.18)`;
       searchPanel!.style.top = `${top + height + 12}px`;
     }
 
@@ -182,9 +182,9 @@ export function Header() {
       <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
         <div
           ref={shellRef}
-          className="relative mx-auto flex h-[88px] w-full items-center justify-between overflow-visible rounded-none border border-x-0 border-t-0 border-white/70 bg-[rgba(247,249,252,0.82)] px-5 text-[#082f63] shadow-[0_10px_40px_rgba(0,30,70,0.1),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl backdrop-saturate-150 [will-change:width,height,border-radius,box-shadow] sm:h-[96px] sm:px-8 lg:px-10"
+          className="relative mx-auto flex h-[88px] w-full items-center justify-between overflow-visible rounded-none border border-x-0 border-t-0 border-[#8ec8ff]/20 bg-[linear-gradient(110deg,rgba(4,34,76,0.9),rgba(8,72,128,0.84))] px-5 text-white shadow-[0_10px_40px_rgba(0,18,52,0.18),inset_0_1px_0_rgba(181,221,255,0.18)] backdrop-blur-2xl backdrop-saturate-150 [will-change:width,height,border-radius,box-shadow] sm:h-[96px] sm:px-8 lg:px-10"
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b7dcff]/45 to-transparent" />
           <BrandLogo />
 
           <nav
@@ -201,8 +201,8 @@ export function Header() {
                       href={item.href}
                       className={`relative flex h-11 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-bold transition-colors duration-200 ${
                         active
-                          ? "text-[#0751a2]"
-                          : "text-[#163a63]/75 hover:text-[#0751a2]"
+                          ? "text-[#ffd34c]"
+                          : "text-white/78 hover:text-white"
                       }`}
                     >
                       {item.label}
@@ -269,8 +269,8 @@ export function Header() {
                   href={item.href}
                   className={`group/link relative flex h-11 items-center rounded-full px-3.5 text-[13px] font-bold transition-colors duration-200 ${
                     active
-                      ? "text-[#0751a2]"
-                      : "text-[#163a63]/75 hover:text-[#0751a2]"
+                      ? "text-[#ffd34c]"
+                      : "text-white/78 hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -292,8 +292,8 @@ export function Header() {
               onClick={() => setSearchOpen((current) => !current)}
               className={`grid size-10 place-items-center rounded-full border transition duration-300 ${
                 searchOpen
-                  ? "border-[#083b79] bg-[#083b79] text-white"
-                  : "border-[#123f6d]/10 bg-white/45 text-[#164574] hover:border-[#123f6d]/20 hover:bg-white/80"
+                  ? "border-[#ffc928] bg-[#ffc928] text-[#07396e]"
+                  : "border-white/15 bg-white/8 text-white/82 hover:border-white/30 hover:bg-white/16 hover:text-white"
               }`}
               aria-label={searchOpen ? "Fechar pesquisa" : "Abrir pesquisa"}
               aria-expanded={searchOpen}
@@ -303,7 +303,7 @@ export function Header() {
 
             <Link
               href="/lojas"
-              className="group/location grid size-10 place-items-center rounded-full border border-[#123f6d]/10 bg-white/45 text-[#164574] transition duration-300 hover:border-[#123f6d]/20 hover:bg-white/80"
+              className="group/location grid size-10 place-items-center rounded-full border border-white/15 bg-white/8 text-white/82 transition duration-300 hover:border-white/30 hover:bg-white/16 hover:text-white"
               aria-label="Encontrar uma loja"
             >
               <MapPin
@@ -330,7 +330,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className="relative z-10 grid size-10 place-items-center rounded-full border border-[#123f6d]/10 bg-white/55 text-[#0a3d74] transition hover:bg-white xl:hidden"
+            className="relative z-10 grid size-10 place-items-center rounded-full border border-white/15 bg-white/10 text-white transition hover:border-white/30 hover:bg-white/18 xl:hidden"
             aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
             aria-expanded={mobileMenuOpen}
           >
