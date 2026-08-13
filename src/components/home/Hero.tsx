@@ -51,7 +51,7 @@ const slides = [
       "bg-[radial-gradient(circle_at_80%_16%,rgba(60,156,238,0.42),transparent_29%),linear-gradient(118deg,#031d4c_0%,#0752a9_100%)]",
     darkText: false,
     reverse: false,
-    fullImage: "/images/hero/banner-loja-informacoes.png",
+    fullImage: "/images/hero/banner-loja-informacoes-v2.png",
     fullHref: "/modelo-de-negocio",
     fullAlt: "Transforme sua loja em uma Unishop",
   },
