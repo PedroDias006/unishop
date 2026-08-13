@@ -5,7 +5,6 @@ import { InvestmentSimulator } from "@/components/home/InvestmentSimulator";
 import { Segments } from "@/components/home/Segments";
 import { SolutionFinder } from "@/components/home/SolutionFinder";
 import { Stats } from "@/components/home/Stats";
-import { StoreModels } from "@/components/home/StoreModels";
 import { Testimonials } from "@/components/home/Testimonials";
 
 export default function HomePage() {
@@ -16,7 +15,6 @@ export default function HomePage() {
       <SolutionFinder />
       <BusinessModel />
       <InvestmentSimulator />
-      <StoreModels />
       <Segments />
       <Testimonials />
       <FinalCta />

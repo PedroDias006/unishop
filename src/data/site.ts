@@ -23,36 +23,6 @@ export const benefits = [
   "Acompanhamento durante a implantação",
 ];
 
-export const storeModels = [
-  {
-    name: "Unishop Compacta",
-    investment: "A partir de R$ 60 mil",
-    description:
-      "Uma operação enxuta para cidades menores ou pontos comerciais estratégicos.",
-    area: "40–60 m²",
-    team: "2–3 pessoas",
-    tag: "Entrada acessível",
-  },
-  {
-    name: "Unishop Intermediária",
-    investment: "A partir de R$ 86 mil",
-    description:
-      "Equilíbrio entre exposição de produtos, estoque e atendimento consultivo.",
-    area: "70–100 m²",
-    team: "3–5 pessoas",
-    tag: "Mais procurada",
-  },
-  {
-    name: "Unishop Completa",
-    investment: "A partir de R$ 120 mil",
-    description:
-      "Estrutura ampla para atender consumidores, empresas e clientes profissionais.",
-    area: "120 m² ou mais",
-    team: "5+ pessoas",
-    tag: "Maior potencial",
-  },
-];
-
 export const segments = [
   {
     name: "Casa",
