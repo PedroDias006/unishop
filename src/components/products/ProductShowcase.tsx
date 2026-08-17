@@ -378,9 +378,9 @@ export function ProductShowcase({ active, onActiveChange }: ProductShowcaseProps
 
                   {/* Badge Superior Direito Flutuante */}
                   {product.badge && (
-                    <div className="product-badge-float absolute right-[5%] top-0 z-30 flex items-center gap-2 rounded-full border border-gray-100 bg-white px-5 py-3 shadow-[0_15px_35px_rgba(0,0,0,0.08)]">
-                      <Sparkles size={18} style={{ color: product.accentColor }} />
-                      <span className="text-[12px] font-black uppercase tracking-wider text-[#092b4c]">
+                    <div className="product-badge-float absolute right-[5%] top-0 z-30 flex items-center gap-2 rounded-full border border-gray-100 bg-white px-3.5 py-2 shadow-[0_15px_35px_rgba(0,0,0,0.08)] sm:px-5 sm:py-3">
+                      <Sparkles size={18} className="shrink-0" style={{ color: product.accentColor }} />
+                      <span className="text-[10px] font-black uppercase tracking-wider text-[#092b4c] sm:text-[12px]">
                         {product.badge}
                       </span>
                     </div>
@@ -404,12 +404,15 @@ export function ProductShowcase({ active, onActiveChange }: ProductShowcaseProps
                   </div>
 
                   {/* Cartão Branco Flutuante Inferior (Stats) - Traz muita autoridade */}
-                  <div className="relative z-30 mt-[-20px] flex w-full max-w-[650px] items-center justify-between rounded-2xl border border-gray-100 bg-white px-6 py-6 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] sm:px-10 lg:mt-[-40px]">
+                  {/* No telefone os três números dividiam ~93px cada e "30 Litros"
+                      quebrava no meio: vira grade de três colunas com o número
+                      menor. */}
+                  <div className="relative z-30 mt-[-20px] grid w-full max-w-[650px] grid-cols-3 gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-5 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] sm:flex sm:items-center sm:justify-between sm:px-10 sm:py-6 lg:mt-[-40px]">
                     {product.stats.map((stat, i) => (
                       <div key={i} className="flex items-center gap-4">
                         <div className="flex flex-col">
                           {stat.value && (
-                            <span className="text-[24px] font-black leading-none text-[#092b4c] sm:text-[32px]">
+                            <span className="text-[17px] font-black leading-none text-[#092b4c] sm:text-[32px]">
                               {stat.value}
                             </span>
                           )}

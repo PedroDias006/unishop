@@ -81,6 +81,18 @@ input {
   font: inherit;
 }
 
+/* O Safari do iPhone dá zoom na página inteira quando o campo que recebe o
+   foco tem fonte menor que 16px — e não desfaz o zoom depois, o que deixa o
+   site torto até o visitante voltar na mão. Abaixo de 768px todo campo sobe
+   para 16px; do tablet para cima cada componente mantém o tamanho que definiu. */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
 ::selection {
   background: var(--brand-yellow);
   color: var(--brand-blue-950);

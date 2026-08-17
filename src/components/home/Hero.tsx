@@ -10,6 +10,18 @@ import {
   useState,
 } from "react";
 
+/**
+ * `mobile` descreve o banner na versão de telefone, onde o layout é outro.
+ *
+ * As artes são 3:1 (2172x724). Empilhadas num retrato de 375px elas perdiam
+ * ~80% da largura e o assunto sumia, então no telefone a foto vira uma faixa
+ * no topo e o texto desce para um painel azul — sempre com a mesma anatomia
+ * (olho, título, apoio, botão), o que dá coerência entre os cinco banners.
+ *
+ * `focus` é o object-position da faixa. O valor sai do ponto onde está o
+ * assunto de cada arte: loja ~62% da largura, indústria ~80%, parceria ~28%
+ * (pessoa à esquerda) e profissional ~83%.
+ */
 const slides = [
   {
     id: "produtos",
@@ -31,6 +43,15 @@ const slides = [
     fullImage: "/images/hero/fundo.webp",
     fullHref: "/produtos",
     fullAlt: "Produtos Azulim, Tuff, Asseptgel, Start Pro e Pedrex sobre uma bancada",
+    mobile: {
+      focus: "object-[55%_center]",
+      eyebrow: "Para casa e para o seu negócio",
+      lead: "Mais cuidado.",
+      accent: "Menos complicação.",
+      tail: null,
+      text: "Limpeza, higiene e descartáveis das marcas que você já conhece, com orientação de quem entende.",
+      cta: { label: "Conhecer os produtos", href: "/produtos" },
+    },
   },
   {
     id: "lojas",
@@ -48,6 +69,15 @@ const slides = [
     fullImage: "/images/hero/banner-loja-informacoes-v2.webp",
     fullHref: "/modelo-de-negocio",
     fullAlt: "Transforme sua loja em uma Unishop",
+    mobile: {
+      focus: "object-[74%_center]",
+      eyebrow: "Transforme sua loja",
+      lead: "Em uma",
+      accent: "Unishop!",
+      tail: null,
+      text: "Limpeza, descartáveis, EPIs, utilidades e embalagens para ampliar suas vendas com suporte completo.",
+      cta: { label: "Saiba mais", href: "/modelo-de-negocio" },
+    },
   },
   {
     id: "industria",
@@ -65,6 +95,15 @@ const slides = [
     fullImage: "/images/hero/banner-industria-base-v2.webp",
     fullHref: "/sobre",
     fullAlt: "Estrutura da indústria e distribuição da Rede Unishop",
+    mobile: {
+      focus: "object-[100%_center]",
+      eyebrow: "Da origem à entrega",
+      lead: "Estrutura que",
+      accent: "inspira confiança.",
+      tail: null,
+      text: "Uma operação integrada para levar qualidade e variedade a todo o Brasil.",
+      cta: { label: "Conhecer a Unishop", href: "/sobre" },
+    },
   },
   {
     id: "parceria",
@@ -82,6 +121,15 @@ const slides = [
     fullImage: "/images/hero/banner-parceria-informacoes-v2.webp",
     fullHref: "/seja-parceiro",
     fullAlt: "Oportunidade de faturamento com limpeza e higienização",
+    mobile: {
+      focus: "object-[10%_center]",
+      eyebrow: "Oportunidade de negócio",
+      lead: "Fature até",
+      accent: "R$120 mil",
+      tail: "por mês com limpeza e higienização",
+      text: "Invista a partir de R$60 mil e tenha suporte completo para começar.",
+      cta: { label: "Quero conhecer", href: "/seja-parceiro" },
+    },
   },
   {
     id: "profissional",
@@ -99,6 +147,15 @@ const slides = [
     fullImage: "/images/hero/banner-solucoes-profissionais-v1.webp",
     fullHref: "/produtos",
     fullAlt: "Soluções profissionais para limpeza de alta performance",
+    mobile: {
+      focus: "object-[100%_center]",
+      eyebrow: "Soluções profissionais",
+      lead: "Performance",
+      accent: "para quem faz.",
+      tail: null,
+      text: "Produtos, equipamentos e orientação para operações que exigem eficiência todos os dias.",
+      cta: { label: "Explorar soluções", href: "/produtos" },
+    },
   },
 ] as const;
 
@@ -199,7 +256,10 @@ export function Hero() {
       }}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      className="relative isolate min-h-[820px] touch-pan-y overflow-hidden bg-[#041b49] text-white sm:min-h-[920px] lg:min-h-[760px]"
+      // 86svh (e não 100vh) deixa a próxima seção despontar por baixo, que é o
+      // que avisa ao visitante de telefone que a página continua. `svh` evita o
+      // salto de altura quando a barra do navegador móvel recolhe.
+      className="relative isolate min-h-[max(600px,86svh)] touch-pan-y overflow-hidden bg-[#041b49] text-white md:min-h-[920px] lg:min-h-[760px]"
     >
       <div aria-live={paused ? "polite" : "off"} className="absolute inset-0">
         {slides.map((slide, index) => {
@@ -224,9 +284,86 @@ export function Hero() {
                 active ? "hero-slide-active" : ""
               }`}
             >
+              {/* ============================ TELEFONE ============================
+                  Foto em faixa no topo + painel de texto embaixo. Os cinco
+                  banners usam exatamente esta anatomia; só a arte e as palavras
+                  mudam. */}
+              <div className="absolute inset-x-0 bottom-0 top-[88px] flex flex-col bg-[#04193f] md:hidden">
+                {/* A faixa é quem absorve a sobra de altura (`flex-1`), e o
+                    texto ocupa o que precisa. Com a faixa em porcentagem fixa,
+                    num aparelho de 640px o botão caía para fora da seção. */}
+                <div className="relative min-h-[120px] flex-1 overflow-hidden">
+                  {mounted ? (
+                    <Image
+                      src={slide.fullImage}
+                      alt=""
+                      aria-hidden="true"
+                      fill
+                      priority={index === 0}
+                      sizes="100vw"
+                      className={`select-none object-cover ${slide.mobile.focus}`}
+                    />
+                  ) : null}
+
+                  {/* A vitrine das cinco marcas é o assunto do primeiro banner:
+                      no telefone ela se apoia na base da faixa. */}
+                  {slide.id === "produtos" && mounted ? (
+                    <Image
+                      src="/images/hero/vitrine-marcas.webp"
+                      alt={slide.fullAlt}
+                      width={3651}
+                      height={976}
+                      priority
+                      sizes="120vw"
+                      className="absolute bottom-3 left-1/2 h-auto w-[120%] max-w-none -translate-x-1/2 select-none"
+                    />
+                  ) : null}
+
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(4,25,63,0)_0%,rgba(4,25,63,0.72)_55%,#04193f_100%)]"
+                  />
+                </div>
+
+                {/* pb-20 reserva a faixa do marcador: com padding menor, num
+                    aparelho de 640px o botão encostava nas bolinhas. */}
+                <div className="hero-slide-copy relative z-10 flex shrink-0 flex-col px-5 pb-20 sm:px-8">
+                  <p className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69]">
+                    <span aria-hidden="true" className="h-px w-7 shrink-0 bg-[#ffc928]" />
+                    {slide.mobile.eyebrow}
+                  </p>
+
+                  <h1 className="mt-4 text-[clamp(2.15rem,10.2vw,2.75rem)] font-black uppercase leading-[0.9] tracking-[-0.045em] text-white">
+                    {slide.mobile.lead}
+                    <span className="mt-1 block text-[#ffc928]">
+                      {slide.mobile.accent}
+                    </span>
+                    {slide.mobile.tail ? (
+                      <span className="mt-2 block text-[clamp(1rem,4.4vw,1.3rem)] leading-[1.15] tracking-[-0.02em]">
+                        {slide.mobile.tail}
+                      </span>
+                    ) : null}
+                  </h1>
+
+                  <p className="mt-4 text-[15px] font-medium leading-6 text-white/75">
+                    {slide.mobile.text}
+                  </p>
+
+                  <Link
+                    href={slide.mobile.cta.href}
+                    tabIndex={active ? 0 : -1}
+                    className="mt-7 inline-flex min-h-13 w-fit items-center gap-3 rounded-full bg-[#ffc928] px-7 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)]"
+                  >
+                    {slide.mobile.cta.label}
+                    <ArrowRight size={17} />
+                  </Link>
+                </div>
+              </div>
+
+              {/* ======================== TABLET E DESKTOP ======================== */}
               {fullArtwork ? (
                 slide.visual === "products" ? (
-                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#041b49] sm:top-[96px]">
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#041b49] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
@@ -295,7 +432,7 @@ export function Hero() {
                     </div>
                   </div>
                 ) : slide.visual === "store" ? (
-                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]">
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
@@ -339,7 +476,7 @@ export function Hero() {
                     </div>
                   </div>
                 ) : slide.visual === "industry" ? (
-                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]">
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
@@ -385,7 +522,7 @@ export function Hero() {
                     </div>
                   </div>
                 ) : slide.visual === "professional" ? (
-                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#fdbd08] sm:top-[96px]">
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#fdbd08] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
@@ -431,7 +568,7 @@ export function Hero() {
                     </div>
                   </div>
                 ) : slide.visual === "partner" ? (
-                  <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]">
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
@@ -489,7 +626,7 @@ export function Hero() {
                     href={fullArtwork.href}
                     tabIndex={active ? 0 : -1}
                     aria-label={fullArtwork.alt}
-                    className="absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px]"
+                    className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px] md:block"
                   >
                     {mounted ? (
                       <Image
@@ -512,7 +649,7 @@ export function Hero() {
         type="button"
         onClick={previousSlide}
         aria-label="Banner anterior"
-        className={`group absolute left-0 top-1/2 z-50 grid h-20 w-11 -translate-y-1/2 place-items-center rounded-r-full border border-l-0 backdrop-blur-sm transition duration-300 hover:w-13 ${
+        className={`group absolute left-0 top-1/2 z-50 hidden h-20 w-11 -translate-y-1/2 place-items-center rounded-r-full border border-l-0 backdrop-blur-sm transition duration-300 hover:w-13 md:grid ${
           slides[activeSlide].darkText
             ? "border-[#07396e]/15 bg-white/12 text-[#07396e]/55 hover:bg-white/22 hover:text-[#07396e]"
             : "border-white/10 bg-[#031a43]/12 text-white/50 hover:bg-[#031a43]/28 hover:text-white"
@@ -525,7 +662,7 @@ export function Hero() {
         type="button"
         onClick={nextSlide}
         aria-label="Próximo banner"
-        className={`group absolute right-0 top-1/2 z-50 grid h-20 w-11 -translate-y-1/2 place-items-center rounded-l-full border border-r-0 backdrop-blur-sm transition duration-300 hover:w-13 ${
+        className={`group absolute right-0 top-1/2 z-50 hidden h-20 w-11 -translate-y-1/2 place-items-center rounded-l-full border border-r-0 backdrop-blur-sm transition duration-300 hover:w-13 md:grid ${
           slides[activeSlide].darkText
             ? "border-[#07396e]/15 bg-white/12 text-[#07396e]/55 hover:bg-white/22 hover:text-[#07396e]"
             : "border-white/10 bg-[#031a43]/12 text-white/50 hover:bg-[#031a43]/28 hover:text-white"
@@ -533,6 +670,27 @@ export function Hero() {
       >
         <ChevronRight size={22} className="transition-transform group-hover:translate-x-0.5" />
       </button>
+
+      {/* No telefone as setas laterais cobriam o texto, então a navegação vira
+          um marcador embaixo — que também revela que existem cinco banners. */}
+      <div className="absolute inset-x-0 bottom-3 z-50 flex justify-center gap-2 md:hidden">
+        {slides.map((slide, index) => (
+          <button
+            key={slide.id}
+            type="button"
+            onClick={() => goToSlide(index)}
+            aria-label={`Ir para o banner ${index + 1}: ${slide.mobile.eyebrow}`}
+            aria-current={index === activeSlide}
+            className="grid h-11 w-7 place-items-center"
+          >
+            <span
+              className={`block h-1.5 rounded-full transition-all duration-300 ${
+                index === activeSlide ? "w-7 bg-[#ffc928]" : "w-3 bg-white/35"
+              }`}
+            />
+          </button>
+        ))}
+      </div>
     </section>
   );
 }

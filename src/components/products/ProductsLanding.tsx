@@ -35,8 +35,11 @@ export function ProductsLanding() {
           SECÇÃO 1: HERO IMPRESSIONANTE
       ====================================================================== */}
       <section className="relative w-full flex flex-col">
-        {/* IMAGEM E TEXTO (90% DA TELA) */}
-        <div className="relative flex h-[90vh] min-h-[700px] w-full flex-col justify-center overflow-hidden">
+        {/* IMAGEM E TEXTO (90% DA TELA)
+            `svh` no lugar de `vh`: no telefone o `vh` ignora a barra do
+            navegador e empurrava o botão para fora da tela. No aparelho o topo
+            também é mais baixo, para o bloco de marcas despontar por baixo. */}
+        <div className="relative flex h-[80svh] min-h-[540px] w-full flex-col justify-center overflow-hidden lg:h-[90svh] lg:min-h-[700px]">
           <ProductsHeroMedia />
 
           <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-12">
