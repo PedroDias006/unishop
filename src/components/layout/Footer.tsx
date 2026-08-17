@@ -11,11 +11,11 @@ import {
 import { Container } from "@/components/ui/Container";
 
 const footerNavigation = [
-  { label: "A Unishop", href: "/sobre" },
+  { label: "Nossa história", href: "/sobre" },
   { label: "Produtos", href: "/produtos" },
-  { label: "Modelo de negócio", href: "/modelo-de-negocio" },
+  { label: "Faça parte da Unishop", href: "/modelo-de-negocio" },
+  { label: "Blog", href: "/blog" },
   { label: "Encontre uma loja", href: "/lojas" },
-  { label: "Conteúdos", href: "/conteudos" },
 ];
 
 const socialLinks = [
@@ -62,8 +62,10 @@ export function Footer() {
               <Image
                 src="/images/logotipo.webp"
                 alt="Rede Unishop"
-                width={330}
-                height={110}
+                width={660}
+                height={440}
+                sizes="200px"
+                loading="lazy"
                 className="h-auto w-[180px] object-contain sm:w-[200px]"
               />
             </Link>
@@ -139,10 +141,10 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Rede Unishop. Todos os direitos reservados.</p>
           <div className="flex gap-5">
             <Link href="/sobre" className="transition hover:text-white/85">
-              Sobre a Unishop
+              Nossa história
             </Link>
-            <Link href="/conteudos" className="transition hover:text-white/85">
-              Conteúdos
+            <Link href="/blog" className="transition hover:text-white/85">
+              Blog
             </Link>
           </div>
         </Container>

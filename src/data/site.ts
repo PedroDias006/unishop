@@ -7,6 +7,14 @@ import {
   Shirt,
 } from "lucide-react";
 
+/**
+ * Domínio público do site. Usado para canonical, Open Graph e sitemap.
+ * Defina NEXT_PUBLIC_SITE_URL no ambiente para apontar a outro domínio
+ * (staging, preview) sem alterar o código.
+ */
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://redeunishop.com.br";
+
 export const stats = [
   { value: "+500", label: "lojas no Brasil" },
   { value: "27", label: "estados atendidos" },

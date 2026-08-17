@@ -1,6 +1,5 @@
 "use client";
 
-import brazil from "@svg-maps/brazil";
 import { Check, LoaderCircle, MapPin, Search } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
@@ -54,10 +53,14 @@ const regions: Record<string, string> = {
   to: "Norte",
 };
 
-const brazilMap = brazil as {
+type BrazilMap = {
   viewBox: string;
   locations: Array<{ id: string; name: string; path: string }>;
 };
+
+// Placeholder até o mapa entrar. O viewBox é o mesmo do arquivo real, então a
+// caixa já nasce com a altura definitiva e a seção não salta.
+const emptyMap: BrazilMap = { viewBox: "0 0 613 639", locations: [] };
 
 function normalize(value: string) {
   return value
@@ -69,6 +72,8 @@ function normalize(value: string) {
 
 export function BrazilPresence() {
   const mapRef = useRef<SVGSVGElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [brazilMap, setBrazilMap] = useState<BrazilMap>(emptyMap);
   const [data, setData] = useState<LocationPayload | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
@@ -105,20 +110,53 @@ export function BrazilPresence() {
     : 0;
 
   useEffect(() => {
+    // O traçado do mapa (~64 KB) e a lista de unidades só são buscados quando
+    // a seção se aproxima da tela. Antes, ambos saíam junto com a home inteira.
+    const section = sectionRef.current;
     const controller = new AbortController();
+    let started = false;
 
-    fetch("/api/unishop-locations", { signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error("Location request failed");
-        return response.json() as Promise<LocationPayload>;
-      })
-      .then((payload) => setData(payload))
-      .catch((error: unknown) => {
-        if (!(error instanceof DOMException && error.name === "AbortError")) setData(null);
-      })
-      .finally(() => setIsLoading(false));
+    function load() {
+      if (started) return;
+      started = true;
 
-    return () => controller.abort();
+      import("@svg-maps/brazil")
+        .then((module) => setBrazilMap(module.default as BrazilMap))
+        .catch(() => setBrazilMap(emptyMap));
+
+      fetch("/api/unishop-locations", { signal: controller.signal })
+        .then((response) => {
+          if (!response.ok) throw new Error("Location request failed");
+          return response.json() as Promise<LocationPayload>;
+        })
+        .then((payload) => setData(payload))
+        .catch((error: unknown) => {
+          if (!(error instanceof DOMException && error.name === "AbortError")) setData(null);
+        })
+        .finally(() => setIsLoading(false));
+    }
+
+    if (!section || typeof IntersectionObserver !== "function") {
+      load();
+      return () => controller.abort();
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          load();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      controller.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -131,7 +169,7 @@ export function BrazilPresence() {
 
     if (!target || !location) return;
     setSelectedState(getStateFocus(location.id, location.name, target));
-  }, [activeStateIds, selectedState]);
+  }, [activeStateIds, brazilMap, selectedState]);
 
   function getStateFocus(id: string, name: string, target: SVGPathElement): StateFocus {
     const bounds = target.getBBox();
@@ -169,6 +207,7 @@ export function BrazilPresence() {
 
   return (
     <section
+      ref={sectionRef}
       id="presenca"
       className="scroll-mt-28 overflow-hidden bg-[linear-gradient(115deg,#04316c_0%,#095794_100%)] py-20 font-[Manrope] text-white sm:py-28"
     >

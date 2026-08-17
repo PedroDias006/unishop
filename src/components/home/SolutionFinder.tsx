@@ -730,7 +730,7 @@ export function SolutionFinder({
 
         <div className="absolute inset-x-0 bottom-0 top-[48%] sm:left-[36%] sm:top-[24%] lg:left-[46%] lg:top-0">
           <Image
-            src="/images/home/consultora-crie-sua-solucao-v1.png"
+            src="/images/home/consultora-crie-sua-solucao-v1.webp"
             alt="Consultora Unishop apresentando o criador de soluções"
             fill
             priority
@@ -752,9 +752,9 @@ export function SolutionFinder({
 
               <h2 className="max-w-[650px] text-[clamp(2.75rem,4.25vw,4.9rem)] font-[650] leading-[0.98] tracking-[-0.047em] text-[#092f5b]">
                 A solução certa começa pela
-                <span className="relative ml-2 inline-block text-[#c99500] sm:ml-3">
+                <span className="relative ml-2 inline-block text-[#e0a100] sm:ml-3">
                   sua rotina.
-                  <span className="absolute inset-x-0 -bottom-2 h-px bg-[linear-gradient(90deg,#d6a300,transparent)]" />
+                  <span className="absolute inset-x-0 -bottom-2 h-px bg-[linear-gradient(90deg,#f0b400,transparent)]" />
                 </span>
               </h2>
 
@@ -810,8 +810,9 @@ export function SolutionFinder({
               <Image
                 src="/images/logotipo.webp"
                 alt="Logotipo"
-                width={125}
-                height={54}
+                width={660}
+                height={440}
+                sizes="125px"
                 className="h-auto w-[105px] object-contain sm:w-[125px]"
               />
 

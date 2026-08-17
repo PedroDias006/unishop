@@ -10,7 +10,7 @@ const models = [
     area: "40–60 m²",
     team: "2–3 pessoas",
     description: "Uma operação enxuta para começar com eficiência e todo o suporte da rede.",
-    image: "/images/home/modelo-loja-compacta-v1.png",
+    image: "/images/home/modelo-loja-compacta-v1.webp",
     imagePosition: "center",
   },
   {
@@ -20,7 +20,7 @@ const models = [
     area: "70–100 m²",
     team: "3–5 pessoas",
     description: "Mais espaço para produtos, estoque e um atendimento ainda mais consultivo.",
-    image: "/images/home/modelo-loja-intermediaria-v1.png",
+    image: "/images/home/modelo-loja-intermediaria-v1.webp",
     imagePosition: "center",
   },
   {
@@ -30,7 +30,7 @@ const models = [
     area: "120 m² ou mais",
     team: "5+ pessoas",
     description: "Estrutura ampla para atender consumidores, empresas e profissionais.",
-    image: "/images/home/modelo-loja-completa-v1.png",
+    image: "/images/home/modelo-loja-completa-v1.webp",
     imagePosition: "center",
   },
 ] as const;
