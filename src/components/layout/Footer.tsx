@@ -40,7 +40,7 @@ const socialLinks = [
   },
   {
     label: "LinkedIn",
-    href: "https://br.linkedin.com/company/redeunishop",
+    href: "https://www.linkedin.com/showcase/redeunishop/",
     Icon: FaLinkedinIn,
     className: "bg-[#0A66C2] hover:bg-[#1674d0]",
   },

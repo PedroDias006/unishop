@@ -21,6 +21,11 @@ import {
  * `focus` é o object-position da faixa. O valor sai do ponto onde está o
  * assunto de cada arte: loja ~62% da largura, indústria ~80%, parceria ~28%
  * (pessoa à esquerda) e profissional ~83%.
+ *
+ * `facts` são os três dados que aparecem abaixo do botão. Existem porque o
+ * banner sozinho só dizia uma frase de efeito: quem chegava rolava a página
+ * inteira sem descobrir o tamanho da rede, o preço de entrada ou o que a loja
+ * vende. Todos saem de `docs/conteudo-fontes.md` — nenhum é estimativa.
  */
 const slides = [
   {
@@ -43,6 +48,11 @@ const slides = [
     fullImage: "/images/hero/fundo.webp",
     fullHref: "/produtos",
     fullAlt: "Produtos Azulim, Tuff, Asseptgel, Start Pro e Pedrex sobre uma bancada",
+    facts: [
+      { value: "+2.000", label: "itens no mix de produtos" },
+      { value: "5 marcas", label: "Azulim, Tuff, Asseptgel, Start PRO e Pedrex" },
+      { value: "Da casa à indústria", label: "no mesmo balcão" },
+    ],
     mobile: {
       focus: "object-[55%_center]",
       eyebrow: "Para casa e para o seu negócio",
@@ -69,6 +79,11 @@ const slides = [
     fullImage: "/images/hero/banner-loja-informacoes-v2.webp",
     fullHref: "/modelo-de-negocio",
     fullAlt: "Transforme sua loja em uma Unishop",
+    facts: [
+      { value: "Sem royalties", label: "nem taxa de franquia, nem mensalidade" },
+      { value: "3 formatos", label: "de 50 m² a 100 m² ou mais" },
+      { value: "Marketing incluso", label: "fachada, PDV e campanhas mensais" },
+    ],
     mobile: {
       focus: "object-[74%_center]",
       eyebrow: "Transforme sua loja",
@@ -95,6 +110,11 @@ const slides = [
     fullImage: "/images/hero/banner-industria-base-v2.webp",
     fullHref: "/sobre",
     fullAlt: "Estrutura da indústria e distribuição da Rede Unishop",
+    facts: [
+      { value: "Desde 1987", label: "fábrica própria em Uberlândia (MG)" },
+      { value: "+500 lojas", label: "em 27 estados brasileiros" },
+      { value: "Lima & Pergher", label: "entre as 10 maiores do setor no país" },
+    ],
     mobile: {
       focus: "object-[100%_center]",
       eyebrow: "Da origem à entrega",
@@ -121,6 +141,11 @@ const slides = [
     fullImage: "/images/hero/banner-parceria-informacoes-v2.webp",
     fullHref: "/seja-parceiro",
     fullAlt: "Oportunidade de faturamento com limpeza e higienização",
+    facts: [
+      { value: "18 a 24 meses", label: "de retorno do investimento" },
+      { value: "Até 20%", label: "de lucro líquido" },
+      { value: "Estoque inicial", label: "e documentação inclusos no valor" },
+    ],
     mobile: {
       focus: "object-[10%_center]",
       eyebrow: "Oportunidade de negócio",
@@ -147,6 +172,11 @@ const slides = [
     fullImage: "/images/hero/banner-solucoes-profissionais-v1.webp",
     fullHref: "/produtos",
     fullAlt: "Soluções profissionais para limpeza de alta performance",
+    facts: [
+      { value: "53 tipos", label: "de operação atendidos" },
+      { value: "Orientação técnica", label: "do produto à forma de aplicar" },
+      { value: "Linha Start PRO", label: "piso, predial e alimentícia" },
+    ],
     mobile: {
       focus: "object-[100%_center]",
       eyebrow: "Soluções profissionais",
@@ -158,6 +188,75 @@ const slides = [
     },
   },
 ] as const;
+
+type HeroFact = { value: string; label: string };
+
+/**
+ * A faixa de dados que fecha cada banner. Em tela larga os três ficam lado a
+ * lado separados por um filete; no telefone viram duas colunas para não
+ * espremer a linha em três palavras cada.
+ *
+ * `tone` existe por causa do banner amarelo: lá o texto branco sumiria, então
+ * a mesma faixa inverte para azul-marinho.
+ */
+function HeroFacts({
+  facts,
+  tone = "light",
+  stacked = false,
+  className = "",
+}: {
+  facts: readonly HeroFact[];
+  tone?: "light" | "dark";
+  /** Para a coluna estreita do banner de parceria, onde os três lado a lado
+   *  virariam três palavras espremidas. */
+  stacked?: boolean;
+  className?: string;
+}) {
+  const divider = tone === "dark" ? "sm:border-[#07396e]/20" : "sm:border-white/20";
+  const value = tone === "dark" ? "text-[#052d64]" : "text-white";
+  const label = tone === "dark" ? "text-[#07396e]/70" : "text-white/60";
+
+  if (stacked) {
+    return (
+      <dl className={`space-y-2.5 ${className}`}>
+        {facts.map((fact) => (
+          <div key={fact.value} className="flex items-baseline gap-2.5">
+            <dt
+              className={`shrink-0 text-[13px] font-black uppercase leading-tight ${value}`}
+            >
+              {fact.value}
+            </dt>
+            <dd className={`text-[11px] font-semibold leading-[1.35] ${label}`}>
+              {fact.label}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    );
+  }
+
+  return (
+    <dl className={`grid grid-cols-2 gap-x-4 gap-y-4 sm:flex sm:flex-wrap sm:gap-x-0 sm:gap-y-3 ${className}`}>
+      {facts.map((fact, index) => (
+        <div
+          key={fact.value}
+          className={`sm:max-w-[186px] sm:px-5 sm:first:pl-0 ${
+            index > 0 ? `sm:border-l ${divider}` : ""
+          } ${index === 2 ? "max-sm:col-span-2" : ""}`}
+        >
+          <dt
+            className={`text-[13px] font-black uppercase leading-tight tracking-[-0.01em] ${value} sm:text-sm`}
+          >
+            {fact.value}
+          </dt>
+          <dd className={`mt-1 text-[11px] font-semibold leading-[1.3] ${label} sm:text-xs`}>
+            {fact.label}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 export function Hero() {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -259,7 +358,12 @@ export function Hero() {
       // 86svh (e não 100vh) deixa a próxima seção despontar por baixo, que é o
       // que avisa ao visitante de telefone que a página continua. `svh` evita o
       // salto de altura quando a barra do navegador móvel recolhe.
-      className="relative isolate min-h-[max(600px,86svh)] touch-pan-y overflow-hidden bg-[#041b49] text-white md:min-h-[920px] lg:min-h-[760px]"
+      //
+      // O piso subiu de 600px para 700px quando a faixa de dados entrou: num
+      // aparelho de 640px de altura o painel de texto passou a medir ~465px e,
+      // somado à faixa da foto (120px) e ao topo (88px), não cabia em 600 — o
+      // botão e os dados eram cortados pelo `overflow-hidden` do slide.
+      className="relative isolate min-h-[max(700px,86svh)] touch-pan-y overflow-hidden bg-[#041b49] text-white md:min-h-[920px] lg:min-h-[760px]"
     >
       <div aria-live={paused ? "polite" : "off"} className="absolute inset-0">
         {slides.map((slide, index) => {
@@ -327,13 +431,13 @@ export function Hero() {
 
                 {/* pb-20 reserva a faixa do marcador: com padding menor, num
                     aparelho de 640px o botão encostava nas bolinhas. */}
-                <div className="hero-slide-copy relative z-10 flex shrink-0 flex-col px-5 pb-20 sm:px-8">
+                <div className="hero-slide-copy relative z-10 flex shrink-0 flex-col px-5 pb-16 sm:px-8">
                   <p className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69]">
                     <span aria-hidden="true" className="h-px w-7 shrink-0 bg-[#ffc928]" />
                     {slide.mobile.eyebrow}
                   </p>
 
-                  <h1 className="mt-4 text-[clamp(2.15rem,10.2vw,2.75rem)] font-black uppercase leading-[0.9] tracking-[-0.045em] text-white">
+                  <h1 className="mt-4 text-[clamp(1.9rem,8.8vw,2.45rem)] font-black uppercase leading-[0.9] tracking-[-0.045em] text-white">
                     {slide.mobile.lead}
                     <span className="mt-1 block text-[#ffc928]">
                       {slide.mobile.accent}
@@ -345,18 +449,23 @@ export function Hero() {
                     ) : null}
                   </h1>
 
-                  <p className="mt-4 text-[15px] font-medium leading-6 text-white/75">
+                  <p className="mt-3.5 text-[14px] font-medium leading-[1.45] text-white/75">
                     {slide.mobile.text}
                   </p>
 
                   <Link
                     href={slide.mobile.cta.href}
                     tabIndex={active ? 0 : -1}
-                    className="mt-7 inline-flex min-h-13 w-fit items-center gap-3 rounded-full bg-[#ffc928] px-7 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)]"
+                    className="mt-5 inline-flex min-h-12 w-fit items-center gap-3 rounded-full bg-[#ffc928] px-6 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)]"
                   >
                     {slide.mobile.cta.label}
                     <ArrowRight size={17} />
                   </Link>
+
+                  <HeroFacts
+                    facts={slide.facts}
+                    className="mt-5 border-t border-white/12 pt-4"
+                  />
                 </div>
               </div>
 
@@ -404,23 +513,31 @@ export function Hero() {
                         produtos podem ser bem maiores. */}
                     <div className="absolute inset-0 mx-auto flex w-full max-w-[1728px] items-start px-5 pt-9 sm:px-[5.5%] sm:pt-[6%] lg:px-[3.4%] lg:pt-[5%] xl:px-[2.8%]">
                       <div className="hero-slide-copy relative z-20 w-full sm:w-[52%] sm:max-w-[620px]">
-                        <h1 className="text-[clamp(2.5rem,5vw,5.75rem)] font-black uppercase leading-[0.86] tracking-[-0.055em] text-white">
+                        <p className="mb-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69] sm:text-xs lg:text-sm">
+                          <span aria-hidden="true" className="h-px w-8 bg-[#ffc928]" />
+                          Para casa e para o seu negócio
+                        </p>
+
+                        {/* O título encolheu de 5,75rem para 4,75rem: era ele
+                            que empurrava o texto de apoio e a faixa de dados
+                            para fora do quadro. */}
+                        <h1 className="text-[clamp(2.5rem,4.2vw,4.75rem)] font-black uppercase leading-[0.88] tracking-[-0.055em] text-white">
                           Mais cuidado.
-                          <span className="mt-2 block text-[#ffc928] sm:mt-3">
-                            Menos
-                            <br />
-                            complicação.
+                          <span className="mt-2 block text-[#ffc928]">
+                            Menos complicação.
                           </span>
                         </h1>
 
-                        <p className="sr-only">
-                          Produtos para casa e negócios, com orientação especializada e uma Rede Unishop perto de você.
+                        <p className="mt-5 max-w-[520px] text-sm font-semibold leading-6 text-white/78 lg:text-base lg:leading-7">
+                          Limpeza, higiene, assepsia e descartáveis das marcas
+                          que você já conhece — com quem sabe indicar o produto
+                          certo e a forma correta de aplicar.
                         </p>
 
                         <Link
                           href={fullArtwork.href}
                           tabIndex={active ? 0 : -1}
-                          className="group mt-8 inline-flex min-h-13 items-center gap-3 rounded-full bg-[#ffc928] px-6 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)] transition duration-300 hover:-translate-y-1 hover:bg-[#ffda55]"
+                          className="group mt-7 inline-flex min-h-13 items-center gap-3 rounded-full bg-[#ffc928] px-6 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)] transition duration-300 hover:-translate-y-1 hover:bg-[#ffda55]"
                         >
                           Conhecer os produtos
                           <ArrowRight
@@ -428,6 +545,11 @@ export function Hero() {
                             className="transition-transform duration-300 group-hover:translate-x-1"
                           />
                         </Link>
+
+                        <HeroFacts
+                          facts={slide.facts}
+                          className="mt-7 border-t border-white/14 pt-5"
+                        />
                       </div>
                     </div>
                   </div>
@@ -450,7 +572,7 @@ export function Hero() {
                           Transforme sua loja
                         </p>
 
-                        <h1 className="text-[clamp(2.5rem,5vw,5.75rem)] font-black uppercase leading-[0.86] tracking-[-0.055em] text-white">
+                        <h1 className="text-[clamp(2.4rem,4vw,4.6rem)] font-black uppercase leading-[0.86] tracking-[-0.055em] text-white">
                           Em uma
                           <span className="mt-2 block text-[#ffc928] sm:mt-3">
                             Unishop!
@@ -472,6 +594,11 @@ export function Hero() {
                             className="transition-transform group-hover:translate-x-1"
                           />
                         </Link>
+
+                        <HeroFacts
+                          facts={slide.facts}
+                          className="mt-7 border-t border-white/14 pt-5"
+                        />
                       </div>
                     </div>
                   </div>
@@ -496,7 +623,7 @@ export function Hero() {
                           Da origem à entrega
                         </p>
 
-                        <h1 className="text-[clamp(2.7rem,4.7vw,5.9rem)] font-black uppercase leading-[0.88] tracking-[-0.055em] text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.24)]">
+                        <h1 className="text-[clamp(2.4rem,3.9vw,4.6rem)] font-black uppercase leading-[0.88] tracking-[-0.055em] text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.24)]">
                           Estrutura que
                           <span className="mt-2 block text-[#ffc928]">
                             inspira confiança.
@@ -518,6 +645,11 @@ export function Hero() {
                             className="transition-transform group-hover:translate-x-1"
                           />
                         </Link>
+
+                        <HeroFacts
+                          facts={slide.facts}
+                          className="mt-7 border-t border-white/14 pt-5 text-left"
+                        />
                       </div>
                     </div>
                   </div>
@@ -542,7 +674,7 @@ export function Hero() {
                           Soluções profissionais
                         </p>
 
-                        <h1 className="text-[clamp(2.9rem,5.1vw,6.3rem)] font-black uppercase leading-[0.86] tracking-[-0.06em] text-[#052d64] drop-shadow-[0_2px_0_rgba(255,255,255,0.16)]">
+                        <h1 className="text-[clamp(2.5rem,4.1vw,4.8rem)] font-black uppercase leading-[0.86] tracking-[-0.06em] text-[#052d64] drop-shadow-[0_2px_0_rgba(255,255,255,0.16)]">
                           Performance
                           <span className="mt-2 block text-white drop-shadow-[0_3px_10px_rgba(103,67,0,0.22)]">
                             para quem faz.
@@ -564,6 +696,12 @@ export function Hero() {
                             className="text-[#ffc928] transition-transform group-hover:translate-x-1"
                           />
                         </Link>
+
+                        <HeroFacts
+                          facts={slide.facts}
+                          tone="dark"
+                          className="mt-7 border-t border-[#07396e]/20 pt-5 text-left"
+                        />
                       </div>
                     </div>
                   </div>
@@ -589,13 +727,13 @@ export function Hero() {
                         </p>
 
                         <h1 className="font-black uppercase leading-[0.88] tracking-[-0.045em] text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.28)]">
-                          <span className="block text-[clamp(1.55rem,2.25vw,3rem)] tracking-[-0.025em]">
+                          <span className="block text-[clamp(1.4rem,1.95vw,2.5rem)] tracking-[-0.025em]">
                             Fature até
                           </span>
-                          <span className="my-1 block text-[clamp(3.35rem,5.4vw,6.8rem)] text-[#ffc928] sm:my-2">
+                          <span className="my-1 block text-[clamp(2.8rem,4.3vw,5.2rem)] text-[#ffc928] sm:my-2">
                             R$120 mil
                           </span>
-                          <span className="block text-[clamp(1.2rem,1.85vw,2.35rem)] leading-[1.02] tracking-[-0.02em]">
+                          <span className="block text-[clamp(1.1rem,1.6vw,2rem)] leading-[1.02] tracking-[-0.02em]">
                             por mês com
                             <span className="mt-1 block">limpeza e higienização</span>
                           </span>
@@ -617,6 +755,12 @@ export function Hero() {
                               className="transition-transform group-hover:translate-x-1"
                             />
                           </Link>
+
+                          <HeroFacts
+                            facts={slide.facts}
+                            stacked
+                            className="mt-5 text-left"
+                          />
                         </div>
                       </div>
                     </div>

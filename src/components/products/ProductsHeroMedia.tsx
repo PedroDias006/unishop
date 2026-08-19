@@ -6,8 +6,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const POSTER = "/images/produtos/hero-poster.webp";
 
 /**
- * O vídeo do topo tem ~4,8 MB. O poster (17 KB) é o quadro inicial dele e
- * aparece na hora; o vídeo entra por cima quando dá.
+ * O poster (17 KB) é o quadro inicial do vídeo e aparece na hora; o vídeo
+ * entra por cima quando dá.
+ *
+ * O arquivo original tinha 4,56 MB porque vinha a 50 fps e 3225 kbps — cerca
+ * de quatro vezes o que 854x480 pede. Reencodado a 25 fps: 623 KB em mp4 e
+ * 389 KB em webm, com VMAF ~93 contra a fonte (a diferença some atrás do
+ * gradiente escuro que cobre o vídeo).
  *
  * Antes havia uma trava de largura mínima (1024px) que deixava o telefone
  * sempre na imagem parada — no aparelho o topo simplesmente não tinha vídeo.
@@ -83,7 +88,6 @@ export function ProductsHeroMedia() {
       {playVideo ? (
         <video
           ref={attachVideo}
-          src="/videos/produtos-hero.mp4"
           // Sem `poster`: o <Image> abaixo já mostra o mesmo quadro em webp, e o
           // atributo só faria o navegador baixar a versão jpg de novo.
           autoPlay
@@ -96,7 +100,13 @@ export function ProductsHeroMedia() {
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
             videoReady ? "opacity-100" : "opacity-0"
           }`}
-        />
+        >
+          {/* O navegador para no primeiro formato que souber tocar: o webm
+              (389 KB) atende Chrome/Android e Firefox, e o mp4 (623 KB) cobre
+              o resto, Safari do iPhone incluído. */}
+          <source src="/videos/produtos-hero.webm" type="video/webm" />
+          <source src="/videos/produtos-hero.mp4" type="video/mp4" />
+        </video>
       ) : null}
 
       <div className="absolute inset-0 bg-gradient-to-r from-[#092b4c]/80 via-[#092b4c]/50 to-transparent" />
