@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   ArrowLeft,
   Check,
@@ -435,9 +436,22 @@ export function BrazilPresence() {
           </div>
 
           <div className="mt-7 flex min-h-20 items-center gap-4 rounded-r-2xl border border-l-2 border-slate-200 border-l-[#ffc928] bg-white px-5 py-4 shadow-[0_12px_30px_rgba(6,31,73,0.05)]">
-            <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#ffc928] text-sm font-extrabold text-[#07396e]">
-              {activeState?.id.toUpperCase() ?? "BR"}
-            </span>
+            {activeState ? (
+              <span className="relative h-12 w-[68px] shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-[0_6px_16px_rgba(6,31,73,0.10)]">
+                <Image
+                  src={`/images/state-flags/${activeState.id}.svg`}
+                  alt={`Bandeira de ${activeState.name}`}
+                  fill
+                  sizes="68px"
+                  className="object-contain p-1"
+                  unoptimized
+                />
+              </span>
+            ) : (
+              <span className="grid size-11 shrink-0 place-items-center rounded-lg border border-slate-200 bg-slate-50 text-[#1472aa]">
+                <MapPin aria-hidden="true" className="size-5" />
+              </span>
+            )}
             <div>
               <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
                 {hoveredState ? "Estado em destaque" : "Estado selecionado"}
