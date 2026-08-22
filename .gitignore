@@ -26,6 +26,8 @@ pnpm-debug.log*
 
 # local env files
 .env*
+# o exemplo entra no repositório: é a documentação das variáveis
+!.env.example
 
 # vercel
 .vercel

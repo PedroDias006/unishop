@@ -16,6 +16,7 @@ import {
 import { Container } from "@/components/ui/Container";
 import { AuthoritySection } from "@/components/business/AuthoritySection";
 import { PartnerTestimonials } from "@/components/business/PartnerTestimonials";
+import type { DepoimentoEditorial } from "@/data/editorial";
 
 const models = [
   {
@@ -106,7 +107,11 @@ const journey = [
 
 type NetworkTotals = { stores: number; cities: number; states: number };
 
-export function BusinessOpportunityPage() {
+export function BusinessOpportunityPage({
+  depoimentos,
+}: {
+  depoimentos: DepoimentoEditorial[] | null;
+}) {
   const [activeModel, setActiveModel] = useState(1);
   const [networkStats, setNetworkStats] = useState<NetworkTotals | null>(null);
 
@@ -442,7 +447,7 @@ export function BusinessOpportunityPage() {
         </Container>
       </section>
 
-      <PartnerTestimonials />
+      <PartnerTestimonials depoimentos={depoimentos} />
     </>
   );
 }

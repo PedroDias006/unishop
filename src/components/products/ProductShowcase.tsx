@@ -13,7 +13,9 @@ import {
   Heart,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { linkDaMarca } from "@/data/produtos";
 
 // Dados focados na Linha Completa
 export const lines = [
@@ -353,21 +355,20 @@ export function ProductShowcase({ active, onActiveChange }: ProductShowcaseProps
                     ))}
                   </div>
 
-                  {/* Botão Call-to-Action (Focado em Vendas) */}
+                  {/* Botão Call-to-Action: leva para a vitrine já filtrada
+                      nesta marca, e não mais para o site da indústria. */}
                   <div className="mt-12">
-                    <a
-                      href={product.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link
+                      href={linkDaMarca(product.brand)}
                       tabIndex={index === active ? 0 : -1}
                       className="group inline-flex min-h-[56px] items-center gap-5 rounded-full py-2 pl-8 pr-2 text-[15px] font-bold text-white shadow-[0_12px_24px_rgba(7,86,201,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(7,86,201,0.35)]"
                       style={{ backgroundColor: product.accentColor }}
                     >
-                      Comprar a Linha Completa
+                      Ver todos os produtos {product.brand}
                       <span className="grid size-11 place-items-center rounded-full bg-white/20 text-white transition-transform duration-300 group-hover:rotate-45">
                         <ArrowUpRight size={18} />
                       </span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
 

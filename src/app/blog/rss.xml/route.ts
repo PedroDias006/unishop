@@ -1,4 +1,4 @@
-import { posts } from "@/content/blog";
+import { listarPosts } from "@/content/blog";
 import { siteUrl } from "@/data/site";
 
 function escapar(texto: string) {
@@ -11,7 +11,9 @@ function escapar(texto: string) {
 
 export const dynamic = "force-static";
 
-export function GET() {
+export async function GET() {
+  const posts = await listarPosts();
+
   const itens = posts
     .map((post) => {
       const url = `${siteUrl}/blog/${post.slug}`;

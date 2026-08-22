@@ -2,11 +2,16 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { PostCard } from "@/components/blog/PostCard";
 import { Container } from "@/components/ui/Container";
-import { posts } from "@/content/blog";
+import { listarPosts } from "@/content/blog";
 
 /** São 24 artigos publicados e nenhum aparecia na home. */
-export function BlogHighlights() {
-  const destaques = posts.slice(0, 3);
+export async function BlogHighlights() {
+  const posts = await listarPosts();
+  // O post marcado como destaque no painel vem primeiro; o resto segue a data.
+  const ordenados = [...posts].sort(
+    (a, b) => Number(Boolean(b.destaque)) - Number(Boolean(a.destaque)),
+  );
+  const destaques = ordenados.slice(0, 3);
 
   if (destaques.length === 0) return null;
 

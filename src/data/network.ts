@@ -106,6 +106,8 @@ export const brandUniverse = [
       "Ceras",
     ],
     logo: "/images/marcas/azulim.webp",
+    product: "/images/produtos-showcase/clorogel.webp",
+    background: "/images/produtos-showcase/azulim-fundo.webp",
     href: "https://www.startquimica.com.br/pt-BR/nossas-marcas/azulim",
   },
   {
@@ -121,6 +123,8 @@ export const brandUniverse = [
       "Odorizadores",
     ],
     logo: "/images/marcas/tuff.webp",
+    product: "/images/produtos-showcase/tuff-linha.webp",
+    background: "/images/produtos-showcase/tuff-fundo.webp",
     href: "https://www.startquimica.com.br/pt-BR/nossas-marcas/tuff",
   },
   {
@@ -130,6 +134,8 @@ export const brandUniverse = [
     highlight: "Elimina 99,9% dos germes e bactérias fixados na pele",
     categories: ["Álcool em gel", "Sprays antissépticos", "Sabonetes", "Espumas"],
     logo: "/images/marcas/assept.webp",
+    product: "/images/produtos-showcase/asseptgel.webp",
+    background: "/images/produtos-showcase/assept-fundo.webp",
     href: "https://www.startquimica.com.br/pt-BR/nossas-marcas/asseptgel-para-casa",
   },
   {
@@ -144,6 +150,8 @@ export const brandUniverse = [
       "Linha alimentícia",
     ],
     logo: "/images/marcas/startpro.webp",
+    product: "/images/produtos-showcase/lavinia.webp",
+    background: "/images/produtos-showcase/startpro-fundo.webp",
     href: "https://www.startquimica.com.br/pt-BR/nossas-marcas/start-pro",
   },
   {
@@ -153,6 +161,8 @@ export const brandUniverse = [
     highlight: "Não usar em azulejo, mármore, porcelanato ou piso vitrificado",
     categories: ["Tratamento de pisos", "Áreas externas", "Áreas de piscina"],
     logo: "/images/marcas/pedrex.webp",
+    product: "/images/produtos-showcase/pedrex.webp",
+    background: "/images/produtos-showcase/pedrex-fundo.webp",
     href: "https://www.startquimica.com.br/pt-BR/nossas-marcas/pedrex",
   },
 ] as const;

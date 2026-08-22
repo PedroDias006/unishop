@@ -1,6 +1,15 @@
 "use client";
 
-import { Check, LoaderCircle, MapPin, Search } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  ExternalLink,
+  LoaderCircle,
+  MapPin,
+  Navigation,
+  Search,
+  Store,
+} from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 
@@ -15,6 +24,14 @@ type CityLocation = {
   name: string;
   state: string;
   stores: number;
+  locations: StoreLocation[];
+};
+
+type StoreLocation = {
+  id: string;
+  name: string;
+  address: string;
+  phone?: string;
 };
 
 type LocationPayload = {
@@ -70,6 +87,22 @@ function normalize(value: string) {
     .trim();
 }
 
+function getMapsQuery(store: StoreLocation) {
+  return `${store.name}, ${store.address}`;
+}
+
+function getMapEmbedUrl(store: StoreLocation) {
+  return `https://www.google.com/maps?q=${encodeURIComponent(getMapsQuery(store))}&hl=pt-BR&z=16&output=embed`;
+}
+
+function getMapLinkUrl(store: StoreLocation) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(getMapsQuery(store))}`;
+}
+
+function getDirectionsUrl(store: StoreLocation) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(getMapsQuery(store))}`;
+}
+
 export function BrazilPresence() {
   const mapRef = useRef<SVGSVGElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -79,6 +112,7 @@ export function BrazilPresence() {
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState<CityLocation | null>(null);
+  const [selectedStore, setSelectedStore] = useState<StoreLocation | null>(null);
   const [selectedState, setSelectedState] = useState<StateFocus | null>(null);
   const [hoveredState, setHoveredState] = useState<StateFocus | null>(null);
 
@@ -194,6 +228,7 @@ export function BrazilPresence() {
 
   function chooseCity(city: CityLocation) {
     setSelectedCity(city);
+    setSelectedStore(city.locations[0] ?? null);
     setQuery(`${city.name} - ${city.state}`);
     setSearchOpen(false);
     focusState(city.state.toLowerCase());
@@ -202,7 +237,15 @@ export function BrazilPresence() {
   function handleQueryChange(value: string) {
     setQuery(value);
     setSelectedCity(null);
+    setSelectedStore(null);
     setSearchOpen(true);
+  }
+
+  function showBrazilMap() {
+    setSelectedCity(null);
+    setSelectedStore(null);
+    setQuery("");
+    setSearchOpen(false);
   }
 
   return (
@@ -294,14 +337,70 @@ export function BrazilPresence() {
 
             <div aria-live="polite" className="min-h-11 pt-3">
               {selectedCity ? (
-                <p className="flex items-center gap-2 text-sm font-bold text-white">
-                  <span className="grid size-6 place-items-center rounded-full bg-[#ffc928] text-[#07396e]">
-                    <Check size={14} strokeWidth={3} />
-                  </span>
-                  {selectedCity.stores === 1
-                    ? `Há uma unidade em ${selectedCity.name}.`
-                    : `Há ${selectedCity.stores} unidades em ${selectedCity.name}.`}
-                </p>
+                <div className="rounded-2xl border border-white/15 bg-white/10 p-4 shadow-[0_14px_35px_rgba(0,26,62,0.18)] backdrop-blur-sm">
+                  <p className="flex items-center gap-2 text-sm font-extrabold text-white">
+                    <span className="grid size-7 place-items-center rounded-full bg-[#ffc928] text-[#07396e]">
+                      <Check size={15} strokeWidth={3} />
+                    </span>
+                    {selectedCity.stores === 1
+                      ? `Encontramos uma unidade em ${selectedCity.name}.`
+                      : `Encontramos ${selectedCity.stores} unidades em ${selectedCity.name}.`}
+                  </p>
+
+                  {selectedCity.locations.length > 1 ? (
+                    <div className="mt-4">
+                      <label
+                        htmlFor="unishop-store-select"
+                        className="mb-2 block text-[11px] font-extrabold uppercase tracking-[0.13em] text-white/60"
+                      >
+                        Escolha qual unidade ver no mapa
+                      </label>
+                      <div className="relative">
+                        <Store
+                          size={16}
+                          aria-hidden="true"
+                          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#07508b]"
+                        />
+                        <select
+                          id="unishop-store-select"
+                          value={selectedStore?.id ?? ""}
+                          onChange={(event) => {
+                            const store = selectedCity.locations.find(
+                              (location) => location.id === event.target.value,
+                            );
+                            setSelectedStore(store ?? selectedCity.locations[0] ?? null);
+                          }}
+                          className="h-11 w-full appearance-none rounded-xl border border-white/30 bg-white pl-10 pr-10 text-sm font-bold text-[#082e5d] outline-none transition focus:border-[#ffc928] focus:ring-4 focus:ring-[#ffc928]/15"
+                        >
+                          {selectedCity.locations.map((store, index) => (
+                            <option key={store.id} value={store.id}>
+                              {index + 1}. {store.name}
+                            </option>
+                          ))}
+                        </select>
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#07508b]"
+                        >
+                          ▼
+                        </span>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {selectedStore ? (
+                    <a
+                      href={getMapLinkUrl(selectedStore)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#ffc928] px-4 py-2.5 text-sm font-extrabold text-[#07396e] transition hover:bg-[#ffd85c] focus:outline-none focus:ring-4 focus:ring-[#ffc928]/25"
+                    >
+                      <MapPin size={17} aria-hidden="true" />
+                      Ver no Google Maps
+                      <ExternalLink size={15} aria-hidden="true" />
+                    </a>
+                  ) : null}
+                </div>
               ) : (
                 <p className="text-xs text-white/50">Busca atualizada com a relação oficial da Rede Unishop.</p>
               )}
@@ -357,8 +456,66 @@ export function BrazilPresence() {
         </div>
 
         <div className="relative mx-auto w-full max-w-[680px]">
-          <div className="pointer-events-none absolute inset-10 rounded-full bg-[#37a0dc]/12 blur-3xl" />
-          <svg
+          {selectedCity && selectedStore ? (
+            <div className="overflow-hidden rounded-3xl border border-white/15 bg-white shadow-[0_28px_70px_rgba(0,19,51,0.32)]">
+              <div className="flex items-start justify-between gap-4 px-5 py-4 text-[#082e5d] sm:px-6">
+                <div className="min-w-0">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#1472aa]">
+                    Unidade selecionada
+                  </p>
+                  <h3 className="mt-1 truncate text-base font-extrabold sm:text-lg">
+                    {selectedStore.name}
+                  </h3>
+                  <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#62778d] sm:text-sm">
+                    {selectedStore.address}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={showBrazilMap}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#d8e6f0] px-3 py-2 text-xs font-extrabold text-[#07508b] transition hover:border-[#9fc7df] hover:bg-[#eff7fb] focus:outline-none focus:ring-4 focus:ring-[#0a5795]/10"
+                >
+                  <ArrowLeft size={14} aria-hidden="true" />
+                  <span className="hidden sm:inline">Voltar ao Brasil</span>
+                  <span className="sm:hidden">Voltar</span>
+                </button>
+              </div>
+
+              <iframe
+                key={selectedStore.id}
+                src={getMapEmbedUrl(selectedStore)}
+                title={`Mapa interativo da ${selectedStore.name} em ${selectedCity.name}`}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-[390px] w-full border-0 sm:h-[460px]"
+              />
+
+              <div className="grid gap-2 bg-[#f4f8fb] p-3 sm:grid-cols-2 sm:p-4">
+                <a
+                  href={getMapLinkUrl(selectedStore)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[#cddfea] bg-white px-4 py-2.5 text-sm font-extrabold text-[#07508b] transition hover:border-[#8ebbd6] hover:bg-[#f9fcfe] focus:outline-none focus:ring-4 focus:ring-[#0a5795]/10"
+                >
+                  <ExternalLink size={16} aria-hidden="true" />
+                  Abrir mapa completo
+                </a>
+                <a
+                  href={getDirectionsUrl(selectedStore)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#ffc928] px-4 py-2.5 text-sm font-extrabold text-[#07396e] transition hover:bg-[#ffd85c] focus:outline-none focus:ring-4 focus:ring-[#ffc928]/25"
+                >
+                  <Navigation size={16} aria-hidden="true" />
+                  Como chegar
+                </a>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="pointer-events-none absolute inset-10 rounded-full bg-[#37a0dc]/12 blur-3xl" />
+              <svg
             ref={mapRef}
             viewBox={brazilMap.viewBox}
             role="img"
@@ -402,6 +559,7 @@ export function BrazilPresence() {
                   onClick={(event) => {
                     if (hasStores) {
                       setSelectedCity(null);
+                      setSelectedStore(null);
                       setSelectedState(
                         getStateFocus(location.id, location.name, event.currentTarget),
                       );
@@ -411,6 +569,7 @@ export function BrazilPresence() {
                     if (hasStores && (event.key === "Enter" || event.key === " ")) {
                       event.preventDefault();
                       setSelectedCity(null);
+                      setSelectedStore(null);
                       setSelectedState(
                         getStateFocus(location.id, location.name, event.currentTarget),
                       );
@@ -446,19 +605,21 @@ export function BrazilPresence() {
                 </div>
               </foreignObject>
             ) : null}
-          </svg>
+              </svg>
 
-          <div className="relative mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-semibold text-white/60">
-            <span className="inline-flex items-center gap-2">
-              <i className="size-2.5 rounded-full bg-[#1170aa]" /> Com unidade cadastrada
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <i className="size-2.5 rounded-full bg-[#082f5c] opacity-60" /> Sem unidade na lista atual
-            </span>
-          </div>
-          <p className="relative mt-3 text-center text-[10px] leading-4 text-white/35">
-            Dados de unidades: Rede Unishop. Mapa adaptado de SVG Maps Brazil, CC BY 4.0.
-          </p>
+              <div className="relative mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-semibold text-white/60">
+                <span className="inline-flex items-center gap-2">
+                  <i className="size-2.5 rounded-full bg-[#1170aa]" /> Com unidade cadastrada
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <i className="size-2.5 rounded-full bg-[#082f5c] opacity-60" /> Sem unidade na lista atual
+                </span>
+              </div>
+              <p className="relative mt-3 text-center text-[10px] leading-4 text-white/35">
+                Dados de unidades: Rede Unishop. Mapa adaptado de SVG Maps Brazil, CC BY 4.0.
+              </p>
+            </>
+          )}
         </div>
       </Container>
     </section>

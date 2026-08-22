@@ -2,8 +2,9 @@ import Image from "next/image";
 import { Quote } from "lucide-react";
 
 import { Container } from "@/components/ui/Container";
+import type { DepoimentoEditorial } from "@/data/editorial";
 
-const testimonials: {
+const testimonialsDoRepositorio: {
   name: string;
   image?: string;
   text: string;
@@ -38,7 +39,24 @@ function initialsOf(name: string) {
     .toUpperCase();
 }
 
-export function PartnerTestimonials() {
+/**
+ * Os depoimentos vêm do CMS quando existem lá; senão ficam os quatro que já
+ * estavam no site, que foram colhidos das páginas oficiais da rede.
+ */
+export function PartnerTestimonials({
+  depoimentos,
+}: {
+  depoimentos: DepoimentoEditorial[] | null;
+}) {
+  const testimonials =
+    depoimentos && depoimentos.length > 0
+      ? depoimentos.map((item) => ({
+          name: item.nome,
+          image: item.foto ?? undefined,
+          text: item.texto,
+        }))
+      : testimonialsDoRepositorio;
+
   return (
     <section className="bg-[#f5f8fc] py-16 sm:py-20">
       <Container>

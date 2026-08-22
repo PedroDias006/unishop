@@ -377,3 +377,52 @@ Precisa vir da empresa antes de publicar:
 - Faturamento médio por formato de loja (o banner promete "fature até R$ 120 mil/mês",
   número que **não aparece em nenhuma das fontes** — confirmar antes de manter).
 - Política de exclusividade territorial.
+
+---
+
+## 15. Catálogo de produtos (fonte B) — importado automaticamente
+
+O catálogo inteiro da Start Química foi trazido para dentro do projeto em 19/08/2026
+por `scripts/importar-produtos.mjs`. Não há API pública na origem: a leitura é feita
+do HTML da listagem (`/pt-BR/produtos`) e da página de cada SKU listada no
+`sitemap.xml` da própria origem.
+
+O que veio:
+
+| Item | Quantidade |
+| --- | --- |
+| Famílias de produto | 316 |
+| SKUs (embalagens e fragrâncias) | 804 |
+| Marcas | 28 |
+| Categorias | 34 |
+| Ambientes | 9 |
+| Imagens (webp, 420px de altura) | 796 — 9 MB |
+
+Onde ficou:
+
+- `src/data/produtos.json` — gerado pelo script, **não editar à mão**
+- `src/data/produtos.ts` — tipos e recortes que as telas usam
+- `public/images/produtos/*.webp` — imagens reduzidas e recomprimidas
+
+Como aparece no site:
+
+- `/produtos/catalogo` — a vitrine, com busca e filtro por setor, marca, categoria e
+  ambiente; o filtro vai para o endereço, então `?marca=Tuff` é um link válido
+- `/produtos/<familia>` — a ficha de cada produto, com troca de fragrância/embalagem,
+  "para que serve", modo de uso e onde aplicar
+- Os botões "ver linha" (home) e "ver todos os produtos X" (página de produtos)
+  apontam para a vitrine já filtrada na marca
+
+Para atualizar quando a origem mudar:
+
+```
+node scripts/importar-produtos.mjs
+```
+
+Ressalvas conhecidas:
+
+- 5 páginas de SKU respondem **HTTP 500 na origem** e ficaram de fora.
+- 8 produtos não têm categoria e 5 não têm setor — não estão classificados em
+  nenhuma listagem da origem, e não em erro de leitura daqui.
+- Nome, descrição, modo de uso e imagem são da Start Química. Se a rede quiser texto
+  próprio para o varejo, ele precisa ser escrito e vai substituir o importado.

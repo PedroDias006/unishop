@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PostCard } from "@/components/blog/PostCard";
 import { Container } from "@/components/ui/Container";
-import { formatarData, posts } from "@/content/blog";
+import { formatarData, listarPosts } from "@/content/blog";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -16,7 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await listarPosts();
   const [destaque, ...demais] = posts;
 
   return (

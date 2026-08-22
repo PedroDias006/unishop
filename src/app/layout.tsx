@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import {
+  GoogleTagManager,
+  GoogleTagManagerNoScript,
+} from "@/components/analytics/GoogleTagManager";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { siteUrl } from "@/data/site";
@@ -68,9 +72,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         {/* O vídeo institucional só é buscado quando o usuário rola até ele. */}
         <link rel="preconnect" href="https://www.youtube-nocookie.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
+        <GoogleTagManager />
       </head>
 
       <body>
+        <GoogleTagManagerNoScript />
         <a href="#conteudo" className="skip-link">
           Pular para o conteúdo
         </a>

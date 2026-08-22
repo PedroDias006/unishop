@@ -1,7 +1,7 @@
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { faq } from "@/data/network";
+import { obterFaq } from "@/data/editorial";
 
 /**
  * Nenhum dos dois sites da empresa tem FAQ, e é a dúvida que mais aparece
@@ -11,7 +11,9 @@ import { faq } from "@/data/network";
  * `<details>` nativo em vez de estado em React: a resposta já vem no HTML, o
  * que serve tanto para quem chega sem JavaScript quanto para o buscador.
  */
-export function FaqSection() {
+export async function FaqSection() {
+  const faq = await obterFaq();
+
   return (
     <section
       id="duvidas"

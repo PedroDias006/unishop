@@ -1,35 +1,25 @@
-"use client";
-
 import { ArrowRight, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-import { ProductShowcase } from "@/components/products/ProductShowcase";
+import Link from "next/link";
 import { ProductsHeroMedia } from "@/components/products/ProductsHeroMedia";
 
 // ============================================================================
 // DADOS DO HERO (MARCAS)
 // ============================================================================
 const brands = [
-  { name: "Azulim", logo: "/images/marcas/azulim.webp" },
-  { name: "Tuff", logo: "/images/marcas/tuff.webp" },
-  { name: "Asseptgel", logo: "/images/marcas/assept.webp" },
-  { name: "StartPRO", logo: "/images/marcas/startpro.webp" },
-  { name: "Pedrex", logo: "/images/marcas/pedrex.webp" },
+  { name: "Azulim", catalogName: "Azulim", logo: "/images/marcas/azulim.webp" },
+  { name: "Tuff", catalogName: "Tuff", logo: "/images/marcas/tuff.webp" },
+  { name: "Asseptgel", catalogName: "Asseptgel", logo: "/images/marcas/assept.webp" },
+  { name: "StartPRO", catalogName: "Start PRO", logo: "/images/marcas/startpro.webp" },
+  { name: "Pedrex", catalogName: "Pedrex", logo: "/images/marcas/pedrex.webp" },
 ];
 
 // ============================================================================
 // COMPONENTE PRINCIPAL (PÁGINA)
 // ============================================================================
 export function ProductsLanding() {
-  const [activeBrand, setActiveBrand] = useState(0);
-
-  function selectBrand(index: number) {
-    setActiveBrand(index);
-    document.getElementById("linhas-produtos")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
   return (
-    <div className="flex min-h-screen w-full flex-col bg-white">
+    <div className="flex w-full flex-col overflow-x-clip bg-white">
 
       {/* =====================================================================
           SECÇÃO 1: HERO IMPRESSIONANTE
@@ -58,10 +48,10 @@ export function ProductsLanding() {
 
               <div className="mt-10">
                 <a
-                  href="#marcas"
+                  href="#filtros-catalogo"
                   className="group inline-flex min-h-[56px] items-center gap-4 rounded-full bg-white py-2 pl-8 pr-2 text-[15px] font-bold text-[#092b4c] transition-all duration-300 hover:scale-105 hover:bg-[#f4f6f8]"
                 >
-                  Conheça as iniciativas
+                  Explorar catálogo
                   <span className="grid size-11 place-items-center rounded-full bg-[#092b4c]/10 text-[#092b4c] transition-transform duration-300 group-hover:translate-x-1">
                     <ArrowRight size={18} />
                   </span>
@@ -106,17 +96,13 @@ export function ProductsLanding() {
             Nossas marcas
           </h3>
 
-          <div className="mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-center gap-x-12 gap-y-10 sm:gap-x-16 lg:flex-nowrap lg:gap-x-20 xl:gap-x-24">
-            {brands.map((brand, index) => (
-              <button
-                key={index}
-                type="button"
-                onClick={() => selectBrand(index)}
+          <div className="mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-center gap-x-8 gap-y-10 sm:gap-x-10 lg:flex-nowrap lg:gap-x-10 xl:gap-x-16">
+            {brands.map((brand) => (
+              <Link
+                key={brand.name}
+                href={`/produtos?marca=${encodeURIComponent(brand.catalogName)}#filtros-catalogo`}
                 aria-label={`Ver linha de produtos ${brand.name}`}
-                aria-current={activeBrand === index}
-                className={`relative h-20 w-40 shrink-0 cursor-pointer rounded-2xl transition-all duration-300 hover:scale-105 sm:h-24 sm:w-48 lg:h-28 lg:w-52 xl:h-32 xl:w-56 ${
-                  activeBrand === index ? "opacity-100" : "opacity-60 hover:opacity-100"
-                }`}
+                className="relative h-20 w-36 shrink-0 rounded-2xl opacity-70 transition-all duration-300 hover:scale-105 hover:opacity-100 focus-visible:opacity-100 sm:h-24 sm:w-40 lg:h-24 lg:w-40 xl:h-28 xl:w-48"
               >
                 <Image
                   src={brand.logo}
@@ -125,16 +111,11 @@ export function ProductsLanding() {
                   sizes="(max-width: 640px) 160px, (max-width: 1024px) 192px, 224px"
                   className="object-contain"
                 />
-              </button>
+              </Link>
             ))}
           </div>
         </div>
       </section>
-
-      {/* =====================================================================
-          SECÇÃO 2: FAMÍLIA DE PRODUTOS (TUFF, AZULIM, ASSEPTGEL, START PRO, PEDREX)
-      ====================================================================== */}
-      <ProductShowcase active={activeBrand} onActiveChange={setActiveBrand} />
     </div>
   );
 }

@@ -434,3 +434,41 @@ html[data-nav-scrolled="true"] {
   }
 }
 
+
+/* ============================================================
+   ROLAGEM HORIZONTAL
+   A vitrine de marcas rola na rolagem nativa do navegador, com
+   encaixe e setas. Aqui ficam as duas regras que o Tailwind não
+   escreve: sumir com a barra e alinhar o trilho à Container.
+   ============================================================ */
+
+/* A barra nativa cortaria o cartão embaixo; a posição é indicada
+   pelo cartão seguinte, que fica meio à mostra na borda. */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* O trilho atravessa a tela toda, mas o primeiro cartão precisa
+   nascer alinhado com o título — que vive dentro de uma Container
+   de 80rem. O `max()` resolve os dois casos com uma conta só:
+   abaixo de 84rem o gutter é o da Container; acima, é a sobra
+   lateral. A porcentagem se resolve contra a largura do próprio
+   trilho, e não contra `100vw`, que na janela com barra de
+   rolagem chega 15px maior. */
+.carousel-rail {
+  padding-inline: 1.25rem;
+  scroll-padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .carousel-rail {
+    --carousel-gutter: max(2rem, calc((100% - 80rem) / 2 + 2rem));
+    padding-inline: var(--carousel-gutter);
+    scroll-padding-inline: var(--carousel-gutter);
+  }
+}

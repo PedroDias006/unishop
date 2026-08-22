@@ -42,7 +42,10 @@ const slides = [
     description: null,
     cta: null,
     visual: "products",
-    background: "bg-[#041b49]",
+    // Azul de marca (#1150a4, o mesmo `--brand-blue-800`) no lugar do
+    // quase-preto: é o tom que a Start usa nos banners institucionais. Cobre a
+    // faixa de 88px atrás da navbar, que é onde este valor aparece.
+    background: "bg-[#1150a4]",
     darkText: false,
     reverse: false,
     fullImage: "/images/hero/fundo.webp",
@@ -392,7 +395,14 @@ export function Hero() {
                   Foto em faixa no topo + painel de texto embaixo. Os cinco
                   banners usam exatamente esta anatomia; só a arte e as palavras
                   mudam. */}
-              <div className="absolute inset-x-0 bottom-0 top-[88px] flex flex-col bg-[#04193f] md:hidden">
+              {/* O painel acompanha a cor do próprio banner. Sem isto, o
+                  primeiro slide ficaria com a faixa do topo em azul de marca e
+                  o painel de texto em azul quase preto, com a emenda à vista. */}
+              <div
+                className={`absolute inset-x-0 bottom-0 top-[88px] flex flex-col md:hidden ${
+                  slide.id === "produtos" ? "bg-[#1150a4]" : "bg-[#04193f]"
+                }`}
+              >
                 {/* A faixa é quem absorve a sobra de altura (`flex-1`), e o
                     texto ocupa o que precisa. Com a faixa em porcentagem fixa,
                     num aparelho de 640px o botão caía para fora da seção. */}
@@ -425,7 +435,11 @@ export function Hero() {
 
                   <div
                     aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(4,25,63,0)_0%,rgba(4,25,63,0.72)_55%,#04193f_100%)]"
+                    className={`absolute inset-x-0 bottom-0 h-24 ${
+                      slide.id === "produtos"
+                        ? "bg-[linear-gradient(180deg,rgba(17,80,164,0)_0%,rgba(17,80,164,0.72)_55%,#1150a4_100%)]"
+                        : "bg-[linear-gradient(180deg,rgba(4,25,63,0)_0%,rgba(4,25,63,0.72)_55%,#04193f_100%)]"
+                    }`}
                   />
                 </div>
 
@@ -472,7 +486,7 @@ export function Hero() {
               {/* ======================== TABLET E DESKTOP ======================== */}
               {fullArtwork ? (
                 slide.visual === "products" ? (
-                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#041b49] sm:top-[96px] md:block">
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#1150a4] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
@@ -487,8 +501,9 @@ export function Hero() {
 
                     {/* Degradê azul à esquerda: é o que deixa o amarelo da
                         marca chapado e legível, como nos outros banners. Sobre
-                        a bancada clara o mesmo amarelo daria 1,6:1. */}
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,26,66,0.93)_0%,rgba(4,26,66,0.74)_40%,rgba(4,26,66,0.1)_74%)] sm:bg-[linear-gradient(90deg,rgba(4,26,66,0.95)_0%,rgba(4,26,66,0.87)_30%,rgba(4,26,66,0.36)_56%,rgba(4,26,66,0)_74%)]" />
+                        a bancada clara o mesmo amarelo daria 1,6:1; sobre este
+                        azul dá 5:1, e o branco do título, 7,7:1. */}
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,80,164,0.94)_0%,rgba(17,80,164,0.76)_40%,rgba(17,80,164,0.12)_74%)] sm:bg-[linear-gradient(90deg,rgba(17,80,164,0.96)_0%,rgba(17,80,164,0.89)_30%,rgba(17,80,164,0.38)_56%,rgba(17,80,164,0)_74%)]" />
 
                     {/* A vitrine com as cinco marcas, apoiada na bancada */}
                     <div className="absolute inset-x-0 bottom-[4%] z-10 sm:bottom-[5%] lg:bottom-[2%]">

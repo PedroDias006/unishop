@@ -4,6 +4,7 @@ const SOURCE_URL =
 type SourceStore = {
   id?: string | number;
   nome?: string;
+  tel?: string;
   addr?: string;
   endereco?: string;
 };
@@ -14,6 +15,14 @@ type CityLocation = {
   name: string;
   state: string;
   stores: number;
+  locations: StoreLocation[];
+};
+
+type StoreLocation = {
+  id: string;
+  name: string;
+  address: string;
+  phone?: string;
 };
 
 const stateNames: Record<string, string> = {
@@ -114,22 +123,33 @@ export async function GET() {
     const cityIndex = new Map<string, CityLocation>();
 
     for (const store of stores) {
-      const location = getCityAndState(store.addr ?? store.endereco ?? "");
+      const address = fixSourceEncoding(store.addr ?? store.endereco ?? "");
+      const location = getCityAndState(address);
       if (!location) continue;
 
       const key = `${location.state}:${normalize(location.city)}`;
       const existing = cityIndex.get(key);
+      const storeLocation: StoreLocation = {
+        id: String(store.id ?? `${key}-${existing?.locations.length ?? 0}`),
+        name: fixSourceEncoding(store.nome?.trim() || "Unishop"),
+        address,
+        ...(store.tel?.trim() ? { phone: store.tel.trim() } : {}),
+      };
 
       cityIndex.set(key, {
         name: existing?.name ?? location.city,
         state: location.state,
         stores: (existing?.stores ?? 0) + 1,
+        locations: [...(existing?.locations ?? []), storeLocation],
       });
     }
 
-    const cities = [...cityIndex.values()].sort((a, b) =>
-      a.name.localeCompare(b.name, "pt-BR"),
-    );
+    const cities = [...cityIndex.values()]
+      .map((city) => ({
+        ...city,
+        locations: city.locations.sort((a, b) => a.name.localeCompare(b.name, "pt-BR")),
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
     const states = [...new Set(cities.map((city) => city.state))].sort();
 
     return Response.json(

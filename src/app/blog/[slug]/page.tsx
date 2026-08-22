@@ -5,18 +5,21 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PostCard } from "@/components/blog/PostCard";
 import { Container } from "@/components/ui/Container";
-import { buscarPost, formatarData, posts, relacionados } from "@/content/blog";
+import { CorpoDoPost } from "@/components/blog/CorpoDoPost";
+import { buscarPost, formatarData, listarPosts, relacionados } from "@/content/blog";
 import { siteUrl } from "@/data/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const posts = await listarPosts();
+
   return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = buscarPost(slug);
+  const post = await buscarPost(slug);
 
   if (!post) return { title: "Artigo não encontrado" };
 
@@ -43,11 +46,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
-  const post = buscarPost(slug);
+  const post = await buscarPost(slug);
 
   if (!post) notFound();
 
-  const sugestoes = relacionados(post.slug);
+  const sugestoes = await relacionados(post.slug);
 
   const dadosEstruturados = {
     "@context": "https://schema.org",
@@ -129,48 +132,7 @@ export default async function PostPage({ params }: Props) {
               {post.resumo}
             </p>
 
-            <div className="mx-auto mt-10 max-w-[40rem]">
-              {post.blocos.map((bloco, index) => {
-                if (bloco.tipo === "titulo") {
-                  return (
-                    <h2
-                      key={index}
-                      className="mt-12 text-balance text-2xl font-black leading-[1.2] tracking-[-0.035em] text-[var(--brand-blue-950)] first:mt-0 sm:text-[28px]"
-                    >
-                      {bloco.texto}
-                    </h2>
-                  );
-                }
-
-                if (bloco.tipo === "lista") {
-                  return (
-                    <ul key={index} className="mt-6 grid gap-3">
-                      {bloco.itens.map((item, i) => (
-                        <li
-                          key={i}
-                          className="relative pl-7 text-[17px] leading-8 text-slate-700"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="absolute left-0 top-3 size-2 rounded-full bg-[#ffc928]"
-                          />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  );
-                }
-
-                return (
-                  <p
-                    key={index}
-                    className="mt-6 text-[17px] leading-8 text-slate-700 first:mt-0"
-                  >
-                    {bloco.texto}
-                  </p>
-                );
-              })}
-            </div>
+            <CorpoDoPost post={post} />
 
             {/* Chamada dentro do artigo */}
             <aside className="mt-14 overflow-hidden rounded-[24px] bg-[linear-gradient(115deg,#04224c_0%,#095794_100%)] p-7 text-white sm:p-10">

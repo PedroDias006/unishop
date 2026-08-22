@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BusinessOpportunityPage } from "@/components/business/BusinessOpportunityPage";
+import { obterDepoimentos } from "@/data/editorial";
 
 export const metadata: Metadata = {
   // O template do layout já acrescenta "| Rede Unishop".
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/modelo-de-negocio" },
 };
 
-export default function ModeloPage() {
-  return <BusinessOpportunityPage />;
+export default async function ModeloPage() {
+  const depoimentos = await obterDepoimentos();
+
+  return <BusinessOpportunityPage depoimentos={depoimentos} />;
 }
