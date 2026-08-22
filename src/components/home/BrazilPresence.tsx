@@ -252,26 +252,26 @@ export function BrazilPresence() {
     <section
       ref={sectionRef}
       id="presenca"
-      className="scroll-mt-28 overflow-hidden bg-[linear-gradient(115deg,#04316c_0%,#095794_100%)] py-20 font-[Manrope] text-white sm:py-28"
+      className="scroll-mt-28 overflow-hidden bg-[var(--background)] py-20 font-[Manrope] text-[var(--brand-blue-950)] sm:py-28"
     >
       <Container className="grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
         <div className="max-w-xl">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-[#ffc928]" aria-hidden="true" />
-            <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#ffd34c]">
+            <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[var(--brand-blue-800)]">
               Presença confirmada
             </p>
           </div>
 
-          <h2 className="mt-5 text-balance text-4xl font-extrabold tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+          <h2 className="mt-6 text-balance text-3xl font-black leading-[1.03] tracking-[-0.045em] text-[var(--brand-blue-950)] sm:text-4xl lg:text-[46px]">
             Tem Unishop na sua cidade?
           </h2>
-          <p className="mt-6 max-w-lg text-base leading-7 text-white/70 sm:text-lg">
+          <p className="mt-6 max-w-lg text-base leading-8 text-slate-600">
             Pesquise sua cidade ou explore apenas os estados que possuem unidades cadastradas na rede.
           </p>
 
           <div className="relative z-20 mt-8 max-w-lg">
-            <label htmlFor="unishop-city-search" className="mb-2 block text-sm font-bold text-white/90">
+            <label htmlFor="unishop-city-search" className="mb-2 block text-sm font-extrabold text-[var(--brand-blue-950)]">
               Consulte sua cidade
             </label>
             <div className="relative">
@@ -288,7 +288,7 @@ export function BrazilPresence() {
                 onFocus={() => setSearchOpen(true)}
                 placeholder="Digite o nome da cidade"
                 autoComplete="off"
-                className="h-13 w-full rounded-xl border border-white/20 bg-white pl-11 pr-12 text-sm font-semibold text-[#082e5d] outline-none transition placeholder:text-[#71849b] focus:border-[#ffc928] focus:ring-4 focus:ring-[#ffc928]/15"
+                className="h-13 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-12 text-sm font-semibold text-[#082e5d] shadow-[0_10px_28px_rgba(6,31,73,0.06)] outline-none transition placeholder:text-[#71849b] focus:border-[#ffc928] focus:ring-4 focus:ring-[#ffc928]/15"
               />
               {isLoading ? (
                 <LoaderCircle
@@ -337,8 +337,8 @@ export function BrazilPresence() {
 
             <div aria-live="polite" className="min-h-11 pt-3">
               {selectedCity ? (
-                <div className="rounded-2xl border border-white/15 bg-white/10 p-4 shadow-[0_14px_35px_rgba(0,26,62,0.18)] backdrop-blur-sm">
-                  <p className="flex items-center gap-2 text-sm font-extrabold text-white">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_14px_35px_rgba(6,31,73,0.08)]">
+                  <p className="flex items-center gap-2 text-sm font-extrabold text-[var(--brand-blue-950)]">
                     <span className="grid size-7 place-items-center rounded-full bg-[#ffc928] text-[#07396e]">
                       <Check size={15} strokeWidth={3} />
                     </span>
@@ -351,7 +351,7 @@ export function BrazilPresence() {
                     <div className="mt-4">
                       <label
                         htmlFor="unishop-store-select"
-                        className="mb-2 block text-[11px] font-extrabold uppercase tracking-[0.13em] text-white/60"
+                        className="mb-2 block text-[11px] font-extrabold uppercase tracking-[0.13em] text-slate-500"
                       >
                         Escolha qual unidade ver no mapa
                       </label>
@@ -402,52 +402,52 @@ export function BrazilPresence() {
                   ) : null}
                 </div>
               ) : (
-                <p className="text-xs text-white/50">Busca atualizada com a relação oficial da Rede Unishop.</p>
+                <p className="text-xs text-slate-500">Busca atualizada com a relação oficial da Rede Unishop.</p>
               )}
             </div>
           </div>
 
-          <div className="mt-6 grid max-w-lg grid-cols-3 border-y border-white/15 py-5">
-            <div className="border-r border-white/15 pr-4">
-              <strong className="block text-2xl font-extrabold tracking-[-0.04em] text-[#ffc928] sm:text-3xl">
+          <div className="mt-6 grid max-w-lg grid-cols-3 border-y border-slate-200 py-5">
+            <div className="border-r border-slate-200 pr-4">
+              <strong className="block text-2xl font-black tracking-[-0.04em] text-[var(--brand-blue-950)] sm:text-3xl">
                 {data?.totals.stores ?? "—"}
               </strong>
-              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-white/55 sm:text-xs">
+              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-slate-500 sm:text-xs">
                 unidades
               </span>
             </div>
-            <div className="border-r border-white/15 px-4">
-              <strong className="block text-2xl font-extrabold tracking-[-0.04em] text-[#ffc928] sm:text-3xl">
+            <div className="border-r border-slate-200 px-4">
+              <strong className="block text-2xl font-black tracking-[-0.04em] text-[var(--brand-blue-950)] sm:text-3xl">
                 {data?.totals.cities ?? "—"}
               </strong>
-              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-white/55 sm:text-xs">
+              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-slate-500 sm:text-xs">
                 cidades
               </span>
             </div>
             <div className="pl-4">
-              <strong className="block text-2xl font-extrabold tracking-[-0.04em] text-[#ffc928] sm:text-3xl">
+              <strong className="block text-2xl font-black tracking-[-0.04em] text-[var(--brand-blue-950)] sm:text-3xl">
                 {data?.totals.states ?? "—"}
               </strong>
-              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-white/55 sm:text-xs">
+              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.11em] text-slate-500 sm:text-xs">
                 UFs
               </span>
             </div>
           </div>
 
-          <div className="mt-7 flex min-h-20 items-center gap-4 border-l-2 border-[#ffc928] bg-white/8 px-5 py-4">
+          <div className="mt-7 flex min-h-20 items-center gap-4 rounded-r-2xl border border-l-2 border-slate-200 border-l-[#ffc928] bg-white px-5 py-4 shadow-[0_12px_30px_rgba(6,31,73,0.05)]">
             <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#ffc928] text-sm font-extrabold text-[#07396e]">
               {activeState?.id.toUpperCase() ?? "BR"}
             </span>
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-white/50">
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
                 {hoveredState ? "Estado em destaque" : "Estado selecionado"}
               </span>
-              <p className="mt-1 text-lg font-extrabold">
+              <p className="mt-1 text-lg font-extrabold text-[var(--brand-blue-950)]">
                 {activeState?.name ?? "Escolha um estado"}
-                {activeState ? <span className="font-medium text-white/55"> · {activeRegion}</span> : null}
+                {activeState ? <span className="font-medium text-slate-500"> · {activeRegion}</span> : null}
               </p>
               {activeState ? (
-                <p className="mt-1 text-xs text-white/60">
+                <p className="mt-1 text-xs text-slate-500">
                   {selectedStateCities} {selectedStateCities === 1 ? "cidade cadastrada" : "cidades cadastradas"}
                 </p>
               ) : null}
@@ -457,7 +457,7 @@ export function BrazilPresence() {
 
         <div className="relative mx-auto w-full max-w-[680px]">
           {selectedCity && selectedStore ? (
-            <div className="overflow-hidden rounded-3xl border border-white/15 bg-white shadow-[0_28px_70px_rgba(0,19,51,0.32)]">
+            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_28px_70px_rgba(6,31,73,0.16)]">
               <div className="flex items-start justify-between gap-4 px-5 py-4 text-[#082e5d] sm:px-6">
                 <div className="min-w-0">
                   <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#1472aa]">
@@ -575,7 +575,7 @@ export function BrazilPresence() {
                       );
                     }
                   }}
-                  className={`stroke-white transition-[fill,filter,opacity] duration-200 focus:outline-none ${
+                  className={`stroke-[#f5f5f7] transition-[fill,filter,opacity] duration-200 focus:outline-none ${
                     !hasStores
                       ? "cursor-default fill-[#082f5c] opacity-40"
                       : active
@@ -607,7 +607,7 @@ export function BrazilPresence() {
             ) : null}
               </svg>
 
-              <div className="relative mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-semibold text-white/60">
+              <div className="relative mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-semibold text-slate-500">
                 <span className="inline-flex items-center gap-2">
                   <i className="size-2.5 rounded-full bg-[#1170aa]" /> Com unidade cadastrada
                 </span>
@@ -615,7 +615,7 @@ export function BrazilPresence() {
                   <i className="size-2.5 rounded-full bg-[#082f5c] opacity-60" /> Sem unidade na lista atual
                 </span>
               </div>
-              <p className="relative mt-3 text-center text-[10px] leading-4 text-white/35">
+              <p className="relative mt-3 text-center text-[10px] leading-4 text-slate-400">
                 Dados de unidades: Rede Unishop. Mapa adaptado de SVG Maps Brazil, CC BY 4.0.
               </p>
             </>
