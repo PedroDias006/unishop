@@ -18,7 +18,7 @@ export async function BlogHighlights() {
   return (
     <section
       id="blog-destaques"
-      className="scroll-mt-28 bg-[#f6f9fc] py-20 sm:py-24 lg:py-28"
+      className="scroll-mt-28 bg-[var(--background)] py-20 sm:py-24 lg:py-28"
     >
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-8">

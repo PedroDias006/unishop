@@ -78,7 +78,7 @@ export function StoreModels() {
   return (
     <section
       id="modelos"
-      className="scroll-mt-28 bg-[linear-gradient(115deg,#ffffff_0%,#f5f9fd_48%,#edf4fb_100%)] py-20 sm:py-24 lg:py-28"
+      className="scroll-mt-28 bg-[var(--background)] py-20 sm:py-24 lg:py-28"
     >
       <Container>
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end lg:gap-16">

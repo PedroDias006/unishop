@@ -110,7 +110,7 @@ export default async function PostPage({ params }: Props) {
       {/* ================================================================
           CORPO
       ================================================================= */}
-      <article className="bg-white pb-20 font-[Manrope] sm:pb-24">
+      <article className="bg-[var(--background)] pb-20 font-[Manrope] sm:pb-24">
         <Container>
           <div className="mx-auto max-w-3xl">
             {post.capa ? (

@@ -158,7 +158,7 @@ export function AboutStory() {
       ================================================================= */}
       <section
         id="linha-do-tempo"
-        className="scroll-mt-28 bg-[linear-gradient(180deg,#ffffff_0%,#f6fafd_38%,#edf4fb_100%)] py-20 font-[Manrope] sm:py-28"
+        className="scroll-mt-28 bg-[var(--background)] py-20 font-[Manrope] sm:py-28"
       >
         <Container>
           <div className="mx-auto max-w-2xl text-center">

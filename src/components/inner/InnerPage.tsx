@@ -19,7 +19,7 @@ export function InnerPage({ eyebrow, title, description, items }: InnerPageProps
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/68">{description}</p>
         </Container>
       </section>
-      <section className="bg-white py-20 sm:py-28">
+      <section className="bg-[var(--background)] py-20 sm:py-28">
         <Container>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {items.map((item, index) => (

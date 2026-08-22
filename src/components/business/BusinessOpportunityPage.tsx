@@ -135,7 +135,7 @@ export function BusinessOpportunityPage({
       {/* HERO */}
       {/* O hero cresce para encostar a faixa na base da tela (249px é a altura
           da faixa). O teto de 860px evita um vazio enorme em telas muito altas. */}
-      <section className="relative isolate overflow-hidden bg-white lg:flex lg:min-h-[min(calc(100vh-249px),860px)] lg:flex-col lg:justify-end">
+      <section className="relative isolate overflow-hidden bg-[var(--background)] lg:flex lg:min-h-[min(calc(100vh-249px),860px)] lg:flex-col lg:justify-end">
         {/* FACHADA AO FUNDO */}
         <Image
           src="/images/hero/fachada-unishop-hero.webp"
@@ -148,7 +148,7 @@ export function BusinessOpportunityPage({
         />
 
         {/* VÉU — a foto fica à mostra na esquerda e só clareia sob o texto */}
-        <div className="absolute inset-0 -z-10 bg-white/[0.86] lg:bg-transparent lg:bg-[linear-gradient(100deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.14)_30%,rgba(255,255,255,0.88)_42%,#ffffff_46.5%)]" />
+        <div className="absolute inset-0 -z-10 bg-[#f5f5f7]/[0.86] lg:bg-transparent lg:bg-[linear-gradient(100deg,rgba(245,245,247,0.05)_0%,rgba(245,245,247,0.14)_30%,rgba(245,245,247,0.88)_42%,#f5f5f7_46.5%)]" />
 
         <Container>
           <div className="grid items-end gap-4 pb-10 pt-24 lg:grid-cols-[0.92fr_1.08fr] lg:gap-10 lg:pb-0 lg:pt-14">
@@ -309,7 +309,7 @@ export function BusinessOpportunityPage({
       <AuthoritySection />
 
       {/* ESCOLHA DO MODELO */}
-      <section id="modelos" className="scroll-mt-24 bg-white py-16 sm:py-20">
+      <section id="modelos" className="scroll-mt-24 bg-[var(--background)] py-16 sm:py-20">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--brand-blue-800)]">

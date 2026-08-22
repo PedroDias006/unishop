@@ -23,7 +23,7 @@ export function BusinessModel() {
   return (
     <section
       id="modelo"
-      className="scroll-mt-28 overflow-hidden bg-[#f6f9fc] py-20 sm:py-24 lg:py-28"
+      className="scroll-mt-28 overflow-hidden bg-[var(--background)] py-20 sm:py-24 lg:py-28"
     >
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">

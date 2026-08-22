@@ -49,7 +49,7 @@ export default function SejaParceiroPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      <section className="bg-slate-50 py-16 sm:py-24">
+      <section className="bg-[var(--background)] py-16 sm:py-24">
         {/* Duas colunas no desktop; no celular vira abertura → formulário →
             canais, que é a ordem em que o visitante precisa das coisas. */}
         <Container className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8">

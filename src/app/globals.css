@@ -17,7 +17,9 @@
   --brand-blue-700: #1f66c4;
   --brand-yellow: #ffc928;
   --brand-yellow-dark: #d99b00;
-  --background: #ffffff;
+  /* Mesmo cinza-claro das superfícies editoriais da Apple. Os cartões seguem
+     brancos, então ganham contraste sem deixar a página azulada. */
+  --background: #f5f5f7;
   --foreground: #0f172a;
 }
 

@@ -219,24 +219,47 @@ const temaPadrao = temas.Tuff;
 
 export function BrandUniverse() {
   const trilhoRef = useRef<HTMLUListElement>(null);
+  const reinicioRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [noInicio, setNoInicio] = useState(true);
-  const [noFim, setNoFim] = useState(false);
+
+  const reiniciarCiclo = useCallback(() => {
+    const trilho = trilhoRef.current;
+    if (!trilho) return;
+
+    const primeiro = trilho.querySelector<HTMLElement>("[data-carousel-first]");
+    const primeiraCopia = trilho.querySelector<HTMLElement>("[data-carousel-copy]");
+    if (!primeiro || !primeiraCopia) return;
+
+    const larguraDoCiclo = primeiraCopia.offsetLeft - primeiro.offsetLeft;
+    if (larguraDoCiclo <= 0 || trilho.scrollLeft < larguraDoCiclo - 2) return;
+
+    // A cópia é visualmente idêntica. Voltamos para a mesma posição do ciclo
+    // original sem animação, portanto a continuidade para a direita não pisca.
+    const posicaoEquivalente = Math.max(0, trilho.scrollLeft - larguraDoCiclo);
+    trilho.style.scrollBehavior = "auto";
+    trilho.scrollLeft = posicaoEquivalente;
+    setNoInicio(posicaoEquivalente <= 2);
+
+    requestAnimationFrame(() => trilho.style.removeProperty("scroll-behavior"));
+  }, []);
 
   const sincronizar = useCallback(() => {
     const trilho = trilhoRef.current;
     if (!trilho) return;
 
-    const maximo = trilho.scrollWidth - trilho.clientWidth;
-    // Uma folga de 2px absorve o arredondamento sub-pixel que impedia o
-    // último cartão de marcar o fim do trilho em telas com zoom.
     setNoInicio(trilho.scrollLeft <= 2);
-    setNoFim(trilho.scrollLeft >= maximo - 2);
-  }, []);
+
+    if (reinicioRef.current) clearTimeout(reinicioRef.current);
+    reinicioRef.current = setTimeout(reiniciarCiclo, 180);
+  }, [reiniciarCiclo]);
 
   useEffect(() => {
     sincronizar();
     window.addEventListener("resize", sincronizar);
-    return () => window.removeEventListener("resize", sincronizar);
+    return () => {
+      window.removeEventListener("resize", sincronizar);
+      if (reinicioRef.current) clearTimeout(reinicioRef.current);
+    };
   }, [sincronizar]);
 
   function andar(direcao: 1 | -1) {
@@ -252,7 +275,7 @@ export function BrandUniverse() {
   return (
     <section
       id="marcas"
-      className="scroll-mt-28 overflow-hidden bg-[#f6f9fc] py-20 sm:py-24 lg:py-28"
+      className="scroll-mt-28 overflow-hidden bg-[var(--background)] py-20 sm:py-24 lg:py-28"
     >
       <Container>
         <div className="max-w-3xl">
@@ -331,15 +354,22 @@ export function BrandUniverse() {
           onScroll={sincronizar}
           className="carousel-rail no-scrollbar flex snap-x snap-mandatory gap-[22px] overflow-x-auto scroll-smooth pb-2"
         >
-          {brandUniverse.map((marca) => {
+          {[0, 1].flatMap((ciclo) => brandUniverse.map((marca, index) => {
             const tema = temas[marca.name] ?? temaPadrao;
 
             return (
-              <li key={marca.name} className="snap-start">
+              <li
+                key={`${ciclo}-${marca.name}`}
+                className="snap-start"
+                aria-hidden={ciclo === 1 ? true : undefined}
+                data-carousel-first={ciclo === 0 && index === 0 ? "" : undefined}
+                data-carousel-copy={ciclo === 1 && index === 0 ? "" : undefined}
+              >
                 <Link
                   href={linkDaMarca(marca.name)}
                   aria-label={`${marca.name} — ${marca.tagline}`}
                   draggable={false}
+                  tabIndex={ciclo === 1 ? -1 : undefined}
                   className={`group relative flex h-[368px] w-[290px] flex-col overflow-hidden rounded-[18px] p-5 transition-shadow duration-300 hover:shadow-[0_30px_70px_-40px_rgba(4,25,60,0.5)] sm:h-[432px] sm:w-[340px] sm:p-6 lg:h-[483px] lg:w-[380px] xl:h-[502px] xl:w-[395px] ${tema.fundo} ${tema.texto}`}
                 >
                   {/* A foto é o cartão inteiro. Nenhuma cortina por cima: a
@@ -388,12 +418,12 @@ export function BrandUniverse() {
                 </Link>
               </li>
             );
-          })}
+          }))}
         </ul>
 
-        {/* As setas flutuam na borda da tela, na metade da altura dos cartões
-            e por cima do que estiver passando ali — é onde a Apple põe as
-            dela. Cada uma some quando o trilho chega no seu lado. */}
+        {/* A esquerda respeita o começo real. A direita permanece disponível:
+            depois do último cartão ela atravessa para a cópia do primeiro e o
+            trilho se reposiciona, sem animação perceptível, no ciclo original. */}
         <button
           type="button"
           onClick={() => andar(-1)}
@@ -410,12 +440,8 @@ export function BrandUniverse() {
         <button
           type="button"
           onClick={() => andar(1)}
-          aria-hidden={noFim}
-          tabIndex={noFim ? -1 : undefined}
           aria-label="Ver as próximas marcas"
-          className={`absolute right-3 top-[calc(50%-4px)] grid size-11 -translate-y-1/2 place-items-center rounded-full bg-[#e8e8ed]/92 text-[#1d1d1f] backdrop-blur transition duration-300 hover:bg-[#dcdce3] sm:right-5 sm:size-14 ${
-            noFim ? "pointer-events-none opacity-0" : "opacity-100"
-          }`}
+          className="absolute right-3 top-[calc(50%-4px)] grid size-11 -translate-y-1/2 place-items-center rounded-full bg-[#e8e8ed]/92 text-[#1d1d1f] opacity-100 backdrop-blur transition duration-300 hover:bg-[#dcdce3] sm:right-5 sm:size-14"
         >
           <ChevronRight className="size-5 sm:size-6" strokeWidth={2.2} />
         </button>

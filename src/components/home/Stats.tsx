@@ -34,7 +34,7 @@ export function Stats() {
   return (
     <section
       aria-label="Marcas da empresa"
-      className="brand-marquee relative z-10 overflow-hidden border-b border-[#0a376a]/10 bg-[linear-gradient(115deg,#ffffff_0%,#f5f9fd_48%,#edf4fb_100%)] py-3 sm:py-4"
+      className="brand-marquee relative z-10 overflow-hidden border-b border-[#0a376a]/10 bg-[var(--background)] py-3 sm:py-4"
     >
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#f5f9fd] to-transparent sm:w-32" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#edf4fb] to-transparent sm:w-32" />

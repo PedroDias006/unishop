@@ -109,7 +109,7 @@ export default async function BlogPage() {
       {/* ================================================================
           DEMAIS ARTIGOS
       ================================================================= */}
-      <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f6fafd_60%,#eef4fb_100%)] py-20 font-[Manrope] sm:py-24">
+      <section className="bg-[var(--background)] py-20 font-[Manrope] sm:py-24">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>

@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/Container";
 
 export function FinalCta() {
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-[var(--background)] py-16 sm:py-20">
       <Container>
         <div className="relative overflow-hidden rounded-[36px] bg-[var(--brand-blue-900)] px-6 py-14 text-white sm:px-12 lg:px-16 lg:py-16">
           <div className="absolute -right-16 -top-20 size-72 rounded-full bg-[var(--brand-yellow)]/15" />

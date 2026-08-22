@@ -265,7 +265,7 @@ export function ProductShowcase({ active, onActiveChange }: ProductShowcaseProps
         if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
       }}
       aria-roledescription="carrossel"
-      className="relative isolate w-full overflow-hidden bg-white py-16 lg:py-24"
+      className="relative isolate w-full overflow-hidden bg-[var(--background)] py-16 lg:py-24"
     >
       {/* Fundo com crossfade, cobrindo a seção inteira (inclusive o espaçamento interno) */}
       <div className="absolute inset-0 -z-10">

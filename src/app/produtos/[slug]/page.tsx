@@ -70,7 +70,7 @@ export default async function ProdutoPage({ params }: PaginaProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <section className="bg-slate-50 pb-16 pt-32 sm:pb-24 sm:pt-40">
+      <section className="bg-[var(--background)] pb-16 pt-32 sm:pb-24 sm:pt-40">
         <Container>
           <Link
             href="/produtos/catalogo"
@@ -190,7 +190,7 @@ export default async function ProdutoPage({ params }: PaginaProps) {
       </section>
 
       {relacionados.length > 0 && (
-        <section className="bg-white py-16 sm:py-20">
+        <section className="bg-[var(--background)] py-16 sm:py-20">
           <Container>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h2 className="text-2xl font-black tracking-[-0.04em] text-[var(--brand-blue-950)] sm:text-3xl">

@@ -722,27 +722,27 @@ export function SolutionFinder({
     <>
       <section
         id="solucoes"
-        className="relative scroll-mt-28 overflow-hidden bg-[linear-gradient(115deg,#ffffff_0%,#f5f9fd_48%,#edf4fb_100%)]"
+        className="relative scroll-mt-28 overflow-hidden bg-[var(--background)]"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,#0a4a84_28%,#ffd200_52%,transparent_82%)] opacity-18" />
         <div className="pointer-events-none absolute -left-40 top-1/2 size-[520px] -translate-y-1/2 rounded-full bg-[#0a4a84]/6 blur-3xl" />
         <div className="pointer-events-none absolute right-[16%] top-[12%] size-64 rounded-full bg-[#ffd200]/10 blur-3xl" />
 
-        <div className="absolute inset-x-0 bottom-0 top-[48%] sm:left-[36%] sm:top-[24%] lg:left-[46%] lg:top-0">
+        <div className="absolute inset-x-0 bottom-0 top-[48%] sm:right-[36%] sm:top-[24%] lg:right-[46%] lg:top-0">
           <Image
             src="/images/home/consultora-crie-sua-solucao-v1.webp"
             alt="Consultora Unishop apresentando o criador de soluções"
             fill
             priority
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 64vw, 54vw"
-            className="select-none object-contain object-right-bottom"
+            className="select-none object-contain object-left-bottom"
           />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#f7fafe_0%,rgba(247,250,254,0.7)_9%,transparent_29%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(270deg,#f5f5f7_0%,rgba(245,245,247,0.72)_10%,transparent_32%)]" />
         </div>
 
         <Container>
           <div className="relative z-10 flex min-h-[940px] items-start py-16 sm:min-h-[800px] sm:py-20 lg:min-h-[700px] lg:items-center lg:py-24">
-            <div className="max-w-[650px] font-[Manrope] lg:w-[48%]">
+            <div className="max-w-[650px] font-[Manrope] lg:ml-auto lg:w-[48%]">
               <div className="mb-7 flex items-center gap-4">
                 <span className="h-px w-12 bg-[#d9a700]" />
                 <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#315b80] sm:text-xs">

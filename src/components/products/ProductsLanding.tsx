@@ -19,7 +19,7 @@ const brands = [
 // ============================================================================
 export function ProductsLanding() {
   return (
-    <div className="flex w-full flex-col overflow-x-clip bg-white">
+    <div className="flex w-full flex-col overflow-x-clip bg-[var(--background)]">
 
       {/* =====================================================================
           SECÇÃO 1: HERO IMPRESSIONANTE
@@ -85,7 +85,7 @@ export function ProductsLanding() {
         {/* BLOCO BRANCO SOBREPOSTO (MARCAS) */}
         <div 
           id="marcas"
-          className="relative z-20 -mt-20 flex w-full flex-col items-center justify-center rounded-t-[2.5rem] bg-white px-6 pb-16 pt-16 shadow-[0_-20px_50px_rgba(0,0,0,0.15)] sm:rounded-t-[4rem] sm:pt-20 lg:-mt-24 lg:pb-24"
+          className="relative z-20 -mt-20 flex w-full flex-col items-center justify-center rounded-t-[2.5rem] bg-[var(--background)] px-6 pb-16 pt-16 shadow-[0_-20px_50px_rgba(0,0,0,0.15)] sm:rounded-t-[4rem] sm:pt-20 lg:-mt-24 lg:pb-24"
         >
           {/* Botão Flutuante (Scroll Down) */}
           <div className="absolute -top-7 left-1/2 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] border border-gray-50 text-[#f4c21f]">

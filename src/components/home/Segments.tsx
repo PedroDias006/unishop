@@ -43,7 +43,7 @@ export function Segments() {
   return (
     <section
       id="segmentos"
-      className="scroll-mt-28 overflow-hidden bg-[linear-gradient(115deg,#ffffff_0%,#f5f9fd_48%,#edf4fb_100%)] py-14 sm:py-16 lg:py-20"
+      className="scroll-mt-28 overflow-hidden bg-[var(--background)] py-14 sm:py-16 lg:py-20"
     >
       <Container>
         {/* Título */}

@@ -18,7 +18,7 @@ import {
  */
 export function HeadquartersMap() {
   return (
-    <section id="sede" className="scroll-mt-28 bg-white py-16 sm:py-24">
+    <section id="sede" className="scroll-mt-28 bg-[var(--background)] py-16 sm:py-24">
       <Container>
         <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-xl shadow-slate-950/5">
           <div className="grid lg:grid-cols-[0.85fr_1.15fr]">

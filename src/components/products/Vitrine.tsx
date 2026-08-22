@@ -186,7 +186,7 @@ export function Vitrine({
   return (
     <>
       {integrada ? (
-        <section className="relative z-10 -mt-8 overflow-hidden rounded-t-[2.75rem] border-t border-slate-200/80 bg-[#f5f7fb] pb-9 pt-16 sm:-mt-12 sm:rounded-t-[4rem] sm:pb-11 sm:pt-20">
+        <section className="relative z-10 -mt-8 overflow-hidden rounded-t-[2.75rem] border-t border-slate-200/80 bg-[var(--background)] pb-9 pt-16 sm:-mt-12 sm:rounded-t-[4rem] sm:pb-11 sm:pt-20">
           <Container>
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -252,7 +252,7 @@ export function Vitrine({
       <section
         id="filtros-catalogo"
         className={`relative z-10 scroll-mt-28 pb-5 ${
-          integrada ? "bg-[#f5f7fb]" : "-mt-20"
+          integrada ? "bg-[var(--background)]" : "-mt-20"
         }`}
       >
         <Container>
@@ -416,7 +416,7 @@ export function Vitrine({
         </Container>
       </div>
 
-      <section className="bg-[#f5f7fb] py-10 sm:py-14">
+      <section className="bg-[var(--background)] py-10 sm:py-14">
         <Container>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -695,7 +695,7 @@ function CartaoDeProduto({ produto }: { produto: ProdutoDaVitrine }) {
 
 export function ChamadaParceiro() {
   return (
-    <section className="bg-[#f5f7fb] pb-16 pt-2 sm:pb-20">
+    <section className="bg-[var(--background)] pb-16 pt-2 sm:pb-20">
       <Container>
         <div className="relative flex flex-col items-start gap-8 overflow-hidden rounded-[2.25rem] bg-[linear-gradient(120deg,#061f49_0%,#0a3a79_58%,#0e5ba3_100%)] p-8 text-white shadow-[0_30px_80px_-50px_rgba(6,31,73,0.75)] sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div

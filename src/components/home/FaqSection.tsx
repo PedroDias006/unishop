@@ -17,7 +17,7 @@ export async function FaqSection() {
   return (
     <section
       id="duvidas"
-      className="scroll-mt-28 bg-white py-20 sm:py-24 lg:py-28"
+      className="scroll-mt-28 bg-[var(--background)] py-20 sm:py-24 lg:py-28"
     >
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
