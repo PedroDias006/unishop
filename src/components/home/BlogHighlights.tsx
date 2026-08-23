@@ -54,9 +54,25 @@ export async function BlogHighlights() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/*
+          No telefone os três cards empilhados viravam três telas de rolagem de
+          um assunto que o visitante talvez nem queira ler — e empurravam o
+          resto da página para longe. Aqui eles viram uma faixa que corre para
+          o lado: quem tem interesse arrasta, quem não tem passa direto.
+
+          As margens negativas sangram a faixa até a borda da tela (o
+          `Container` tem px-5) para o terceiro card ficar espiando no canto e
+          avisar que existe mais coisa ao lado. A partir do `sm` volta a ser a
+          grade de sempre.
+        */}
+        <div className="mt-12 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           {destaques.map((post) => (
-            <PostCard key={post.slug} post={post} />
+            <div
+              key={post.slug}
+              className="w-[84%] shrink-0 snap-start sm:w-auto sm:shrink"
+            >
+              <PostCard post={post} />
+            </div>
           ))}
         </div>
       </Container>

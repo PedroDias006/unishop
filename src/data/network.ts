@@ -39,6 +39,71 @@ export const businessNumbers = [
 ] as const;
 
 /**
+ * Os três formatos de loja, como a fonte A os publica na seção "Quanto você
+ * deseja investir?". Área de vendas, tamanho da equipe e o que o valor cobre
+ * saem da tabela reproduzida na seção 4 de `docs/conteudo-fontes.md` — nada
+ * aqui é arredondado para parecer melhor.
+ *
+ * Os nomes Compacta, Intermediária e Completa são os mesmos que o restante do
+ * site usa para as lojas P, M e G da fonte.
+ */
+export const storeFormats = [
+  {
+    id: "compacta",
+    badge: "Loja P",
+    label: "Para começar",
+    name: "Unishop Compacta",
+    tagline:
+      "A porta de entrada da rede: uma operação enxuta, no ponto certo do bairro.",
+    investment: "R$ 60 mil",
+    area: "50 m²",
+    team: "Você e mais 1 funcionário",
+    image: "/images/home/modelo-loja-compacta-v1.webp",
+    imageAlt: "Fachada de uma loja Unishop no formato compacto, vista da rua.",
+  },
+  {
+    id: "intermediaria",
+    badge: "Loja M",
+    label: "O equilíbrio",
+    name: "Unishop Intermediária",
+    tagline:
+      "Espaço para ampliar o mix, guardar estoque e atender empresa e consumidor no mesmo balcão.",
+    investment: "R$ 86 mil",
+    area: "80 m²",
+    team: "Você e mais 2 funcionários",
+    image: "/images/home/modelo-loja-intermediaria-v1.webp",
+    imageAlt:
+      "Fachada de uma loja Unishop no formato intermediário, com o carro da loja em frente.",
+  },
+  {
+    id: "completa",
+    badge: "Loja G",
+    label: "O maior potencial",
+    name: "Unishop Completa",
+    tagline:
+      "O shopping da limpeza: portfólio inteiro, equipe maior e capacidade para atender indústria e frota.",
+    investment: "R$ 120 mil",
+    area: "100 m² ou acima",
+    team: "Você e mais 4 funcionários",
+    image: "/images/home/modelo-loja-completa-v1.webp",
+    imageAlt:
+      "Fachada de uma loja Unishop no formato completo, vista da esquina.",
+  },
+] as const;
+
+/**
+ * O que o investimento cobre — igual nos três formatos, por isso aparece uma
+ * vez só, fora dos cartões, em vez de repetido três vezes.
+ */
+export const storeFormatIncludes = [
+  "Documentação para abertura do negócio",
+  "Mobiliário da loja",
+  "Equipamento e software",
+  "Suporte de marketing B2B e B2C",
+  "Primeiro estoque de produtos Start",
+] as const;
+
+/**
  * Os oito pilares que o site atual apresenta em vídeo, um a um. O texto é o
  * da fonte, com ajustes mínimos de pontuação — a chamada "Assista ao vídeo e
  * saiba mais!" foi retirada porque aqui não há vídeo por pilar.

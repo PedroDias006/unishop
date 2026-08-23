@@ -1,6 +1,13 @@
 "use client";
 
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  ChevronLeft,
+  ChevronRight,
+  ShoppingBag,
+  SprayCan,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -29,6 +36,40 @@ import {
  */
 const slides = [
   {
+    id: "lojas",
+    eyebrow: "Unishop",
+    title: "Unishop",
+    accent: "Seu supermercado da limpeza.",
+    description:
+      "Soluções profissionais, variedade e eficiência para quem quer crescer.",
+    cta: { label: "Saiba mais", href: "/modelo-de-negocio" },
+    visual: "store",
+    // O fundo à esquerda da arte é azul médio (#68aafc): o fundo do slide
+    // acompanha, senão aparece uma borda de outra cor em volta quando o
+    // recorte não preenche a altura toda.
+    background: "bg-[#68aafc]",
+    // Liga a versão escura das setas laterais — as brancas sumiam neste banner.
+    darkText: true,
+    reverse: false,
+    fullImage: "/images/hero/banner-loja-claro-v3.webp",
+    fullHref: "/modelo-de-negocio",
+    fullAlt: "Fachada de uma loja Unishop, o supermercado da limpeza",
+    facts: [
+      { value: "Sem royalties", label: "nem taxa de franquia, nem mensalidade" },
+      { value: "3 formatos", label: "de 50 m² a 100 m² ou mais" },
+      { value: "Marketing incluso", label: "fachada, PDV e campanhas mensais" },
+    ],
+    mobile: {
+      focus: "object-[74%_center]",
+      eyebrow: "Unishop",
+      lead: "Seu supermercado",
+      accent: "da limpeza.",
+      tail: null,
+      text: "Soluções profissionais, variedade e eficiência para quem quer crescer.",
+      cta: { label: "Saiba mais", href: "/modelo-de-negocio" },
+    },
+  },
+  {
     id: "produtos",
     eyebrow: null,
     title: "Mais cuidado.",
@@ -42,13 +83,16 @@ const slides = [
     description: null,
     cta: null,
     visual: "products",
-    // Azul de marca (#1150a4, o mesmo `--brand-blue-800`) no lugar do
-    // quase-preto: é o tom que a Start usa nos banners institucionais. Cobre a
-    // faixa de 88px atrás da navbar, que é onde este valor aparece.
-    background: "bg-[#1150a4]",
-    darkText: false,
+    // A arte nova já traz a vitrine montada sobre a bancada e um fundo azul
+    // claro (#a3c8f8) à esquerda para a cópia — antes era uma bancada vazia
+    // com a vitrine sobreposta e um degradê azul escuro por cima. O fundo do
+    // slide acompanha o tom da arte, senão sobra uma borda escura quando o
+    // recorte não preenche a altura toda.
+    background: "bg-[#a3c8f8]",
+    // Texto e setas em azul-marinho: o branco dos outros banners some neste.
+    darkText: true,
     reverse: false,
-    fullImage: "/images/hero/fundo.webp",
+    fullImage: "/images/hero/banner-produtos-v1.webp",
     fullHref: "/produtos",
     fullAlt: "Produtos Azulim, Tuff, Asseptgel, Start Pro e Pedrex sobre uma bancada",
     facts: [
@@ -57,44 +101,14 @@ const slides = [
       { value: "Da casa à indústria", label: "no mesmo balcão" },
     ],
     mobile: {
-      focus: "object-[55%_center]",
+      // A vitrine ocupa a metade direita da arte nova.
+      focus: "object-[82%_center]",
       eyebrow: "Para casa e para o seu negócio",
       lead: "Mais cuidado.",
       accent: "Menos complicação.",
       tail: null,
       text: "Limpeza, higiene e descartáveis das marcas que você já conhece, com orientação de quem entende.",
       cta: { label: "Conhecer os produtos", href: "/produtos" },
-    },
-  },
-  {
-    id: "lojas",
-    eyebrow: "Transforme sua loja",
-    title: "Em uma",
-    accent: "Unishop!",
-    description:
-      "Limpeza, descartáveis, EPIs, utilidades e embalagens para ampliar suas vendas com suporte completo.",
-    cta: { label: "Conhecer o modelo", href: "/modelo-de-negocio" },
-    visual: "store",
-    background:
-      "bg-[radial-gradient(circle_at_80%_16%,rgba(60,156,238,0.42),transparent_29%),linear-gradient(118deg,#031d4c_0%,#0752a9_100%)]",
-    darkText: false,
-    reverse: false,
-    fullImage: "/images/hero/banner-loja-informacoes-v2.webp",
-    fullHref: "/modelo-de-negocio",
-    fullAlt: "Transforme sua loja em uma Unishop",
-    facts: [
-      { value: "Sem royalties", label: "nem taxa de franquia, nem mensalidade" },
-      { value: "3 formatos", label: "de 50 m² a 100 m² ou mais" },
-      { value: "Marketing incluso", label: "fachada, PDV e campanhas mensais" },
-    ],
-    mobile: {
-      focus: "object-[74%_center]",
-      eyebrow: "Transforme sua loja",
-      lead: "Em uma",
-      accent: "Unishop!",
-      tail: null,
-      text: "Limpeza, descartáveis, EPIs, utilidades e embalagens para ampliar suas vendas com suporte completo.",
-      cta: { label: "Saiba mais", href: "/modelo-de-negocio" },
     },
   },
   {
@@ -110,7 +124,7 @@ const slides = [
       "bg-[radial-gradient(circle_at_12%_84%,rgba(21,104,198,0.32),transparent_30%),linear-gradient(132deg,#03183e_0%,#0a3f88_100%)]",
     darkText: false,
     reverse: false,
-    fullImage: "/images/hero/banner-industria-base-v2.webp",
+    fullImage: "/images/hero/banner-industria-base-v3.webp",
     fullHref: "/sobre",
     fullAlt: "Estrutura da indústria e distribuição da Rede Unishop",
     facts: [
@@ -137,11 +151,14 @@ const slides = [
       "Invista a partir de R$60 mil e tenha suporte completo para começar.",
     cta: { label: "Quero conhecer", href: "/seja-parceiro" },
     visual: "partner",
-    background:
-      "bg-[radial-gradient(circle_at_88%_8%,rgba(20,101,205,0.38),transparent_28%),linear-gradient(118deg,#020d2c_0%,#03285f_54%,#061b44_100%)]",
-    darkText: false,
+    // A arte nova é amarela (#fdc214) atrás da empreendedora, no lugar do azul
+    // quase-preto: o fundo do slide acompanha para não aparecer uma borda
+    // escura quando o recorte não preenche a altura toda.
+    background: "bg-[#fdc214]",
+    // Texto e setas em azul-marinho: sobre o amarelo o branco fica em 1,7:1.
+    darkText: true,
     reverse: false,
-    fullImage: "/images/hero/banner-parceria-informacoes-v2.webp",
+    fullImage: "/images/hero/banner-parceria-informacoes-v3.webp",
     fullHref: "/seja-parceiro",
     fullAlt: "Oportunidade de faturamento com limpeza e higienização",
     facts: [
@@ -190,6 +207,19 @@ const slides = [
       cta: { label: "Explorar soluções", href: "/produtos" },
     },
   },
+] as const;
+
+/**
+ * Os três destaques do banner claro das lojas, no lugar da faixa de dados —
+ * é o que a arte pede naquele espaço.
+ *
+ * O ícone é amarelo, como pedido, mas dentro de uma pastilha azul: amarelo
+ * chapado sobre o fundo quase branco daquela arte fica em 1,7:1 e some.
+ */
+const storeHighlights = [
+  { icon: SprayCan, label: "Soluções profissionais" },
+  { icon: ShoppingBag, label: "Variedade que atende você" },
+  { icon: BadgeCheck, label: "Qualidade que gera resultados" },
 ] as const;
 
 type HeroFact = { value: string; label: string };
@@ -395,14 +425,11 @@ export function Hero() {
                   Foto em faixa no topo + painel de texto embaixo. Os cinco
                   banners usam exatamente esta anatomia; só a arte e as palavras
                   mudam. */}
-              {/* O painel acompanha a cor do próprio banner. Sem isto, o
-                  primeiro slide ficaria com a faixa do topo em azul de marca e
-                  o painel de texto em azul quase preto, com a emenda à vista. */}
-              <div
-                className={`absolute inset-x-0 bottom-0 top-[88px] flex flex-col md:hidden ${
-                  slide.id === "produtos" ? "bg-[#1150a4]" : "bg-[#04193f]"
-                }`}
-              >
+              {/* Os cinco painéis usam o mesmo azul quase preto: o texto do
+                  telefone é branco em todos, e as artes claras (produtos e
+                  lojas) entram só na faixa da foto, que o degradê abaixo
+                  costura com o painel. */}
+              <div className="absolute inset-x-0 bottom-0 top-[88px] flex flex-col bg-[#04193f] md:hidden">
                 {/* A faixa é quem absorve a sobra de altura (`flex-1`), e o
                     texto ocupa o que precisa. Com a faixa em porcentagem fixa,
                     num aparelho de 640px o botão caía para fora da seção. */}
@@ -419,27 +446,9 @@ export function Hero() {
                     />
                   ) : null}
 
-                  {/* A vitrine das cinco marcas é o assunto do primeiro banner:
-                      no telefone ela se apoia na base da faixa. */}
-                  {slide.id === "produtos" && mounted ? (
-                    <Image
-                      src="/images/hero/vitrine-marcas.webp"
-                      alt={slide.fullAlt}
-                      width={3651}
-                      height={976}
-                      priority
-                      sizes="120vw"
-                      className="absolute bottom-3 left-1/2 h-auto w-[120%] max-w-none -translate-x-1/2 select-none"
-                    />
-                  ) : null}
-
                   <div
                     aria-hidden="true"
-                    className={`absolute inset-x-0 bottom-0 h-24 ${
-                      slide.id === "produtos"
-                        ? "bg-[linear-gradient(180deg,rgba(17,80,164,0)_0%,rgba(17,80,164,0.72)_55%,#1150a4_100%)]"
-                        : "bg-[linear-gradient(180deg,rgba(4,25,63,0)_0%,rgba(4,25,63,0.72)_55%,#04193f_100%)]"
-                    }`}
+                    className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(4,25,63,0)_0%,rgba(4,25,63,0.72)_55%,#04193f_100%)]"
                   />
                 </div>
 
@@ -486,64 +495,53 @@ export function Hero() {
               {/* ======================== TABLET E DESKTOP ======================== */}
               {fullArtwork ? (
                 slide.visual === "products" ? (
-                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#1150a4] sm:top-[96px] md:block">
+                  /* Banner claro: a arte já traz a vitrine das cinco marcas
+                     apoiada na bancada e o azul claro à esquerda para a cópia,
+                     então aqui entram só as palavras — em azul-marinho, porque
+                     sobre o #a3c8f8 da arte o branco fica em 1,9:1. */
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#a3c8f8] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
-                        alt=""
-                        aria-hidden="true"
+                        alt={fullArtwork.alt}
                         fill
-                        priority
+                        priority={index === 0}
                         sizes="100vw"
-                        className="select-none object-cover object-[60%_center]"
+                        // Quanto mais estreito o quadro, mais o recorte come
+                        // das laterais: ancorar mais à esquerda abaixo do xl
+                        // é o que mantém o azul claro atrás da cópia em vez de
+                        // jogar as embalagens por baixo dela.
+                        className="select-none object-cover object-[42%_center] xl:object-[52%_center]"
                       />
                     ) : null}
 
-                    {/* Degradê azul à esquerda: é o que deixa o amarelo da
-                        marca chapado e legível, como nos outros banners. Sobre
-                        a bancada clara o mesmo amarelo daria 1,6:1; sobre este
-                        azul dá 5:1, e o branco do título, 7,7:1. */}
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,80,164,0.94)_0%,rgba(17,80,164,0.76)_40%,rgba(17,80,164,0.12)_74%)] sm:bg-[linear-gradient(90deg,rgba(17,80,164,0.96)_0%,rgba(17,80,164,0.89)_30%,rgba(17,80,164,0.38)_56%,rgba(17,80,164,0)_74%)]" />
+                    {/* Véu da própria cor do fundo da arte: até ~1280px o
+                        recorte de altura come as laterais e a vitrine avança
+                        sobre o texto. Devolve a área clara sem escurecer nada
+                        e some no xl, onde já sobra espaço. */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-[linear-gradient(90deg,#a3c8f8_0%,#a3c8f8_30%,rgba(163,200,248,0.88)_44%,rgba(163,200,248,0)_60%)] xl:hidden"
+                    />
 
-                    {/* A vitrine com as cinco marcas, apoiada na bancada */}
-                    <div className="absolute inset-x-0 bottom-[4%] z-10 sm:bottom-[5%] lg:bottom-[2%]">
-                      {mounted ? (
-                        <Image
-                          src="/images/hero/vitrine-marcas.webp"
-                          alt={fullArtwork.alt}
-                          width={3651}
-                          height={976}
-                          priority
-                          sizes="(max-width: 640px) 124vw, (max-width: 1024px) 96vw, (max-width: 1600px) 76vw, 1060px"
-                          // O teto em px impede que a vitrine cresça até
-                          // encostar no título em telas largas: o título para
-                          // de crescer (max-w-[620px]) mas 76vw não.
-                          className="ml-auto h-auto w-[124%] max-w-none translate-x-[10%] select-none sm:w-[96%] sm:translate-x-0 lg:w-[76%] lg:max-w-[1060px]"
-                        />
-                      ) : null}
-                    </div>
-
-                    {/* A cópia fica na parte de cima e a vitrine ocupa a
-                        bancada embaixo: assim as duas não disputam espaço e os
-                        produtos podem ser bem maiores. */}
-                    <div className="absolute inset-0 mx-auto flex w-full max-w-[1728px] items-start px-5 pt-9 sm:px-[5.5%] sm:pt-[6%] lg:px-[3.4%] lg:pt-[5%] xl:px-[2.8%]">
-                      <div className="hero-slide-copy relative z-20 w-full sm:w-[52%] sm:max-w-[620px]">
-                        <p className="mb-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69] sm:text-xs lg:text-sm">
-                          <span aria-hidden="true" className="h-px w-8 bg-[#ffc928]" />
+                    <div className="absolute inset-0 mx-auto flex w-full max-w-[1728px] items-center px-5 sm:px-[5.5%] lg:px-[6.2%]">
+                      <div className="hero-slide-copy relative z-20 w-[44%] max-w-[560px]">
+                        <p className="mb-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#07396e] sm:text-xs lg:text-sm">
+                          <span aria-hidden="true" className="h-px w-8 bg-[#07396e]/55" />
                           Para casa e para o seu negócio
                         </p>
 
                         {/* O título encolheu de 5,75rem para 4,75rem: era ele
                             que empurrava o texto de apoio e a faixa de dados
                             para fora do quadro. */}
-                        <h1 className="text-[clamp(2.5rem,4.2vw,4.75rem)] font-black uppercase leading-[0.88] tracking-[-0.055em] text-white">
+                        <h1 className="text-[clamp(2.5rem,4.2vw,4.75rem)] font-black uppercase leading-[0.88] tracking-[-0.055em] text-[#052d64]">
                           Mais cuidado.
-                          <span className="mt-2 block text-[#ffc928]">
+                          <span className="mt-2 block text-[#0a4fa8]">
                             Menos complicação.
                           </span>
                         </h1>
 
-                        <p className="mt-5 max-w-[520px] text-sm font-semibold leading-6 text-white/78 lg:text-base lg:leading-7">
+                        <p className="mt-5 max-w-[520px] text-sm font-semibold leading-6 text-[#0a2f6b]/85 lg:text-base lg:leading-7">
                           Limpeza, higiene, assepsia e descartáveis das marcas
                           que você já conhece — com quem sabe indicar o produto
                           certo e a forma correta de aplicar.
@@ -563,39 +561,58 @@ export function Hero() {
 
                         <HeroFacts
                           facts={slide.facts}
-                          className="mt-7 border-t border-white/14 pt-5"
+                          tone="dark"
+                          className="mt-7 border-t border-[#07396e]/22 pt-5"
                         />
                       </div>
                     </div>
                   </div>
                 ) : slide.visual === "store" ? (
-                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px] md:block">
+                  /* Banner claro: a arte já traz o fundo e o cartão com a
+                     foto, então aqui entram só as palavras — em azul, porque
+                     o branco dos outros banners sumiria neste. */
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#68aafc] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
-                        alt="Conceito de loja da Rede Unishop"
+                        alt={fullArtwork.alt}
                         fill
+                        priority={index === 0}
                         sizes="100vw"
                         className="select-none object-cover object-center"
                       />
                     ) : null}
 
+                    {/* Entre o tablet e ~1280px o recorte de altura puxa o
+                        cartão da foto para cima do texto. Este véu é da cor do
+                        próprio fundo da arte: devolve a área clara sem
+                        escurecer nada e some a partir do xl, onde já sobra
+                        espaço. */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-[linear-gradient(90deg,#68aafc_0%,#68aafc_32%,rgba(104,170,252,0.9)_48%,rgba(104,170,252,0)_66%)] xl:hidden"
+                    />
+
                     <div className="absolute inset-0 mx-auto flex w-full max-w-[1728px] items-center px-[6.2%]">
-                      <div className="hero-slide-copy relative z-20 w-[45%] max-w-[640px]">
-                        <p className="mb-5 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69] sm:text-xs lg:text-sm">
-                          <span className="h-px w-8 bg-[#ffc928]" />
-                          Transforme sua loja
+                      {/* A arte encosta o cartão da foto em ~45% da largura,
+                          e o recorte de altura come as bordas: a coluna de
+                          texto para antes disso para não correr por baixo da
+                          fachada. */}
+                      <div className="hero-slide-copy relative z-20 w-[42%] max-w-[440px]">
+                        <p className="inline-flex items-center rounded-full bg-[#ffc928] px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.2em] text-[#07396e] lg:text-xs">
+                          Unishop
                         </p>
 
-                        <h1 className="text-[clamp(2.4rem,4vw,4.6rem)] font-black uppercase leading-[0.86] tracking-[-0.055em] text-white">
-                          Em uma
-                          <span className="mt-2 block text-[#ffc928] sm:mt-3">
-                            Unishop!
+                        <h1 className="mt-6 text-[clamp(2.6rem,4.4vw,5rem)] font-black leading-[0.92] tracking-[-0.055em] text-[#0a2f6b]">
+                          Unishop
+                          <span className="mt-3 block text-[clamp(1.05rem,1.7vw,1.9rem)] font-bold leading-[1.15] tracking-[-0.03em] text-[#0e3a7d]">
+                            Seu supermercado da limpeza.
                           </span>
                         </h1>
 
-                        <p className="mt-6 max-w-[520px] text-sm font-semibold leading-6 text-white/78 sm:text-base sm:leading-7 lg:text-lg lg:leading-8">
-                          Limpeza, descartáveis, EPIs, utilidades e embalagens — aumente suas vendas com um modelo rentável e suporte completo.
+                        <p className="mt-5 max-w-[400px] text-sm font-semibold leading-7 text-[#0a2f6b]/90 lg:text-base lg:leading-8">
+                          Soluções profissionais, variedade e eficiência para
+                          quem quer crescer.
                         </p>
 
                         <Link
@@ -610,10 +627,34 @@ export function Hero() {
                           />
                         </Link>
 
-                        <HeroFacts
-                          facts={slide.facts}
-                          className="mt-7 border-t border-white/14 pt-5"
-                        />
+                        {/* Os três destaques da arte, com filete entre eles,
+                            no lugar em que os outros banners põem os dados.
+                            Três colunas fixas: em `flex` o terceiro caía para
+                            uma segunda linha e levava o filete junto. */}
+                        <ul className="mt-8 grid grid-cols-3 border-t border-[#0a2f6b]/25 pt-6">
+                          {storeHighlights.map((item, position) => {
+                            const Icon = item.icon;
+
+                            return (
+                              <li
+                                key={item.label}
+                                className={`flex items-center gap-2.5 ${
+                                  position > 0
+                                    ? "border-l border-[#0a2f6b]/25 pl-4"
+                                    : "pr-4"
+                                }`}
+                              >
+                                <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#0a2f6b] text-[#ffc928]">
+                                  <Icon size={16} strokeWidth={2.2} />
+                                </span>
+
+                                <span className="text-[11px] font-bold leading-[1.3] text-[#0a2f6b] lg:text-[12px]">
+                                  {item.label}
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -721,31 +762,37 @@ export function Hero() {
                     </div>
                   </div>
                 ) : slide.visual === "partner" ? (
-                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#020c28] sm:top-[96px] md:block">
+                  /* Banner amarelo: a empreendedora ocupa a faixa da esquerda
+                     (~5% a 38%) e o cifrão a da direita (a partir de ~78%), e a
+                     cópia entra no amarelo entre os dois — em azul-marinho,
+                     porque sobre o #fdc214 o branco fica em 1,7:1. */
+                  <div className="hidden absolute inset-x-0 bottom-0 top-[88px] bg-[#fdc214] sm:top-[96px] md:block">
                     {mounted ? (
                       <Image
                         src={fullArtwork.image}
                         alt="Empreendedora da Rede Unishop em uma operação de limpeza e higienização"
                         fill
                         sizes="100vw"
-                        className="select-none object-cover object-[25%_center] sm:object-center"
+                        // A arte é 2,67:1 e o quadro é mais largo ainda, então
+                        // o recorte é de largura. Ancorar em 24% mantém a
+                        // empreendedora inteira à esquerda e gasta a sobra no
+                        // lado do cifrão.
+                        className="select-none object-cover object-[24%_center]"
                       />
                     ) : null}
 
-                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(1,12,44,0.12)_0%,rgba(1,16,54,0.88)_36%,rgba(1,20,63,0.1)_82%)] sm:hidden" />
-
                     <div className="absolute inset-0 mx-auto flex w-full max-w-[2048px] items-center px-5 sm:px-8 lg:px-0">
-                      <div className="hero-slide-copy relative z-20 w-full text-center sm:ml-[41%] sm:w-[48%] sm:text-left lg:ml-[47%] lg:w-[30%]">
-                        <p className="mb-3 flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.24em] text-[#ffdc69] sm:justify-start sm:text-xs lg:mb-4 lg:text-sm">
-                          <span className="h-px w-8 bg-[#ffc928]" />
+                      <div className="hero-slide-copy relative z-20 ml-[42%] w-[40%] lg:ml-[44%] lg:w-[30%]">
+                        <p className="mb-3 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.24em] text-[#07396e]/75 sm:text-xs lg:mb-4 lg:text-sm">
+                          <span className="h-px w-8 bg-[#07396e]/55" />
                           Oportunidade de negócio
                         </p>
 
-                        <h1 className="font-black uppercase leading-[0.88] tracking-[-0.045em] text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.28)]">
+                        <h1 className="font-black uppercase leading-[0.88] tracking-[-0.045em] text-[#07396e]">
                           <span className="block text-[clamp(1.4rem,1.95vw,2.5rem)] tracking-[-0.025em]">
                             Fature até
                           </span>
-                          <span className="my-1 block text-[clamp(2.8rem,4.3vw,5.2rem)] text-[#ffc928] sm:my-2">
+                          <span className="my-1 block text-[clamp(2.8rem,4.3vw,5.2rem)] text-[#052d64] drop-shadow-[0_2px_0_rgba(255,255,255,0.18)] sm:my-2">
                             R$120 mil
                           </span>
                           <span className="block text-[clamp(1.1rem,1.6vw,2rem)] leading-[1.02] tracking-[-0.02em]">
@@ -754,26 +801,27 @@ export function Hero() {
                           </span>
                         </h1>
 
-                        <div className="mx-auto mt-5 max-w-[650px] border-t border-[#ffc928]/70 pt-4 sm:mx-0 lg:mt-7 lg:pt-5">
-                          <p className="text-xs font-medium leading-5 text-white/88 sm:text-sm sm:leading-6 lg:text-base lg:leading-7">
-                            Invista a partir de <strong className="font-black text-[#ffc928]">R$60 mil</strong> e tenha suporte completo para começar.
+                        <div className="mt-5 max-w-[650px] border-t border-[#07396e]/45 pt-4 lg:mt-7 lg:pt-5">
+                          <p className="text-xs font-semibold leading-5 text-[#07396e]/85 sm:text-sm sm:leading-6 lg:text-base lg:leading-7">
+                            Invista a partir de <strong className="font-black text-[#052d64]">R$60 mil</strong> e tenha suporte completo para começar.
                           </p>
 
                           <Link
                             href={fullArtwork.href}
                             tabIndex={active ? 0 : -1}
-                            className="group mt-4 inline-flex min-h-11 items-center gap-3 rounded-full bg-[#ffc928] px-5 text-xs font-black uppercase text-[#07396e] shadow-[0_12px_30px_rgba(227,164,0,0.28)] transition hover:-translate-y-1 hover:bg-[#ffda55] lg:mt-5 lg:min-h-12 lg:px-6 lg:text-sm"
+                            className="group mt-4 inline-flex min-h-11 items-center gap-3 rounded-full bg-[#07396e] px-5 text-xs font-black uppercase text-white shadow-[0_12px_30px_rgba(4,35,76,0.24)] transition hover:-translate-y-1 hover:bg-[#0b4d8f] lg:mt-5 lg:min-h-12 lg:px-6 lg:text-sm"
                           >
                             Quero conhecer
                             <ArrowRight
                               size={18}
-                              className="transition-transform group-hover:translate-x-1"
+                              className="text-[#ffc928] transition-transform group-hover:translate-x-1"
                             />
                           </Link>
 
                           <HeroFacts
                             facts={slide.facts}
                             stacked
+                            tone="dark"
                             className="mt-5 text-left"
                           />
                         </div>

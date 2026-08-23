@@ -85,7 +85,7 @@ export function AuthoritySection() {
             <figure className="m-0 mt-8">
               <div className="relative aspect-[16/7] overflow-hidden rounded-[20px] bg-[#edf2f7]">
                 <Image
-                  src="/images/hero/banner-industria-base-v2.webp"
+                  src="/images/hero/banner-industria-base-v3.webp"
                   alt="Vista aérea da fábrica da Start Química"
                   fill
                   sizes="(max-width: 1024px) 100vw, 54vw"

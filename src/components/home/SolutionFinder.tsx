@@ -728,20 +728,8 @@ export function SolutionFinder({
         <div className="pointer-events-none absolute -left-40 top-1/2 size-[520px] -translate-y-1/2 rounded-full bg-[#0a4a84]/6 blur-3xl" />
         <div className="pointer-events-none absolute right-[16%] top-[12%] size-64 rounded-full bg-[#ffd200]/10 blur-3xl" />
 
-        <div className="absolute inset-x-0 bottom-0 top-[48%] sm:right-[36%] sm:top-[24%] lg:right-[46%] lg:top-0">
-          <Image
-            src="/images/home/consultora-crie-sua-solucao-v1.webp"
-            alt="Consultora Unishop apresentando o criador de soluções"
-            fill
-            priority
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 64vw, 54vw"
-            className="select-none object-contain object-left-bottom"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(270deg,#f5f5f7_0%,rgba(245,245,247,0.72)_10%,transparent_32%)]" />
-        </div>
-
         <Container>
-          <div className="relative z-10 flex min-h-[940px] items-start py-16 sm:min-h-[800px] sm:py-20 lg:min-h-[700px] lg:items-center lg:py-24">
+          <div className="relative z-10 flex items-start pb-4 pt-16 sm:min-h-[800px] sm:py-20 lg:min-h-[700px] lg:items-center lg:py-24">
             <div className="max-w-[650px] font-[Manrope] lg:ml-auto lg:w-[48%]">
               <div className="mb-7 flex items-center gap-4">
                 <span className="h-px w-12 bg-[#d9a700]" />
@@ -791,6 +779,30 @@ export function SolutionFinder({
             </div>
           </div>
         </Container>
+
+        {/*
+          A foto é camada de fundo à esquerda a partir do tablet, mas no
+          telefone não existe "esquerda": ela subia por baixo da cópia e a
+          última linha (a do "menos de um minuto") caía em cima do rosto. O
+          degradê que protege o texto é horizontal, então lá não ajudava em
+          nada.
+
+          No telefone ela sai do fundo e entra no fluxo, depois do botão: o
+          texto fica inteiro sobre o fundo claro e a consultora aparece
+          completa em vez de cortada. Por isso o bloco vem depois do
+          `Container` — no tablet para cima ele volta a ser absoluto e a ordem
+          no HTML deixa de importar.
+        */}
+        <div className="relative h-[360px] sm:absolute sm:inset-x-0 sm:bottom-0 sm:top-[24%] sm:right-[36%] sm:h-auto lg:right-[46%] lg:top-0">
+          <Image
+            src="/images/home/consultora-crie-sua-solucao-v1.webp"
+            alt="Consultora Unishop apresentando o criador de soluções"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 64vw, 54vw"
+            className="select-none object-contain object-bottom sm:object-left-bottom"
+          />
+          <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(270deg,#f5f5f7_0%,rgba(245,245,247,0.72)_10%,transparent_32%)] sm:block" />
+        </div>
       </section>
 
       {modalOpen && (

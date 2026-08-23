@@ -255,7 +255,7 @@ export function BrazilPresence() {
       id="presenca"
       className="scroll-mt-28 overflow-hidden bg-[var(--background)] py-20 font-[Manrope] text-[var(--brand-blue-950)] sm:py-28"
     >
-      <Container className="grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
+      <Container className="grid items-center gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-x-16 lg:gap-y-7">
         <div className="max-w-xl">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-[#ffc928]" aria-hidden="true" />
@@ -434,42 +434,9 @@ export function BrazilPresence() {
               </span>
             </div>
           </div>
-
-          <div className="mt-7 flex min-h-20 items-center gap-4 rounded-r-2xl border border-l-2 border-slate-200 border-l-[#ffc928] bg-white px-5 py-4 shadow-[0_12px_30px_rgba(6,31,73,0.05)]">
-            {activeState ? (
-              <span className="relative h-12 w-[68px] shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-[0_6px_16px_rgba(6,31,73,0.10)]">
-                <Image
-                  src={`/images/state-flags/${activeState.id}.svg`}
-                  alt={`Bandeira de ${activeState.name}`}
-                  fill
-                  sizes="68px"
-                  className="object-contain p-1"
-                  unoptimized
-                />
-              </span>
-            ) : (
-              <span className="grid size-11 shrink-0 place-items-center rounded-lg border border-slate-200 bg-slate-50 text-[#1472aa]">
-                <MapPin aria-hidden="true" className="size-5" />
-              </span>
-            )}
-            <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
-                {hoveredState ? "Estado em destaque" : "Estado selecionado"}
-              </span>
-              <p className="mt-1 text-lg font-extrabold text-[var(--brand-blue-950)]">
-                {activeState?.name ?? "Escolha um estado"}
-                {activeState ? <span className="font-medium text-slate-500"> · {activeRegion}</span> : null}
-              </p>
-              {activeState ? (
-                <p className="mt-1 text-xs text-slate-500">
-                  {selectedStateCities} {selectedStateCities === 1 ? "cidade cadastrada" : "cidades cadastradas"}
-                </p>
-              ) : null}
-            </div>
-          </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[680px]">
+        <div className="relative mx-auto w-full max-w-[680px] lg:row-span-2">
           {selectedCity && selectedStore ? (
             <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_28px_70px_rgba(6,31,73,0.16)]">
               <div className="flex items-start justify-between gap-4 px-5 py-4 text-[#082e5d] sm:px-6">
@@ -634,6 +601,51 @@ export function BrazilPresence() {
               </p>
             </>
           )}
+        </div>
+
+        {/*
+          No telefone a coluna vira uma pilha só, e o card do estado ficava
+          entre os números e o mapa — ou seja, entre a pergunta e a resposta,
+          mostrando "Escolha um estado" antes de o mapa existir na tela. Aqui
+          ele passa a ser o terceiro filho da grade: no telefone cai depois do
+          mapa, que é onde a escolha acabou de ser feita.
+
+          No desktop a grade tem duas colunas, então este terceiro filho volta
+          para baixo da coluna da esquerda (linha 2, coluna 1) — o lugar de
+          sempre. O `lg:row-span-2` no mapa é o que impede a segunda linha de
+          abrir um vão vazio ao lado dele.
+        */}
+        <div className="flex min-h-20 items-center gap-4 rounded-r-2xl border border-l-2 border-slate-200 border-l-[#ffc928] bg-white px-5 py-4 shadow-[0_12px_30px_rgba(6,31,73,0.05)]">
+          {activeState ? (
+            <span className="relative h-12 w-[68px] shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-[0_6px_16px_rgba(6,31,73,0.10)]">
+              <Image
+                src={`/images/state-flags/${activeState.id}.svg`}
+                alt={`Bandeira de ${activeState.name}`}
+                fill
+                sizes="68px"
+                className="object-contain p-1"
+                unoptimized
+              />
+            </span>
+          ) : (
+            <span className="grid size-11 shrink-0 place-items-center rounded-lg border border-slate-200 bg-slate-50 text-[#1472aa]">
+              <MapPin aria-hidden="true" className="size-5" />
+            </span>
+          )}
+          <div>
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
+              {hoveredState ? "Estado em destaque" : "Estado selecionado"}
+            </span>
+            <p className="mt-1 text-lg font-extrabold text-[var(--brand-blue-950)]">
+              {activeState?.name ?? "Escolha um estado"}
+              {activeState ? <span className="font-medium text-slate-500"> · {activeRegion}</span> : null}
+            </p>
+            {activeState ? (
+              <p className="mt-1 text-xs text-slate-500">
+                {selectedStateCities} {selectedStateCities === 1 ? "cidade cadastrada" : "cidades cadastradas"}
+              </p>
+            ) : null}
+          </div>
         </div>
       </Container>
     </section>
