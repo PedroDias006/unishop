@@ -27,12 +27,32 @@
   box-sizing: border-box;
 }
 
+/* A página só rola na vertical. Sem isto, qualquer elemento que passe um
+   fio da borda — uma sombra, um blur decorativo, um trilho que sangra —
+   abre rolagem lateral, e no telefone o dedo pega essa folga durante a
+   rolagem: a tela sai do lugar e o visitante precisa reenquadrar a cada
+   arrasto.
+
+   `clip` em vez de `hidden` porque `hidden` transformaria o html num
+   contêiner de rolagem e quebraria o `position: sticky` de quem está
+   dentro (o FAQ no desktop, o filtro da vitrine de produtos). O `hidden`
+   antes é a reserva para navegador que não conhece `clip`.
+
+   `overscroll-behavior-x: none` desliga o efeito elástico lateral e o
+   gesto de voltar por arrasto, que dão a mesma sensação de site solto. */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 body {
   margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);

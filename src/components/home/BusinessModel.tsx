@@ -27,8 +27,13 @@ export function BusinessModel() {
     >
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-          {/* VÍDEO */}
-          <div className="relative">
+          {/* VÍDEO
+              No telefone a coluna vira pilha e o vídeo, por ser o primeiro
+              filho, abria a seção: o visitante batia num player antes de saber
+              do que a seção trata. A `order` desce ele para depois do texto,
+              que é onde vira convite em vez de obstáculo. No desktop as duas
+              colunas voltam à ordem do HTML — vídeo à esquerda. */}
+          <div className="order-2 relative lg:order-none">
             <span
               aria-hidden="true"
               className="absolute -left-3 top-8 hidden h-[72%] w-[3px] rounded-full bg-[var(--brand-yellow)] lg:block"
@@ -58,7 +63,7 @@ export function BusinessModel() {
           </div>
 
           {/* APRESENTAÇÃO */}
-          <div>
+          <div className="order-1 lg:order-none">
             <div className="flex items-center gap-4">
               <span
                 className="h-px w-10 bg-[var(--brand-yellow)]"
