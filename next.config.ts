@@ -26,6 +26,13 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
 
+    // A partir do Next 16 o `quality` do componente só vale se o valor estiver
+    // declarado aqui — fora da lista, ele cai calado para o padrão 75. O 82 é
+    // para as fotos do hero de telefone: elas já saem do
+    // `scripts/recortar-fotos-telefone.mjs` com máscara de nitidez, e em 75 o
+    // otimizador devolvia por compressão o borrão que o script tinha tirado.
+    qualities: [75, 82],
+
     // Breakpoints alinhados aos tamanhos que o layout realmente usa.
     deviceSizes: [360, 420, 640, 750, 828, 1080, 1200, 1440, 1920, 2172],
     imageSizes: [16, 32, 48, 64, 96, 128, 180, 256, 384],

@@ -18,16 +18,28 @@ import {
 } from "react";
 
 /**
- * `mobile` descreve o banner na versão de telefone, onde o layout é outro.
+ * Cada banner tem duas imagens, porque as duas telas pedem coisas diferentes.
  *
- * As artes são 3:1 (2172x724). Empilhadas num retrato de 375px elas perdiam
- * ~80% da largura e o assunto sumia, então no telefone a foto vira uma faixa
- * no topo e o texto desce para um painel azul — sempre com a mesma anatomia
- * (olho, título, apoio, botão), o que dá coerência entre os cinco banners.
+ * `fullImage` é a arte de tela grande: ~3:1, composta com um lado chapado
+ * reservado para a cópia. Ela não sobrevive a um recorte retrato — o lado
+ * chapado vira um bloco de cor vazio e o assunto perde quase toda a largura.
  *
- * `focus` é o object-position da faixa. O valor sai do ponto onde está o
- * assunto de cada arte: loja ~62% da largura, indústria ~80%, parceria ~28%
- * (pessoa à esquerda) e profissional ~83%.
+ * `mobileImage` é a fotografia original que deu origem àquela arte, sem a
+ * composição. No telefone ela ocupa o banner inteiro e a informação entra por
+ * cima, reduzida ao que cabe sobre uma foto sem competir com ela: olho, título
+ * e botão. O texto de apoio e a faixa de dados ficam só na tela grande.
+ *
+ * Os arquivos de `/images/hero/telefone/` já vêm recortados em retrato, e não
+ * são a mesma foto servida inteira e cortada pelo `object-cover`. A diferença
+ * é de nitidez, não de arrumação: a janela retrato aproveita só 409 a 627px de
+ * largura das fotos deitadas, o telefone exibe isso em 750 a 1125px reais, e a
+ * ampliação bilinear do navegador é o que deixava tudo borrado. Recortando
+ * antes, a ampliação passa a ser Lanczos com máscara de nitidez — e de quebra
+ * o aparelho para de baixar os pixels que seriam jogados fora.
+ *
+ * `scripts/recortar-fotos-telefone.mjs` regenera esses arquivos.
+ *
+ * `mobileScrim` é o véu daquela foto. Ver o comentário no bloco do telefone.
  *
  * `facts` são os três dados que aparecem abaixo do botão. Existem porque o
  * banner sozinho só dizia uma frase de efeito: quem chegava rolava a página
@@ -52,6 +64,8 @@ const slides = [
     darkText: true,
     reverse: false,
     fullImage: "/images/hero/banner-loja-claro-v3.webp",
+    mobileImage: "/images/hero/telefone/lojas.webp",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.13)_78%,rgba(4,25,63,0.26)_100%)]",
     fullHref: "/modelo-de-negocio",
     fullAlt: "Fachada de uma loja Unishop, o supermercado da limpeza",
     facts: [
@@ -60,12 +74,10 @@ const slides = [
       { value: "Marketing incluso", label: "fachada, PDV e campanhas mensais" },
     ],
     mobile: {
-      focus: "object-[74%_center]",
       eyebrow: "Unishop",
       lead: "Seu supermercado",
       accent: "da limpeza.",
       tail: null,
-      text: "Soluções profissionais, variedade e eficiência para quem quer crescer.",
       cta: { label: "Saiba mais", href: "/modelo-de-negocio" },
     },
   },
@@ -93,6 +105,8 @@ const slides = [
     darkText: true,
     reverse: false,
     fullImage: "/images/hero/banner-produtos-v1.webp",
+    mobileImage: "/images/hero/telefone/produtos.webp",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.36)_78%,rgba(4,25,63,0.72)_100%)]",
     fullHref: "/produtos",
     fullAlt: "Produtos Azulim, Tuff, Asseptgel, Start Pro e Pedrex sobre uma bancada",
     facts: [
@@ -101,13 +115,10 @@ const slides = [
       { value: "Da casa à indústria", label: "no mesmo balcão" },
     ],
     mobile: {
-      // A vitrine ocupa a metade direita da arte nova.
-      focus: "object-[82%_center]",
       eyebrow: "Para casa e para o seu negócio",
       lead: "Mais cuidado.",
       accent: "Menos complicação.",
       tail: null,
-      text: "Limpeza, higiene e descartáveis das marcas que você já conhece, com orientação de quem entende.",
       cta: { label: "Conhecer os produtos", href: "/produtos" },
     },
   },
@@ -125,6 +136,8 @@ const slides = [
     darkText: false,
     reverse: false,
     fullImage: "/images/hero/banner-industria-base-v3.webp",
+    mobileImage: "/images/hero/telefone/industria.webp",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.17)_78%,rgba(4,25,63,0.34)_100%)]",
     fullHref: "/sobre",
     fullAlt: "Estrutura da indústria e distribuição da Rede Unishop",
     facts: [
@@ -133,12 +146,10 @@ const slides = [
       { value: "Lima & Pergher", label: "entre as 10 maiores do setor no país" },
     ],
     mobile: {
-      focus: "object-[100%_center]",
       eyebrow: "Da origem à entrega",
       lead: "Estrutura que",
       accent: "inspira confiança.",
       tail: null,
-      text: "Uma operação integrada para levar qualidade e variedade a todo o Brasil.",
       cta: { label: "Conhecer a Unishop", href: "/sobre" },
     },
   },
@@ -159,6 +170,8 @@ const slides = [
     darkText: true,
     reverse: false,
     fullImage: "/images/hero/banner-parceria-informacoes-v3.webp",
+    mobileImage: "/images/hero/telefone/parceria.webp",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.11)_78%,rgba(4,25,63,0.22)_100%)]",
     fullHref: "/seja-parceiro",
     fullAlt: "Oportunidade de faturamento com limpeza e higienização",
     facts: [
@@ -167,12 +180,10 @@ const slides = [
       { value: "Estoque inicial", label: "e documentação inclusos no valor" },
     ],
     mobile: {
-      focus: "object-[10%_center]",
       eyebrow: "Oportunidade de negócio",
       lead: "Fature até",
       accent: "R$120 mil",
       tail: "por mês com limpeza e higienização",
-      text: "Invista a partir de R$60 mil e tenha suporte completo para começar.",
       cta: { label: "Quero conhecer", href: "/seja-parceiro" },
     },
   },
@@ -190,6 +201,8 @@ const slides = [
     darkText: false,
     reverse: false,
     fullImage: "/images/hero/banner-solucoes-profissionais-v1.webp",
+    mobileImage: "/images/hero/telefone/profissional.webp",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.15)_78%,rgba(4,25,63,0.3)_100%)]",
     fullHref: "/produtos",
     fullAlt: "Soluções profissionais para limpeza de alta performance",
     facts: [
@@ -198,12 +211,10 @@ const slides = [
       { value: "Linha Start PRO", label: "piso, predial e alimentícia" },
     ],
     mobile: {
-      focus: "object-[100%_center]",
       eyebrow: "Soluções profissionais",
       lead: "Performance",
       accent: "para quem faz.",
       tail: null,
-      text: "Produtos, equipamentos e orientação para operações que exigem eficiência todos os dias.",
       cta: { label: "Explorar soluções", href: "/produtos" },
     },
   },
@@ -422,45 +433,73 @@ export function Hero() {
               }`}
             >
               {/* ============================ TELEFONE ============================
-                  Foto em faixa no topo + painel de texto embaixo. Os cinco
-                  banners usam exatamente esta anatomia; só a arte e as palavras
-                  mudam. */}
-              {/* Os cinco painéis usam o mesmo azul quase preto: o texto do
-                  telefone é branco em todos, e as artes claras (produtos e
-                  lojas) entram só na faixa da foto, que o degradê abaixo
-                  costura com o painel. */}
-              <div className="absolute inset-x-0 bottom-0 top-[88px] flex flex-col bg-[#04193f] md:hidden">
-                {/* A faixa é quem absorve a sobra de altura (`flex-1`), e o
-                    texto ocupa o que precisa. Com a faixa em porcentagem fixa,
-                    num aparelho de 640px o botão caía para fora da seção. */}
-                <div className="relative min-h-[120px] flex-1 overflow-hidden">
-                  {mounted ? (
-                    <Image
-                      src={slide.fullImage}
-                      alt=""
-                      aria-hidden="true"
-                      fill
-                      priority={index === 0}
-                      sizes="100vw"
-                      className={`select-none object-cover ${slide.mobile.focus}`}
-                    />
-                  ) : null}
+                  A foto ocupa o banner inteiro e a informação vem por cima.
 
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(4,25,63,0)_0%,rgba(4,25,63,0.72)_55%,#04193f_100%)]"
+                  Antes a arte 3:1 virava uma faixa de ~120px no topo e o texto
+                  descia para um painel azul: no telefone a foto perdia ~80% da
+                  largura, o assunto sumia e sobrava uma emenda entre a faixa e
+                  o painel. Era o mesmo desenho nos cinco banners, e feio nos
+                  cinco.
+
+                  Duas consequências disso:
+
+                  1) A arte de tela grande não serve aqui — ela é composta com
+                     um lado chapado para a cópia, que num recorte retrato vira
+                     um bloco de cor vazio. Cada banner passa a usar a
+                     fotografia original (`mobileImage`), sem a composição.
+
+                  2) A informação encolhe para o que cabe sobre uma foto sem
+                     competir com ela: olho, título e botão. O texto de apoio e
+                     a faixa de dados continuam na versão de tela grande, onde
+                     há espaço em branco para eles. */}
+              <div className="absolute inset-x-0 bottom-0 top-[88px] bg-[#04193f] md:hidden">
+                {mounted ? (
+                  <Image
+                    src={slide.mobileImage}
+                    alt={slide.fullAlt}
+                    fill
+                    priority={index === 0}
+                    // Os slides inativos são `visibility: hidden`, e o Chrome
+                    // não busca imagem `lazy` dentro de elemento invisível: a
+                    // foto só começava a baixar quando o banner já estava na
+                    // tela, então cada troca abria com o quadro vazio. Com
+                    // `eager` ela chega antes. Não vira peso morto porque o
+                    // `mounted` acima só põe no DOM o slide já visitado e o
+                    // seguinte.
+                    loading={index === 0 ? undefined : "eager"}
+                    sizes="100vw"
+                    // O arquivo já vem recortado em retrato e com a máscara de
+                    // nitidez aplicada; `quality` alto evita que o otimizador
+                    // devolva por compressão o borrão que acabamos de tirar.
+                    quality={82}
+                    className="select-none object-cover object-center"
                   />
-                </div>
+                ) : null}
 
-                {/* pb-20 reserva a faixa do marcador: com padding menor, num
-                    aparelho de 640px o botão encostava nas bolinhas. */}
-                <div className="hero-slide-copy relative z-10 flex shrink-0 flex-col px-5 pb-16 sm:px-8">
-                  <p className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69]">
+                {/* Véu calibrado foto a foto, e não um degradê igual para
+                    todas: o de antes começava a escurecer no topo e fechava
+                    quase opaco, o que apagava justamente o assunto.
+
+                    O valor de cada slide é o mínimo medido para o texto branco
+                    alcançar 4,5:1 sobre o pé daquela foto. Dá 0,72 na bancada
+                    de mármore (a única realmente clara) e 0,22 na parceria, que
+                    já é escura ali. Em todos, os primeiros 52% da altura ficam
+                    em `transparent` — a foto aparece sem nenhum toque na faixa
+                    onde está o assunto. */}
+                <div aria-hidden="true" className={`absolute inset-0 ${slide.mobileScrim}`} />
+
+                {/* pb-16 reserva a faixa do marcador: com padding menor o botão
+                    encostava nas bolinhas. */}
+                <div className="hero-slide-copy absolute inset-x-0 bottom-0 z-10 px-5 pb-16 sm:px-8">
+                  {/* Com o véu mais leve, a sombra é quem cobre a mancha clara
+                      pontual — um reflexo no piso, uma nuvem — que a média de
+                      luminância da foto não denuncia. */}
+                  <p className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.22em] text-[#ffdc69] drop-shadow-[0_1px_6px_rgba(2,12,36,0.85)]">
                     <span aria-hidden="true" className="h-px w-7 shrink-0 bg-[#ffc928]" />
                     {slide.mobile.eyebrow}
                   </p>
 
-                  <h1 className="mt-4 text-[clamp(1.9rem,8.8vw,2.45rem)] font-black uppercase leading-[0.9] tracking-[-0.045em] text-white">
+                  <h1 className="mt-4 text-[clamp(1.9rem,8.8vw,2.45rem)] font-black uppercase leading-[0.9] tracking-[-0.045em] text-white drop-shadow-[0_2px_10px_rgba(2,12,36,0.8)]">
                     {slide.mobile.lead}
                     <span className="mt-1 block text-[#ffc928]">
                       {slide.mobile.accent}
@@ -472,23 +511,14 @@ export function Hero() {
                     ) : null}
                   </h1>
 
-                  <p className="mt-3.5 text-[14px] font-medium leading-[1.45] text-white/75">
-                    {slide.mobile.text}
-                  </p>
-
                   <Link
                     href={slide.mobile.cta.href}
                     tabIndex={active ? 0 : -1}
-                    className="mt-5 inline-flex min-h-12 w-fit items-center gap-3 rounded-full bg-[#ffc928] px-6 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(227,164,0,0.28)]"
+                    className="mt-6 inline-flex min-h-12 w-fit items-center gap-3 rounded-full bg-[#ffc928] px-6 text-sm font-black uppercase text-[#07396e] shadow-[0_14px_34px_rgba(2,12,36,0.4)]"
                   >
                     {slide.mobile.cta.label}
                     <ArrowRight size={17} />
                   </Link>
-
-                  <HeroFacts
-                    facts={slide.facts}
-                    className="mt-5 border-t border-white/12 pt-4"
-                  />
                 </div>
               </div>
 
