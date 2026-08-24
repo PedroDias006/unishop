@@ -50,6 +50,25 @@ html {
 body {
   margin: 0;
   width: 100%;
+  /* O `clip` acima sozinho nao bastava, e este `relative` e o que o faz
+     funcionar de verdade.
+
+     Elemento `position: absolute` sem nenhum ancestral posicionado tem o
+     viewport como bloco-conteiner. Overflow em ancestrais que nao sao o
+     bloco-conteiner dele nao corta nada — nem o do carrossel em volta, nem
+     o do html/body. Ele fica fora de toda trava e estica a area rolavel do
+     documento sozinho.
+
+     Era o caso dos `sr-only` dos cartoes de formato de loja: 1px cada, mas
+     um deles parava em x=735, porque um elemento absoluto sem deslocamento
+     declarado assume a posicao estatica — e a dele fica la dentro do trilho
+     horizontal. Numa tela de 393px isso abria 343px de rolagem lateral: a
+     faixa branca a direita.
+
+     Com o `relative`, o body vira o bloco-conteiner desses elementos e o
+     `overflow-x: clip` dele finalmente os alcanca. Medido no site
+     publicado: `documentElement.scrollWidth` cai de 737 para 393. */
+  position: relative;
   overflow-x: hidden;
   overflow-x: clip;
   overscroll-behavior-x: none;
