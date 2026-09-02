@@ -145,6 +145,60 @@ input {
 }
 
 /* ============================================================
+   CABEÇALHO DE SEÇÃO
+   O trio olho + título + apoio que abre toda seção depois do
+   hero. Estava repetido como string de classes em cada
+   componente e, de cópia em cópia, divergiu: o título ia de
+   46px a 58px, o peso de 650 a 900, e a seção de soluções
+   ainda usava cor própria fora dos tokens.
+
+   Aqui vira uma definição só. O padrão é o da seção das marcas
+   (`#marcas`), que é a referência escolhida.
+
+   Em @layer components de propósito: utilitário do Tailwind
+   continua vencendo, então dá para ajustar um caso pontual sem
+   ter que brigar com !important — mas o ponto de partida é o
+   mesmo para todos.
+   ============================================================ */
+@layer components {
+  .seccao-olho {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--brand-blue-800);
+  }
+
+  .seccao-titulo {
+    text-wrap: balance;
+    font-size: 1.875rem;
+    font-weight: 900;
+    line-height: 1.03;
+    letter-spacing: -0.045em;
+    color: var(--brand-blue-950);
+  }
+
+  @media (min-width: 640px) {
+    .seccao-titulo {
+      font-size: 2.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .seccao-titulo {
+      font-size: 46px;
+    }
+  }
+
+  .seccao-apoio {
+    font-size: 1rem;
+    line-height: 2rem;
+    /* slate-600, o mesmo da referência */
+    color: #475569;
+  }
+}
+
+/* ============================================================
    NAVBAR
    A barra tem apenas dois estados (topo e flutuante). Antes eles
    eram interpolados em JavaScript a cada frame de scroll, o que
