@@ -265,23 +265,6 @@ export async function BlogHighlights() {
                 </div>
               </article>
             ))}
-
-            <Link
-              href="/blog"
-              className="group flex min-h-24 items-center justify-between gap-5 rounded-[26px] bg-[var(--brand-blue-950)] px-6 py-5 text-white sm:col-span-2 lg:col-span-1"
-            >
-              <span>
-                <span className="block text-[10px] font-black uppercase tracking-[0.16em] text-[var(--brand-yellow)]">
-                  Continue no feed
-                </span>
-                <strong className="mt-1 block text-lg font-extrabold">
-                  Explore as {posts.length} publicações
-                </strong>
-              </span>
-              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[var(--brand-yellow)] text-[var(--brand-blue-950)] transition-transform group-hover:translate-x-1">
-                <ArrowRight size={18} aria-hidden="true" />
-              </span>
-            </Link>
           </div>
         </div>
       </Container>
