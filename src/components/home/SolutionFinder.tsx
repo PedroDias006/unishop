@@ -732,13 +732,13 @@ export function SolutionFinder({
           <div className="relative z-10 flex items-start pb-4 pt-16 sm:min-h-[800px] sm:py-20 lg:min-h-[700px] lg:items-center lg:py-24">
             <div className="max-w-[650px] font-[Manrope] lg:ml-auto lg:w-[48%]">
               <div className="mb-7 flex items-center gap-4">
-                <span className="h-px w-12 bg-[#d9a700]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#315b80] sm:text-xs">
+                <span className="h-px w-10 bg-[var(--brand-yellow)]" />
+                <span className="seccao-olho">
                   Sua necessidade, nossa orientação
                 </span>
               </div>
 
-              <h2 className="max-w-[650px] text-[clamp(2.75rem,4.25vw,4.9rem)] font-[650] leading-[0.98] tracking-[-0.047em] text-[#092f5b]">
+              <h2 className="max-w-[650px] seccao-titulo">
                 A solução certa começa pela
                 <span className="relative ml-2 inline-block text-[#e0a100] sm:ml-3">
                   sua rotina.
@@ -746,7 +746,7 @@ export function SolutionFinder({
                 </span>
               </h2>
 
-              <p className="mt-8 max-w-[570px] text-base font-[450] leading-7 text-[#4b6680] sm:text-lg sm:leading-8">
+              <p className="mt-6 max-w-[570px] seccao-apoio">
                 Conte onde você precisa limpar e qual é o desafio. Em poucos passos, nossa curadoria encontra a alternativa mais adequada para você.
               </p>
 

@@ -27,16 +27,16 @@ export async function FaqSection() {
                 aria-hidden="true"
                 className="h-px w-10 bg-[var(--brand-yellow)]"
               />
-              <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[var(--brand-blue-800)]">
+              <p className="seccao-olho">
                 Perguntas frequentes
               </p>
             </div>
 
-            <h2 className="mt-6 text-balance text-3xl font-black leading-[1.03] tracking-[-0.045em] text-[var(--brand-blue-950)] sm:text-4xl lg:text-[44px]">
+            <h2 className="mt-6 seccao-titulo">
               As dúvidas que aparecem antes da primeira conversa.
             </h2>
 
-            <p className="mt-6 max-w-md text-base leading-8 text-slate-600">
+            <p className="mt-6 max-w-md seccao-apoio">
               Se a sua não estiver aqui, a equipe comercial responde direto —
               sem compromisso e sem etapa intermediária.
             </p>

@@ -29,13 +29,16 @@ import {
  * cima, reduzida ao que cabe sobre uma foto sem competir com ela: olho, título
  * e botão. O texto de apoio e a faixa de dados ficam só na tela grande.
  *
- * Os arquivos de `/images/hero/telefone/` já vêm recortados em retrato, e não
- * são a mesma foto servida inteira e cortada pelo `object-cover`. A diferença
- * é de nitidez, não de arrumação: a janela retrato aproveita só 409 a 627px de
- * largura das fotos deitadas, o telefone exibe isso em 750 a 1125px reais, e a
- * ampliação bilinear do navegador é o que deixava tudo borrado. Recortando
- * antes, a ampliação passa a ser Lanczos com máscara de nitidez — e de quebra
- * o aparelho para de baixar os pixels que seriam jogados fora.
+ * Os arquivos de `/images/hero/telefone/` já vêm recortados na proporção do
+ * banner, e não são a mesma foto servida inteira e cortada pelo `object-cover`.
+ * A diferença é de nitidez, não de arrumação: deixando o recorte para o
+ * navegador, ele ampliava a fatia visível com reamostragem bilinear, e ainda
+ * baixava os pixels que seriam descartados.
+ *
+ * Quatro das cinco origens são retrato (1122x1402), então a janela sai delas
+ * com 859px — mais que os 828 entregues, ou seja, é redução e nenhum pixel é
+ * inventado. A quinta ainda vem de uma foto deitada e é ampliada 1,2x, que é o
+ * teto daquela origem.
  *
  * `scripts/recortar-fotos-telefone.mjs` regenera esses arquivos.
  *
@@ -65,7 +68,8 @@ const slides = [
     reverse: false,
     fullImage: "/images/hero/banner-loja-claro-v3.webp",
     mobileImage: "/images/hero/telefone/lojas.webp",
-    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.13)_78%,rgba(4,25,63,0.26)_100%)]",
+    mobileAlt: "Fachada de uma loja Unishop, o supermercado da limpeza",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.12)_78%,rgba(4,25,63,0.24)_100%)]",
     fullHref: "/modelo-de-negocio",
     fullAlt: "Fachada de uma loja Unishop, o supermercado da limpeza",
     facts: [
@@ -106,6 +110,7 @@ const slides = [
     reverse: false,
     fullImage: "/images/hero/banner-produtos-v1.webp",
     mobileImage: "/images/hero/telefone/produtos.webp",
+    mobileAlt: "Produtos Azulim, Tuff, Asseptgel, Start PRO e Pedrex sobre uma bancada",
     mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.36)_78%,rgba(4,25,63,0.72)_100%)]",
     fullHref: "/produtos",
     fullAlt: "Produtos Azulim, Tuff, Asseptgel, Start Pro e Pedrex sobre uma bancada",
@@ -137,7 +142,8 @@ const slides = [
     reverse: false,
     fullImage: "/images/hero/banner-industria-base-v3.webp",
     mobileImage: "/images/hero/telefone/industria.webp",
-    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.17)_78%,rgba(4,25,63,0.34)_100%)]",
+    mobileAlt: "Vista aérea da fábrica e do centro de distribuição da Rede Unishop",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.14)_78%,rgba(4,25,63,0.28)_100%)]",
     fullHref: "/sobre",
     fullAlt: "Estrutura da indústria e distribuição da Rede Unishop",
     facts: [
@@ -171,7 +177,8 @@ const slides = [
     reverse: false,
     fullImage: "/images/hero/banner-parceria-informacoes-v3.webp",
     mobileImage: "/images/hero/telefone/parceria.webp",
-    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.11)_78%,rgba(4,25,63,0.22)_100%)]",
+    mobileAlt: "Parceiro Unishop em frente à loja dele",
+    mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.16)_78%,rgba(4,25,63,0.32)_100%)]",
     fullHref: "/seja-parceiro",
     fullAlt: "Oportunidade de faturamento com limpeza e higienização",
     facts: [
@@ -202,6 +209,7 @@ const slides = [
     reverse: false,
     fullImage: "/images/hero/banner-solucoes-profissionais-v1.webp",
     mobileImage: "/images/hero/telefone/profissional.webp",
+    mobileAlt: "Profissional em operação de limpeza com equipamento de piso",
     mobileScrim: "bg-[linear-gradient(180deg,transparent_0%,transparent_52%,rgba(4,25,63,0.15)_78%,rgba(4,25,63,0.3)_100%)]",
     fullHref: "/produtos",
     fullAlt: "Soluções profissionais para limpeza de alta performance",
@@ -456,17 +464,22 @@ export function Hero() {
                 {mounted ? (
                   <Image
                     src={slide.mobileImage}
-                    alt={slide.fullAlt}
+                    // Alt próprio: telefone e tela grande mostram fotos
+                    // diferentes, então descrever as duas com o mesmo texto
+                    // descreveria errado uma delas.
+                    alt={slide.mobileAlt}
                     fill
                     priority={index === 0}
-                    // Os slides inativos são `visibility: hidden`, e o Chrome
-                    // não busca imagem `lazy` dentro de elemento invisível: a
-                    // foto só começava a baixar quando o banner já estava na
-                    // tela, então cada troca abria com o quadro vazio. Com
-                    // `eager` ela chega antes. Não vira peso morto porque o
-                    // `mounted` acima só põe no DOM o slide já visitado e o
-                    // seguinte.
-                    loading={index === 0 ? undefined : "eager"}
+                    // Sem `loading="eager"` aqui, de propósito.
+                    //
+                    // Este bloco é `md:hidden`, ou seja, `display: none` em
+                    // tela grande — e o Chrome não busca imagem `lazy` que
+                    // esteja em `display: none`. É esse comportamento que
+                    // impede o visitante de desktop de baixar as cinco fotos
+                    // de telefone que ele nunca vai ver (e vice-versa, no
+                    // bloco de tela grande logo abaixo). São as imagens mais
+                    // pesadas do site; com `eager` cada aparelho baixava as
+                    // duas versões de todo banner montado.
                     sizes="100vw"
                     // O arquivo já vem recortado em retrato e com a máscara de
                     // nitidez aplicada; `quality` alto evita que o otimizador

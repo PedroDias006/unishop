@@ -259,15 +259,15 @@ export function BrazilPresence() {
         <div className="max-w-xl">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-[#ffc928]" aria-hidden="true" />
-            <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[var(--brand-blue-800)]">
+            <p className="seccao-olho">
               Presença confirmada
             </p>
           </div>
 
-          <h2 className="mt-6 text-balance text-3xl font-black leading-[1.03] tracking-[-0.045em] text-[var(--brand-blue-950)] sm:text-4xl lg:text-[46px]">
+          <h2 className="mt-6 seccao-titulo">
             Tem Unishop na sua cidade?
           </h2>
-          <p className="mt-6 max-w-lg text-base leading-8 text-slate-600">
+          <p className="mt-6 max-w-lg seccao-apoio">
             Pesquise sua cidade ou explore apenas os estados que possuem unidades cadastradas na rede.
           </p>
 
@@ -618,13 +618,17 @@ export function BrazilPresence() {
         <div className="flex min-h-20 items-center gap-4 rounded-r-2xl border border-l-2 border-slate-200 border-l-[#ffc928] bg-white px-5 py-4 shadow-[0_12px_30px_rgba(6,31,73,0.05)]">
           {activeState ? (
             <span className="relative h-12 w-[68px] shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-[0_6px_16px_rgba(6,31,73,0.10)]">
+              {/* Rasterizada no tamanho de exibicao por
+                  `scripts/rasterizar-bandeiras.mjs`. O SVG original chegava a
+                  219 KB (Rio de Janeiro) para desenhar 68x48 px, e o
+                  `unoptimized` mandava o arquivo inteiro. Em webp de 204x144
+                  o mesmo desenho tem 4 KB. */}
               <Image
-                src={`/images/state-flags/${activeState.id}.svg`}
+                src={`/images/state-flags/raster/${activeState.id}.webp`}
                 alt={`Bandeira de ${activeState.name}`}
                 fill
                 sizes="68px"
                 className="object-contain p-1"
-                unoptimized
               />
             </span>
           ) : (

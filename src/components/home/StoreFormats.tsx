@@ -35,7 +35,7 @@ export function StoreFormats() {
               className="h-px w-9 bg-[var(--brand-yellow)]"
             />
 
-            <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[var(--brand-blue-800)]">
+            <p className="seccao-olho">
               Três formatos de loja
             </p>
 
@@ -45,14 +45,14 @@ export function StoreFormats() {
             />
           </div>
 
-          <h2 className="mt-6 text-balance text-[34px] font-black leading-[1.02] tracking-[-0.05em] text-[var(--brand-blue-950)] sm:text-5xl lg:text-[56px]">
+          <h2 className="mt-6 seccao-titulo">
             Comece do tamanho que
             <span className="block text-[var(--brand-blue-800)]">
               couber no seu plano.
             </span>
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-8 text-slate-600 sm:text-[17px]">
+          <p className="mx-auto mt-6 max-w-2xl text-pretty seccao-apoio">
             Entre um formato e outro muda a área de vendas e o tamanho da
             equipe. O pacote de abertura é o mesmo nos três — e o investimento
             é o único cheque que você assina para a rede.

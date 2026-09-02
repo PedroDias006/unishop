@@ -284,20 +284,14 @@ export function BrandUniverse() {
               aria-hidden="true"
               className="h-px w-10 bg-[var(--brand-yellow)]"
             />
-            <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[var(--brand-blue-800)]">
+            <p className="seccao-olho">
               As marcas que estão na prateleira
             </p>
           </div>
 
-          <h2 className="mt-6 text-balance text-3xl font-black leading-[1.03] tracking-[-0.045em] text-[var(--brand-blue-950)] sm:text-4xl lg:text-[46px]">
+          <h2 className="mt-6 seccao-titulo">
             Cinco marcas, cada uma com um problema para resolver.
           </h2>
-
-          <p className="mt-6 text-base leading-8 text-slate-600">
-            Todas saem da mesma indústria, a Start Química, o que significa
-            fornecedor único, laudo técnico e reposição sem intermediário. Da
-            faxina de casa ao piso de um condomínio inteiro.
-          </p>
         </div>
       </Container>
 

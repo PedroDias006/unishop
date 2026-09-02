@@ -1,8 +1,4 @@
-"use client";
-
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 
 const institutionalVideoUrl =
@@ -39,61 +35,75 @@ const fotos = [
   },
 ];
 
+/**
+ * O vídeo subiu para o lado do título e o carrossel virou uma grade de três.
+ *
+ * O trilho tinha dois problemas. O primeiro é que ele existia para um conteúdo
+ * que não pedia trilho: são três fotos, e três cabem lado a lado — o carrossel
+ * só servia para empurrar a terceira para fora da tela e pedir um clique na
+ * seta para ver o que já caberia de graça. O segundo é que o vídeo estava lá
+ * dentro, como quarto cartão: a peça mais forte da seção ficava atrás de uma
+ * rolagem horizontal enquanto sobrava meia largura vazia ao lado do título.
+ *
+ * Sem trilho não há estado, referência nem efeito para sincronizar as setas.
+ * O componente deixou de ser `"use client"` e passou a não mandar JavaScript
+ * nenhum para o navegador.
+ */
 export function BusinessModel() {
-  const trilhoRef = useRef<HTMLUListElement>(null);
-  const [noInicio, setNoInicio] = useState(true);
-  const [noFim, setNoFim] = useState(false);
-
-  const sincronizarSetas = useCallback(() => {
-    const trilho = trilhoRef.current;
-    if (!trilho) return;
-
-    setNoInicio(trilho.scrollLeft <= 2);
-    setNoFim(
-      trilho.scrollLeft + trilho.clientWidth >= trilho.scrollWidth - 2,
-    );
-  }, []);
-
-  useEffect(() => {
-    sincronizarSetas();
-    window.addEventListener("resize", sincronizarSetas);
-    return () => window.removeEventListener("resize", sincronizarSetas);
-  }, [sincronizarSetas]);
-
-  function andar(direcao: 1 | -1) {
-    const trilho = trilhoRef.current;
-    if (!trilho) return;
-
-    const cartao = trilho.querySelector<HTMLElement>("li");
-    const passo = cartao ? cartao.offsetWidth + 22 : trilho.clientWidth * 0.85;
-    trilho.scrollBy({ left: direcao * passo, behavior: "smooth" });
-  }
-
   return (
     <section
       id="modelo"
       className="scroll-mt-28 overflow-hidden bg-[var(--background)] py-20 sm:py-24 lg:py-28"
     >
       <Container>
-        <div className="max-w-3xl">
-          <div className="flex items-center gap-4">
-            <span
-              aria-hidden="true"
-              className="h-px w-10 bg-[var(--brand-yellow)]"
-            />
-            <p className="seccao-olho">Conheça a Unishop</p>
+        {/* No telefone a grade vira pilha, e a `order` mantém o vídeo abaixo do
+            texto: abrir a seção com um player faz o visitante bater num vídeo
+            antes de saber do que ela trata. Em tela grande ele ocupa a coluna
+            da direita, que era justamente o espaço vazio ao lado do título. */}
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,30rem)] lg:gap-14">
+          <div className="order-1">
+            <div className="flex items-center gap-4">
+              <span
+                aria-hidden="true"
+                className="h-px w-10 bg-[var(--brand-yellow)]"
+              />
+              <p className="seccao-olho">Conheça a Unishop</p>
+            </div>
+
+            <h2 className="mt-6 seccao-titulo">
+              Uma história feita para{" "}
+              <span className="text-[var(--brand-yellow)]">crescer junto.</span>
+            </h2>
+
+            <p className="mt-6 max-w-2xl seccao-apoio">
+              Tudo começou numa garagem em Uberlândia, fabricando produtos de
+              limpeza automotiva. Hoje, indústria, distribuição e lojas formam a
+              mesma cadeia — do frasco que sai da linha ao balcão que atende você.
+            </p>
           </div>
 
-          <h2 className="mt-6 seccao-titulo">
-            Uma história feita para{" "}
-            <span className="text-[var(--brand-yellow)]">crescer junto.</span>
-          </h2>
+          <div className="order-2">
+            <div className="overflow-hidden rounded-[18px] bg-[var(--brand-blue-950)] shadow-[0_28px_70px_-40px_rgba(6,31,73,0.55)]">
+              <div className="aspect-video">
+                <iframe
+                  className="h-full w-full"
+                  src={institutionalVideoUrl}
+                  title="Vídeo institucional da Rede Unishop"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
 
-          <p className="mt-6 max-w-2xl seccao-apoio">
-            Tudo começou numa garagem em Uberlândia, fabricando produtos de
-            limpeza automotiva. Hoje, indústria, distribuição e lojas formam a
-            mesma cadeia — do frasco que sai da linha ao balcão que atende você.
-          </p>
+            <div className="mt-4 flex items-center gap-3">
+              <span aria-hidden="true" className="h-px w-7 bg-[var(--brand-yellow)]" />
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                Nossa história em vídeo
+              </p>
+            </div>
+          </div>
         </div>
 
         <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-y border-[#0a376a]/10 py-8 sm:mt-12 sm:grid-cols-4 sm:gap-x-8 sm:py-9">
@@ -108,63 +118,32 @@ export function BusinessModel() {
             </div>
           ))}
         </dl>
-      </Container>
 
-      <div className="relative mt-10 sm:mt-12">
-        <ul
-          ref={trilhoRef}
-          onScroll={sincronizarSetas}
-          aria-label="Conheça a estrutura da Rede Unishop"
-          className="carousel-rail no-scrollbar flex snap-x snap-mandatory gap-[22px] overflow-x-auto scroll-smooth pb-2"
-        >
-          <li className="shrink-0 snap-start">
-            <article className="flex h-[390px] w-[300px] flex-col overflow-hidden rounded-[18px] bg-[var(--brand-blue-950)] text-white sm:h-[440px] sm:w-[350px] lg:h-[480px] lg:w-[395px]">
-              <div className="relative aspect-video shrink-0 overflow-hidden bg-black">
-                <iframe
-                  className="h-full w-full"
-                  src={institutionalVideoUrl}
-                  title="Vídeo institucional da Rede Unishop"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              </div>
-
-              <div className="flex flex-1 flex-col justify-between p-6 sm:p-7">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--brand-yellow)]">
-                    Nossa história em vídeo
-                  </p>
-                  <h3 className="mt-3 max-w-[13ch] text-[24px] font-black leading-[1.05] tracking-[-0.04em] sm:text-[28px]">
-                    Conheça a rede por dentro.
-                  </h3>
-                </div>
-                <p className="text-sm leading-6 text-white/65">
-                  Dê o play e veja como indústria, lojas e parceiros se conectam.
-                </p>
-              </div>
-            </article>
-          </li>
-
+        {/* Três colunas em tela grande, porque três cabem. No telefone viram
+            uma faixa que corre para o lado — empilhados dariam ~1200px de
+            rolagem num trecho que é complemento, não conteúdo principal. */}
+        <ul className="mt-10 -mx-5 flex snap-x snap-mandatory list-none gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:snap-none sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0">
           {fotos.map((foto) => (
-            <li key={foto.src} className="shrink-0 snap-start">
-              <article className="group relative h-[390px] w-[300px] overflow-hidden rounded-[18px] bg-slate-200 sm:h-[440px] sm:w-[350px] lg:h-[480px] lg:w-[395px]">
+            <li
+              key={foto.src}
+              className="w-[80%] shrink-0 snap-start sm:w-auto sm:shrink"
+            >
+              <article className="group relative aspect-[4/5] overflow-hidden rounded-[18px] bg-slate-200">
                 <Image
                   src={foto.src}
                   alt={foto.alt}
                   fill
                   loading="lazy"
-                  sizes="(max-width: 640px) 300px, (max-width: 1024px) 350px, 395px"
+                  sizes="(max-width: 640px) 80vw, 31vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#061f49]/95 via-[#061f49]/20 to-transparent" />
 
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-7">
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
                   <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--brand-yellow)]">
                     {foto.etiqueta}
                   </p>
-                  <h3 className="mt-3 max-w-[14ch] text-[24px] font-black leading-[1.05] tracking-[-0.04em] sm:text-[28px]">
+                  <h3 className="mt-3 max-w-[14ch] text-[22px] font-black leading-[1.05] tracking-[-0.04em] sm:text-[25px]">
                     {foto.titulo}
                   </h3>
                   <p className="mt-3 max-w-[33ch] text-sm leading-6 text-white/72">
@@ -176,34 +155,6 @@ export function BusinessModel() {
           ))}
         </ul>
 
-        <button
-          type="button"
-          onClick={() => andar(-1)}
-          aria-hidden={noInicio}
-          tabIndex={noInicio ? -1 : undefined}
-          aria-label="Ver o item anterior"
-          className={`absolute left-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-[#e8e8ed]/92 text-[#1d1d1f] backdrop-blur transition duration-300 hover:bg-[#dcdce3] sm:left-5 sm:size-14 ${
-            noInicio ? "pointer-events-none opacity-0" : "opacity-100"
-          }`}
-        >
-          <ChevronLeft className="size-5 sm:size-6" strokeWidth={2.2} />
-        </button>
-
-        <button
-          type="button"
-          onClick={() => andar(1)}
-          aria-hidden={noFim}
-          tabIndex={noFim ? -1 : undefined}
-          aria-label="Ver o próximo item"
-          className={`absolute right-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-[#e8e8ed]/92 text-[#1d1d1f] backdrop-blur transition duration-300 hover:bg-[#dcdce3] sm:right-5 sm:size-14 ${
-            noFim ? "pointer-events-none opacity-0" : "opacity-100"
-          }`}
-        >
-          <ChevronRight className="size-5 sm:size-6" strokeWidth={2.2} />
-        </button>
-      </div>
-
-      <Container>
         <div className="mt-10 flex flex-col gap-4 border-t border-[#0a376a]/10 pt-8 sm:flex-row sm:items-center sm:gap-6">
           <Image
             src="/images/imprensa/selo-exame-negocios-em-expansao.webp"

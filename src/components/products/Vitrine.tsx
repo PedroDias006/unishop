@@ -3,10 +3,7 @@
 import {
   ArrowRight,
   ArrowUpRight,
-  Check,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   PackageSearch,
   Search,
   SlidersHorizontal,
@@ -80,7 +77,6 @@ export function Vitrine({
   const [filtros, setFiltros] = useState<Filtros>({ ...FILTROS_VAZIOS, ...inicial });
   const [visiveis, setVisiveis] = useState(PASSO);
   const primeiraRenderizacao = useRef(true);
-  const trilhoDeMarcas = useRef<HTMLDivElement>(null);
 
   const contagemPorMarca = useMemo(() => {
     const contagem = new Map<string, number>();
@@ -134,26 +130,10 @@ export function Vitrine({
     setVisiveis(PASSO);
   }
 
-  function alternar(campo: keyof Filtros, valor: string) {
-    // O evento fica fora do atualizador de estado de propósito: em modo
-    // estrito o React chama o atualizador duas vezes, e o GTM contaria dois.
-    const proximo = filtros[campo] === valor ? "" : valor;
-
-    eventoFiltroDaVitrine(campo, proximo);
-    mudarFiltros((atual) => ({ ...atual, [campo]: proximo }));
-  }
-
   function definir(campo: keyof Filtros, valor: string) {
     // A busca dispararia um evento por tecla; o resto é clique, e clique conta.
     if (campo !== "busca") eventoFiltroDaVitrine(campo, valor);
     mudarFiltros((atual) => ({ ...atual, [campo]: valor }));
-  }
-
-  function rolarMarcas(direcao: -1 | 1) {
-    trilhoDeMarcas.current?.scrollBy({
-      left: direcao * Math.min(520, window.innerWidth * 0.7),
-      behavior: "smooth",
-    });
   }
 
   const temFiltro = Object.values(filtros).some(Boolean);
@@ -256,136 +236,98 @@ export function Vitrine({
         }`}
       >
         <Container>
+          {/*
+            Cinco filtros, um idioma só.
+
+            Antes eram três faixas empilhadas com três mecânicas diferentes:
+            busca, dois `select`, quatro chips de setor e um trilho rolável
+            com 29 chips de marca mais duas setas — 35 botões abertos ao mesmo
+            tempo, 359px de altura. Escolher marca exigia rolar um carrossel
+            horizontal dentro de um formulário, e a maioria daquelas marcas tem
+            de 1 a 5 produtos.
+
+            Agora a busca abre o bloco, porque é o caminho mais curto para quem
+            já sabe o que quer, e as quatro dimensões viram quatro seletores
+            iguais. O que está filtrado no momento aparece como etiqueta
+            removível junto dos resultados, que é onde a informação importa.
+          */}
           <div className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-[0_28px_80px_-42px_rgba(6,31,73,0.5)]">
-            <div className="grid gap-4 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_230px_230px]">
-              <div>
-                <label
-                  htmlFor="busca-vitrine"
-                  className="mb-2 block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400"
-                >
-                  O que você procura?
-                </label>
-                <div className="relative">
-                  <Search
-                    size={19}
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--brand-blue-700)]"
-                    aria-hidden="true"
-                  />
-                  <input
-                    id="busca-vitrine"
-                    type="search"
-                    value={filtros.busca}
-                    onChange={(evento) => definir("busca", evento.target.value)}
-                    placeholder="Digite um produto, marca ou necessidade"
-                    className="min-h-14 w-full rounded-2xl border border-slate-200 bg-[#f8fafc] pl-12 pr-12 text-[15px] font-semibold text-slate-900 outline-none transition placeholder:font-medium placeholder:text-slate-400 focus:border-[var(--brand-blue-700)] focus:bg-white focus:ring-4 focus:ring-blue-100/70"
-                  />
-                  {filtros.busca && (
-                    <button
-                      type="button"
-                      onClick={() => definir("busca", "")}
-                      aria-label="Limpar busca"
-                      className="absolute right-3 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
-                    >
-                      <X size={15} />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <Selecao
-                rotulo="Categoria"
-                valor={filtros.categoria}
-                opcoes={categorias}
-                onChange={(valor) => definir("categoria", valor)}
-              />
-              <Selecao
-                rotulo="Ambiente"
-                valor={filtros.ambiente}
-                opcoes={ambientes}
-                onChange={(valor) => definir("ambiente", valor)}
-              />
-            </div>
-
-            <div className="border-t border-slate-100 px-5 py-5 sm:px-6">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-                <div className="flex min-w-40 items-center gap-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">
-                  <SlidersHorizontal size={15} aria-hidden="true" /> Onde vai usar?
-                </div>
-                <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por setor">
-                  <Chip ativo={!filtros.setor} onClick={() => definir("setor", "")}>
-                    Todos
-                  </Chip>
-                  {setores.map((setor) => (
-                    <Chip
-                      key={setor.id}
-                      ativo={filtros.setor === setor.id}
-                      onClick={() => alternar("setor", setor.id)}
-                    >
-                      {setor.nome}
-                    </Chip>
-                  ))}
-                </div>
-
-                {temFiltro && (
+            <div className="p-5 sm:p-6">
+              <label
+                htmlFor="busca-vitrine"
+                className="mb-2 block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400"
+              >
+                O que você procura?
+              </label>
+              <div className="relative">
+                <Search
+                  size={19}
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--brand-blue-700)]"
+                  aria-hidden="true"
+                />
+                <input
+                  id="busca-vitrine"
+                  type="search"
+                  value={filtros.busca}
+                  onChange={(evento) => definir("busca", evento.target.value)}
+                  placeholder="Digite um produto, marca ou necessidade"
+                  className="min-h-14 w-full rounded-2xl border border-slate-200 bg-[#f8fafc] pl-12 pr-12 text-[15px] font-semibold text-slate-900 outline-none transition placeholder:font-medium placeholder:text-slate-400 focus:border-[var(--brand-blue-700)] focus:bg-white focus:ring-4 focus:ring-blue-100/70"
+                />
+                {filtros.busca && (
                   <button
                     type="button"
-                    onClick={() => mudarFiltros(() => FILTROS_VAZIOS)}
-                    className="inline-flex min-h-10 items-center gap-2 self-start rounded-full px-3 text-[13px] font-bold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 lg:ml-auto lg:self-auto"
+                    onClick={() => definir("busca", "")}
+                    aria-label="Limpar busca"
+                    className="absolute right-3 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
                   >
-                    <X size={14} /> Limpar tudo
+                    <X size={15} />
                   </button>
                 )}
               </div>
-            </div>
 
-            <div className="border-t border-slate-100 px-5 py-5 sm:px-6">
-              <div className="mb-3 flex items-center justify-between gap-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">
-                  Escolha uma marca
-                </p>
-                <div className="flex items-center gap-2">
-                  <p className="mr-1 hidden text-xs font-bold text-slate-400 sm:block">
-                    {marcas.length} disponíveis
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => rolarMarcas(-1)}
-                    aria-label="Ver marcas anteriores"
-                    className="grid size-8 place-items-center rounded-full border border-slate-200 text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-[var(--brand-blue-900)]"
-                  >
-                    <ChevronLeft size={15} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => rolarMarcas(1)}
-                    aria-label="Ver próximas marcas"
-                    className="grid size-8 place-items-center rounded-full border border-slate-200 text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-[var(--brand-blue-900)]"
-                  >
-                    <ChevronRight size={15} />
-                  </button>
-                </div>
-              </div>
-              <div
-                ref={trilhoDeMarcas}
-                className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1"
-                role="group"
-                aria-label="Filtrar por marca"
-              >
-                <Chip ativo={!filtros.marca} onClick={() => definir("marca", "")}>
-                  Todas as marcas
-                </Chip>
-                {marcas.map((marca) => (
-                  <Chip
-                    key={marca}
-                    ativo={filtros.marca === marca}
-                    onClick={() => alternar("marca", marca)}
-                  >
-                    {marca}
-                    <span className="ml-1.5 text-[11px] font-bold opacity-55">
-                      {contagemPorMarca.get(marca) ?? 0}
-                    </span>
-                  </Chip>
-                ))}
+              <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                <Selecao
+                  rotulo="Onde vai usar"
+                  vazio="Todos"
+                  valor={filtros.setor}
+                  opcoes={setores.map((setor) => ({
+                    valor: setor.id,
+                    rotulo: setor.nome,
+                  }))}
+                  onChange={(valor) => definir("setor", valor)}
+                />
+                <Selecao
+                  rotulo="Marca"
+                  vazio="Todas"
+                  valor={filtros.marca}
+                  /* A contagem vem junto do nome: era o único ganho real dos
+                     chips antigos, e num `select` ela cabe sem ocupar tela. */
+                  opcoes={marcas.map((marca) => ({
+                    valor: marca,
+                    rotulo: `${marca} (${contagemPorMarca.get(marca) ?? 0})`,
+                  }))}
+                  onChange={(valor) => definir("marca", valor)}
+                />
+                <Selecao
+                  rotulo="Categoria"
+                  vazio="Todas"
+                  valor={filtros.categoria}
+                  opcoes={categorias.map((categoria) => ({
+                    valor: categoria,
+                    rotulo: categoria,
+                  }))}
+                  onChange={(valor) => definir("categoria", valor)}
+                />
+                <Selecao
+                  rotulo="Ambiente"
+                  vazio="Todos"
+                  valor={filtros.ambiente}
+                  opcoes={ambientes.map((ambiente) => ({
+                    valor: ambiente,
+                    rotulo: ambiente,
+                  }))}
+                  onChange={(valor) => definir("ambiente", valor)}
+                />
               </div>
             </div>
           </div>
@@ -448,6 +390,16 @@ export function Vitrine({
                   {filtro.rotulo} <X size={13} />
                 </button>
               ))}
+
+              {filtrosAtivos.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => mudarFiltros(() => FILTROS_VAZIOS)}
+                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full px-3 text-[12px] font-bold text-slate-500 transition hover:bg-slate-200/70 hover:text-slate-900"
+                >
+                  <X size={13} /> Limpar tudo
+                </button>
+              )}
             </div>
           )}
 
@@ -515,41 +467,30 @@ function ResumoDoCatalogo({ valor, rotulo }: { valor: number; rotulo: string }) 
   );
 }
 
-function Chip({
-  ativo,
-  onClick,
-  children,
-}: {
-  ativo: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={ativo}
-      className={`inline-flex min-h-10 shrink-0 items-center gap-1 rounded-full border px-4 text-[13px] font-bold transition ${
-        ativo
-          ? "border-transparent bg-[var(--brand-blue-900)] text-white shadow-[0_10px_22px_-15px_rgba(6,31,73,0.8)]"
-          : "border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:bg-blue-50/60 hover:text-[var(--brand-blue-900)]"
-      }`}
-    >
-      {ativo && <Check size={13} strokeWidth={3} aria-hidden="true" />}
-      {children}
-    </button>
-  );
-}
-
+/**
+ * O seletor dos quatro filtros do catálogo.
+ *
+ * As opções vêm como {valor, rotulo} e não como texto puro porque duas das
+ * quatro dimensões precisam disso: setor tem id diferente do nome, e marca
+ * mostra a contagem ao lado.
+ *
+ * `vazio` é o rótulo da opção "sem filtro". Cheguei a usar textos descritivos
+ * ("Todas as categorias", "Todos os ambientes"), mas no telefone os quatro
+ * seletores ficam em duas colunas de 150px: sobram 90px de texto e aqueles
+ * rótulos mediam de 115 a 153px, ou seja, truncavam os quatro. Como o nome da
+ * dimensão está logo acima de cada um, o "Todas" curto não fica ambíguo.
+ */
 function Selecao({
   rotulo,
   valor,
   opcoes,
+  vazio,
   onChange,
 }: {
   rotulo: string;
   valor: string;
-  opcoes: string[];
+  opcoes: { valor: string; rotulo: string }[];
+  vazio: string;
   onChange: (valor: string) => void;
 }) {
   return (
@@ -563,10 +504,10 @@ function Selecao({
           onChange={(evento) => onChange(evento.target.value)}
           className="min-h-14 w-full appearance-none rounded-2xl border border-slate-200 bg-[#f8fafc] pl-4 pr-11 text-[14px] font-bold text-slate-700 outline-none transition focus:border-[var(--brand-blue-700)] focus:bg-white focus:ring-4 focus:ring-blue-100/70"
         >
-          <option value="">Todas</option>
+          <option value="">{vazio}</option>
           {opcoes.map((opcao) => (
-            <option key={opcao} value={opcao}>
-              {opcao}
+            <option key={opcao.valor} value={opcao.valor}>
+              {opcao.rotulo}
             </option>
           ))}
         </select>
