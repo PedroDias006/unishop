@@ -1,46 +1,125 @@
-import { Building2, MapPinned, PackageCheck } from "lucide-react";
+"use client";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 
 const institutionalVideoUrl =
   "https://www.youtube-nocookie.com/embed/z-79Qq5wZ1s?rel=0&modestbranding=1";
 
-const highlights = [
+const numeros = [
+  { valor: "1987", rotulo: "início da Start Química em Uberlândia (MG)" },
+  { valor: "250 mil m²", rotulo: "de terreno na fábrica" },
+  { valor: "+4.900", rotulo: "colaboradores diretos e indiretos" },
+  { valor: "+500", rotulo: "lojas em 27 estados" },
+];
+
+const fotos = [
   {
-    icon: Building2,
-    title: "Estrutura sólida",
+    src: "/images/empresa/industria.webp",
+    alt: "Vista aérea da fábrica da Start Química, em Uberlândia (MG)",
+    etiqueta: "Onde tudo começa",
+    titulo: "Indústria própria em Uberlândia",
+    texto: "Produção, tecnologia e distribuição reunidas em uma estrutura de 250 mil m².",
   },
   {
-    icon: MapPinned,
-    title: "Presença nacional",
+    src: "/images/empresa/loja.webp",
+    alt: "Fachada de uma unidade da Rede Unishop",
+    etiqueta: "Onde tudo chega",
+    titulo: "O mesmo padrão em todo o país",
+    texto: "Uma rede de lojas próxima de quem compra e preparada para diferentes rotinas.",
   },
   {
-    icon: PackageCheck,
-    title: "Portfólio completo",
+    src: "/images/empresa/parceiro.webp",
+    alt: "Parceiro da Rede Unishop em frente à unidade dele",
+    etiqueta: "Quem faz acontecer",
+    titulo: "Parceiros, donos do próprio negócio",
+    texto: "Experiência de rede com atendimento local e relacionamento de verdade.",
   },
 ];
 
 export function BusinessModel() {
+  const trilhoRef = useRef<HTMLUListElement>(null);
+  const [noInicio, setNoInicio] = useState(true);
+  const [noFim, setNoFim] = useState(false);
+
+  const sincronizarSetas = useCallback(() => {
+    const trilho = trilhoRef.current;
+    if (!trilho) return;
+
+    setNoInicio(trilho.scrollLeft <= 2);
+    setNoFim(
+      trilho.scrollLeft + trilho.clientWidth >= trilho.scrollWidth - 2,
+    );
+  }, []);
+
+  useEffect(() => {
+    sincronizarSetas();
+    window.addEventListener("resize", sincronizarSetas);
+    return () => window.removeEventListener("resize", sincronizarSetas);
+  }, [sincronizarSetas]);
+
+  function andar(direcao: 1 | -1) {
+    const trilho = trilhoRef.current;
+    if (!trilho) return;
+
+    const cartao = trilho.querySelector<HTMLElement>("li");
+    const passo = cartao ? cartao.offsetWidth + 22 : trilho.clientWidth * 0.85;
+    trilho.scrollBy({ left: direcao * passo, behavior: "smooth" });
+  }
+
   return (
     <section
       id="modelo"
       className="scroll-mt-28 overflow-hidden bg-[var(--background)] py-20 sm:py-24 lg:py-28"
     >
       <Container>
-        <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-          {/* VÍDEO
-              No telefone a coluna vira pilha e o vídeo, por ser o primeiro
-              filho, abria a seção: o visitante batia num player antes de saber
-              do que a seção trata. A `order` desce ele para depois do texto,
-              que é onde vira convite em vez de obstáculo. No desktop as duas
-              colunas voltam à ordem do HTML — vídeo à esquerda. */}
-          <div className="order-2 relative lg:order-none">
+        <div className="max-w-3xl">
+          <div className="flex items-center gap-4">
             <span
               aria-hidden="true"
-              className="absolute -left-3 top-8 hidden h-[72%] w-[3px] rounded-full bg-[var(--brand-yellow)] lg:block"
+              className="h-px w-10 bg-[var(--brand-yellow)]"
             />
+            <p className="seccao-olho">Conheça a Unishop</p>
+          </div>
 
-            <div className="relative overflow-hidden rounded-[22px] border border-slate-200 bg-[var(--brand-blue-950)] shadow-[0_24px_70px_-38px_rgba(6,31,73,0.35)]">
-              <div className="aspect-video">
+          <h2 className="mt-6 seccao-titulo">
+            Uma história feita para{" "}
+            <span className="text-[var(--brand-yellow)]">crescer junto.</span>
+          </h2>
+
+          <p className="mt-6 max-w-2xl seccao-apoio">
+            Tudo começou numa garagem em Uberlândia, fabricando produtos de
+            limpeza automotiva. Hoje, indústria, distribuição e lojas formam a
+            mesma cadeia — do frasco que sai da linha ao balcão que atende você.
+          </p>
+        </div>
+
+        <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-y border-[#0a376a]/10 py-8 sm:mt-12 sm:grid-cols-4 sm:gap-x-8 sm:py-9">
+          {numeros.map((numero) => (
+            <div key={numero.valor} className="min-w-0">
+              <dt className="text-[30px] font-black leading-none tracking-[-0.045em] text-[var(--brand-blue-900)] sm:text-[34px] lg:text-[38px]">
+                {numero.valor}
+              </dt>
+              <dd className="mt-2 max-w-[18ch] text-xs font-semibold leading-[1.45] text-slate-500 sm:text-[13px]">
+                {numero.rotulo}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Container>
+
+      <div className="relative mt-10 sm:mt-12">
+        <ul
+          ref={trilhoRef}
+          onScroll={sincronizarSetas}
+          aria-label="Conheça a estrutura da Rede Unishop"
+          className="carousel-rail no-scrollbar flex snap-x snap-mandatory gap-[22px] overflow-x-auto scroll-smooth pb-2"
+        >
+          <li className="shrink-0 snap-start">
+            <article className="flex h-[390px] w-[300px] flex-col overflow-hidden rounded-[18px] bg-[var(--brand-blue-950)] text-white sm:h-[440px] sm:w-[350px] lg:h-[480px] lg:w-[395px]">
+              <div className="relative aspect-video shrink-0 overflow-hidden bg-black">
                 <iframe
                   className="h-full w-full"
                   src={institutionalVideoUrl}
@@ -51,74 +130,94 @@ export function BusinessModel() {
                   allowFullScreen
                 />
               </div>
-            </div>
 
-            <div className="mt-4 flex items-center gap-3">
-              <span className="h-px w-7 bg-[var(--brand-yellow)]" />
+              <div className="flex flex-1 flex-col justify-between p-6 sm:p-7">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--brand-yellow)]">
+                    Nossa história em vídeo
+                  </p>
+                  <h3 className="mt-3 max-w-[13ch] text-[24px] font-black leading-[1.05] tracking-[-0.04em] sm:text-[28px]">
+                    Conheça a rede por dentro.
+                  </h3>
+                </div>
+                <p className="text-sm leading-6 text-white/65">
+                  Dê o play e veja como indústria, lojas e parceiros se conectam.
+                </p>
+              </div>
+            </article>
+          </li>
 
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                Assista à apresentação institucional
-              </p>
-            </div>
-          </div>
+          {fotos.map((foto) => (
+            <li key={foto.src} className="shrink-0 snap-start">
+              <article className="group relative h-[390px] w-[300px] overflow-hidden rounded-[18px] bg-slate-200 sm:h-[440px] sm:w-[350px] lg:h-[480px] lg:w-[395px]">
+                <Image
+                  src={foto.src}
+                  alt={foto.alt}
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 640px) 300px, (max-width: 1024px) 350px, 395px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#061f49]/95 via-[#061f49]/20 to-transparent" />
 
-          {/* APRESENTAÇÃO */}
-          <div className="order-1 lg:order-none">
-            <div className="flex items-center gap-4">
-              <span
-                className="h-px w-10 bg-[var(--brand-yellow)]"
-                aria-hidden="true"
-              />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-7">
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--brand-yellow)]">
+                    {foto.etiqueta}
+                  </p>
+                  <h3 className="mt-3 max-w-[14ch] text-[24px] font-black leading-[1.05] tracking-[-0.04em] sm:text-[28px]">
+                    {foto.titulo}
+                  </h3>
+                  <p className="mt-3 max-w-[33ch] text-sm leading-6 text-white/72">
+                    {foto.texto}
+                  </p>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
 
-              <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[var(--brand-blue-800)]">
-                Conheça a Unishop
-              </p>
-            </div>
+        <button
+          type="button"
+          onClick={() => andar(-1)}
+          aria-hidden={noInicio}
+          tabIndex={noInicio ? -1 : undefined}
+          aria-label="Ver o item anterior"
+          className={`absolute left-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-[#e8e8ed]/92 text-[#1d1d1f] backdrop-blur transition duration-300 hover:bg-[#dcdce3] sm:left-5 sm:size-14 ${
+            noInicio ? "pointer-events-none opacity-0" : "opacity-100"
+          }`}
+        >
+          <ChevronLeft className="size-5 sm:size-6" strokeWidth={2.2} />
+        </button>
 
-            <h2 className="mt-7 max-w-2xl text-4xl font-black leading-[1.02] tracking-[-0.045em] text-[var(--brand-blue-950)] sm:text-5xl lg:text-[58px]">
-              Uma história feita
-              <br />
-              para{" "}
-              <span className="relative inline-block text-[var(--brand-yellow)]">
-                crescer junto.
-                <span className="absolute -bottom-2 left-0 h-[2px] w-full bg-[var(--brand-yellow)]" />
-              </span>
-            </h2>
+        <button
+          type="button"
+          onClick={() => andar(1)}
+          aria-hidden={noFim}
+          tabIndex={noFim ? -1 : undefined}
+          aria-label="Ver o próximo item"
+          className={`absolute right-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-[#e8e8ed]/92 text-[#1d1d1f] backdrop-blur transition duration-300 hover:bg-[#dcdce3] sm:right-5 sm:size-14 ${
+            noFim ? "pointer-events-none opacity-0" : "opacity-100"
+          }`}
+        >
+          <ChevronRight className="size-5 sm:size-6" strokeWidth={2.2} />
+        </button>
+      </div>
 
-            <p className="mt-9 max-w-xl text-base leading-8 text-slate-600 sm:text-[17px]">
-              Conheça de perto a estrutura, o propósito e as pessoas que fazem
-              a Rede Unishop avançar e levar soluções para diferentes
-              necessidades em todo o Brasil.
-            </p>
-
-            <div className="mt-9 flex flex-wrap gap-x-7 gap-y-5">
-              {highlights.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <div
-                    key={item.title}
-                    className="flex items-center gap-2.5"
-                  >
-                    <span className="grid size-8 place-items-center rounded-full bg-white text-[var(--brand-blue-800)] shadow-[0_5px_18px_rgba(6,31,73,0.07)]">
-                      <Icon size={15} strokeWidth={2.2} />
-                    </span>
-
-                    <span className="text-sm font-bold text-[var(--brand-blue-900)]">
-                      {item.title}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="mt-10 max-w-xl border-t border-slate-200 pt-6">
-              <p className="text-sm leading-6 text-slate-500">
-                Uma rede que combina experiência, variedade e proximidade para
-                construir relações que vão além da venda.
-              </p>
-            </div>
-          </div>
+      <Container>
+        <div className="mt-10 flex flex-col gap-4 border-t border-[#0a376a]/10 pt-8 sm:flex-row sm:items-center sm:gap-6">
+          <Image
+            src="/images/imprensa/selo-exame-negocios-em-expansao.webp"
+            alt="Selo do ranking EXAME Negócios em Expansão 2024"
+            width={1400}
+            height={148}
+            loading="lazy"
+            sizes="(max-width: 640px) 90vw, 340px"
+            className="h-auto w-full max-w-[310px] sm:max-w-[340px]"
+          />
+          <p className="max-w-sm text-xs leading-5 text-slate-500">
+            Selecionada entre milhares de empresas inscritas em todo o Brasil,
+            em parceria com o BTG Pactual.
+          </p>
         </div>
       </Container>
     </section>
